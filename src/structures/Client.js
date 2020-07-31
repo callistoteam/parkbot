@@ -22,6 +22,16 @@ module.exports = class Client {
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
         })
+        client.on('message', (message) => {
+            if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            message.data = {
+                cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift()
+            }
+
+            const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
+            if(cmd) cmd.execute({ client, message })
+
+        })
     }
 
     loadCommands(dir) {
@@ -31,7 +41,7 @@ module.exports = class Client {
             commands.forEach(command => {
                 let cmd = require(path.join(__dirname, '../', dir, category, command))
                 cmd.category = category
-                this.commands.set(command.split('.').shift(), cmd)
+                this.commands.set(command.split('.').shift(), new cmd(client))
             })
         })
 

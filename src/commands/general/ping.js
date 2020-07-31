@@ -1,9 +1,10 @@
 const Command = require("../../structures/Command");
 
 module.exports = class Ping extends Command {
-    static alias = [ "ping", "핑" ]
-    static permission = 0
-    execute({ client, message }){
-        message.channel.send('GG')
+    alias = [ "ping", "핑" ]
+    permission = 0
+
+    async execute({ client, message }){
+        message.channel.send(client.ws.ping)
     }
 }
