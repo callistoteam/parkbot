@@ -5,6 +5,6 @@ module.exports = class Ping extends Command {
     permission = 0
 
     async execute({ client, message }){
-        message.channel.send(client.ws.ping)
+        message.channel.send(`${client.ws.ping}ms`)
     }
 }
