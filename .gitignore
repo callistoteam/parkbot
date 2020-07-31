@@ -123,3 +123,7 @@ yarn.lock
 
 # text editor
 .vscode/
+
+# config file
+config.js
+config.dev.js
