@@ -24,13 +24,21 @@ module.exports = class Client {
         })
         client.on('message', (message) => {
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            let authorPerm
+            if(require("../../config").client.dev.includes(message.author.id)){
+                authorPerm = 8
+            } else{
+                authorPerm = 0
+            }
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
-                content: message.content.slice(message.content.split(' ')[0].length + 1)
+                content: message.content.slice(message.content.split(' ')[0].length + 1),
+                authorPerm: authorPerm
             }
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
-            if(cmd) cmd.execute({ client, message })
+            if(cmd.permission)
+            if(cmd && cmd.permission <= message.data.authorPerm) cmd.execute({ client, message })
 
         })
     }
