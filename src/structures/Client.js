@@ -24,16 +24,11 @@ module.exports = class Client {
         })
         client.on('message', (message) => {
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
-            let authorPerm
-            if(require("../../config").client.dev.includes(message.author.id)){
-                authorPerm = 8
-            } else{
-                authorPerm = 0
-            }
+
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
                 content: message.content.slice(message.content.split(' ')[0].length + 1),
-                authorPerm: authorPerm
+                authorPerm: require("../utils").Permission.getUserPermission(message.author.id)
             }
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
