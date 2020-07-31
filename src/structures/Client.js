@@ -25,7 +25,8 @@ module.exports = class Client {
         client.on('message', (message) => {
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
             message.data = {
-                cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift()
+                cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
+                content: message.content.slice(message.content.split(' ')[0].length + 1)
             }
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))

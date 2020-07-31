@@ -1,6 +1,6 @@
 const Command = require("../../structures/Command");
 
-module.exports = class Ping extends Command {
+module.exports = class Volume extends Command {
     alias = [ "vol", '패ㅣㅕㅡㄷ' ]
     permission = 0
 
