@@ -2,6 +2,8 @@ const { Client, Collection } = require('discord.js')
 const { LavaClient } = require("@anonymousg/lavajs");
 
 const utils = require("../utils")
+const { Embed } = require('../structures')
+
 const fs = require('fs')
 const path = require('path')
 
@@ -33,17 +35,9 @@ module.exports = class ParkBotClient {
             )
             client.music.on('nodeError', console.error)
             client.music.on('trackPlay', (track, player) => {
-                const { title, length, uri, thumbnail, user } = track;
+                const { title, length, uri, thumbnail, user } = track
                 player.options.textChannel.send(
-                    new Discord.MessageEmbed()
-                        .setAuthor('음악 재생')
-                        .setTitle(`${title}`)
-                        .setDescription(
-                            `신청자: ${user}. 길이: ${formatTime(length)}`
-                        )
-                        .setURL(uri)
-                        .setImage(thumbnail.medium)
-                        .setColor('RANDOM')
+                    new Embed(message).trackPlay(title, length, uri, thumbnail, user)
                 )
             })
         })

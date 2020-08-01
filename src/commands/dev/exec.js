@@ -1,4 +1,5 @@
 const Command = require("../../structures/Command")
+const child = require("child_process")
 
 module.exports = class Exec extends Command {
     alias = [ "exec" ]

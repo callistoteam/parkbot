@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command")
 
 module.exports = class Compile extends Command {
-    alias = [ "compile" ]
+    alias = [ "compile", "eval" ]
     permission = 0x8
 
     async execute({ client, message }){
