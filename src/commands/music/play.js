@@ -1,15 +1,15 @@
-const Command = require("../../structures/Command");
-const yts = require("yt-search")
+const { Command, audio } = require("../../structures");
+const utils = require('../../utils')
 
 module.exports = class Play extends Command {
-    alias = [ "p", 'ㅔㅣ묘' ]
+    alias = [ "play", "p", 'ㅔㅣ묘' ]
     permission = 0x0
+    voiceChannel = true
+    args = [ { name: "곡명 또는 URL", required: true } ]
 
     async execute({ client, message }){
         const { channel } = message.member.voice
-        if (!channel) return message.reply(`먼저 음성 채널에 접속해줘!`)
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
-
         const player = await client.music.spawnPlayer(
             {
                 guild: message.guild,
@@ -22,16 +22,28 @@ module.exports = class Play extends Command {
                 skipOnError: true
             }
         )
-
         let res
         try {
-            res = await player.lavaSearch(song, message.member, {
-                source: 'yt',
-                add: true
-            })
+            if(utils.Formats.validURL(message.data.arg[0])) {
+                res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
+                    source: 'yt'|'sc'
+                })
+                console.log(res)
+                await player.queue.add(res[0])
+                message.reply(`Added ${res[0].title}`)
+            } else {
+                res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
+                    source: 'yt'|'sc'
+                })
+                await player.queue.add(res[0])
+                message.reply(`Added ${res[0].title}`)
+            }
+            
+            if(!player.playing) player.play()
         } catch (e) {
             if (e)
-                return await message.channel.send('음악을 찾을 수 없습니다.')
+                console.error(e)
+                return await message.channel.send('처리중에 오류가 발생하였습니다.')
         }
     }
 }

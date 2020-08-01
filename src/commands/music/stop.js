@@ -5,6 +5,10 @@ module.exports = class Stop extends Command {
     permission = 0x0
 
     async execute({ client, message }){
-        // gdgd
+        const player = await client.music.playerCollection.get(message.guild.id)
+        if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
+
+        await player.destroy()
+        message.channel.send(`큐를 초기화하고 보이스 채널을 나갔어`)
     }
 }

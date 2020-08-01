@@ -2,25 +2,33 @@ const { MessageEmbed, Message } = require('discord.js')
 module.exports = class Embed {
     /**
      * Fucking embed Builder
-     * @param {Message} message 
+     * @param {Message} message
      */
     constructor (message) {
+        this.setup(message)
+    }
+
+    setup(message){
         this.embed = new MessageEmbed()
         if(!message) return this.embed
         this.embed.setFooter(message.author.tag, message.author.avatarURL())
         this.embed.setTimestamp(new Date())
-        return this.embed
     }
-    trackPlay (title, length, uri, thumbnail, user) {
-        return this.embed
-        .setAuthor('음악 재생')
+    trackPlay (title, length, url, thumbnail, user) {
+        return this.embed.setAuthor('음악 재생')
         .setTitle(`${title}`)
         .setDescription(
-            `신청자: ${user}. 길이: ${this._formatTime(length)}`
+            `신청자: ${user} | 길이: ${this._formatTime(length)}`
         )
         .setURL(url)
         .setImage(thumbnail.medium)
         .setColor('RANDOM')
+    }
+    
+    queueEnd() {
+        return this.embed.setAuthor('대기열 종료')
+        .setTitle('신청한 모든 음악을 재생했습니다.')
+        .setDescription('그럼 난 이만 :wave:')
     }
 
     _formatTime(ms) {

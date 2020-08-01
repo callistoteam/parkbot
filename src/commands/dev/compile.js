@@ -2,10 +2,10 @@ const Command = require("../../structures/Command")
 
 module.exports = class Compile extends Command {
     alias = [ "compile", "eval" ]
-    permission = 0x8
+    permission = 8
 
     async execute({ client, message }){
-        let code_in = `const Discord = require("discord.js");\nconst child = require('child_process');\nconst fetch = require("node-fetch")\nconst bot = client;\n\n`+message.data.content
+        let code_in = `const Discord = require("discord.js");\nconst child = require('child_process');\nconst fetch = require("node-fetch")\nconst bot = client;\n\n`+message.data.args
         let type;
             try {
             const result = new Promise((resolve) => resolve(eval(code_in)));

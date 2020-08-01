@@ -2,7 +2,7 @@ const { Client, Collection } = require('discord.js')
 const { LavaClient } = require("@anonymousg/lavajs");
 
 const utils = require("../utils")
-const { Embed } = require('../structures')
+const Embed = require('./Embed')
 
 const fs = require('fs')
 const path = require('path')
@@ -37,23 +37,43 @@ module.exports = class ParkBotClient {
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
                 player.options.textChannel.send(
-                    new Embed(message).trackPlay(title, length, uri, thumbnail, user)
+                    new Embed().trackPlay(title, length, uri, thumbnail, user)
                 )
             })
+            client.music.on('trackOver', (track, player) => {
+                console.log(player.queue.size)
+            })
+            client.music.on('queueOver', async(player) => {
+                // if(player.noRelated) {
+                //     player.destroy()
+                //     player.options.textChannel.send(
+                //         new Embed().queueEnd()
+                //     )
+                // } else {
+                //     console.log(await new utils.ytUtils(player).related(player.previous.uri, player.previous.title, player.options.guild.me))
+                // }
+            })
         })
+        
         client.on('message', (message) => {
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
 
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
-                content: message.content.slice(message.content.split(' ')[0].length + 1),
+                args: message.content.replace(this.config.client.prefix, '').split(' ').slice(1).join(' '),
+                arg: message.content.replace(this.config.client.prefix, '').split(' ').slice(1),
                 authorPerm: utils.Permission.getUserPermission(message.member)
             }
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
             if(!cmd) return
-            if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) cmd.execute({ client, message })
-            else return message.reply(`퍼미션 ㅅㄱ${cmd.permission} | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
+            if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) {
+                if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
+                if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
+                cmd.execute({ client, message })
+                .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
+            }
+            else return message.reply(`퍼미션이 부족합니다. ${cmd.permission} | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })
     }
 
