@@ -38,7 +38,7 @@ module.exports = class Play extends Command {
                     add: true
                 })
                 await player.queue.add(res[0])
-                message.reply(`Added ${res[0].title}`)
+                message.reply(`🎵 \`${res[0].title}\`을 큐에 추가했어!`)
             }
             
             if(!player.playing) player.play()
