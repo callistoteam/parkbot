@@ -26,14 +26,16 @@ module.exports = class Play extends Command {
         try {
             if(utils.Formats.validURL(message.data.arg[0])) {
                 res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
-                    source: 'yt'|'sc'
+                    source: 'yt'|'sc',
+                    add: true
                 })
                 console.log(res)
                 await player.queue.add(res[0])
                 message.reply(`Added ${res[0].title}`)
             } else {
                 res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
-                    source: 'yt'|'sc'
+                    source: 'yt'|'sc',
+                    add: true
                 })
                 await player.queue.add(res[0])
                 message.reply(`Added ${res[0].title}`)

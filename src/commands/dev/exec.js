@@ -7,7 +7,7 @@ module.exports = class Exec extends Command {
 
     async execute({ client, message }){
         try{
-            const a = child.execSync(message.data.content)
+            const a = child.execSync(message.data.args)
             message.channel.send(`\`\`\`${a}\`\`\``)
         } catch(e){
             message.channel.send(`\`\`\`${e}\`\`\``)

@@ -41,9 +41,13 @@ module.exports = class ParkBotClient {
                 )
             })
             client.music.on('trackOver', (track, player) => {
-                console.log(player.queue.size)
+                console.log(track)
             })
             client.music.on('queueOver', async(player) => {
+                player.destroy()
+                player.options.textChannel.send(
+                    new Embed().queueEnd()
+                )
                 // if(player.noRelated) {
                 //     player.destroy()
                 //     player.options.textChannel.send(

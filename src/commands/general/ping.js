@@ -1,4 +1,5 @@
-const Command = require("../../structures/Command");
+const Command = require("../../structures/Command")
+const Discord = require("discord.js")
 
 module.exports = class Ping extends Command {
     alias = [ "ping", "핑" ]
@@ -6,11 +7,12 @@ module.exports = class Ping extends Command {
 
     async execute({ client, message }){
         try{
-            const m = await message.channel.send("<a:loadingforpark:702385005590085632> 잠시만 기다려주세요").then(async msg => {
+            const m = await message.channel.send("잠시만 기다려주세요").then(async msg => {
             let pingembed = new Discord.MessageEmbed()
             .setTitle("퐁!")
             .setColor("RANDOM")
             .addField("지연 시간", `${msg.createdTimestamp - message.createdTimestamp}ms`)
+            .addField("API지연시간", `${client.ws.ping}ms`)
             pingembed.setTimestamp()
             msg.edit("Pong")
             msg.edit(pingembed)
