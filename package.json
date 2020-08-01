@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/callistoteam/parkbot#readme",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "@anonymousg/lavajs": "^3.4.2",
+    "discord.js": "^12.2.0",
+    "knex": "^0.21.2"
   }
 }

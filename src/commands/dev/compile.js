@@ -2,7 +2,7 @@ const Command = require("../../structures/Command")
 
 module.exports = class Compile extends Command {
     alias = [ "compile" ]
-    permission = 8
+    permission = 0x8
 
     async execute({ client, message }){
         let code_in = `const Discord = require("discord.js");\nconst child = require('child_process');\nconst fetch = require("node-fetch")\nconst bot = client;\n\n`+message.data.content

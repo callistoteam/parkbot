@@ -1,9 +1,13 @@
-const Discord = require('discord.js')
-const client = new Discord.Client()
+const { Client, Collection } = require('discord.js')
+const { LavaClient } = require("@anonymousg/lavajs");
+
+const utils = require("../utils")
 const fs = require('fs')
 const path = require('path')
 
-module.exports = class Client {
+const client = new Client()
+
+module.exports = class ParkBotClient {
     constructor( config ) {
         if(!config) throw '"config" is not given.'
         else {
@@ -11,7 +15,8 @@ module.exports = class Client {
             console.log(`[LOAD] Loaded Confing. Starting with ${config.mode || 'production'} mode.`)
         }
         this.initialized = false
-        this.commands = new Discord.Collection()
+        this.lavalink = config.lavalink.node
+        this.commands = new Collection()
     }
 
     init() {
@@ -21,6 +26,26 @@ module.exports = class Client {
         client.login(this.config.client.token)
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
+            client.music = new LavaClient(client, this.config.lavalink.nodes)
+            client.music.on('nodeSuccess', (node) => {
+                console.log(`[INFO] Node connected: ${node.options.host}`)
+            }
+            )
+            client.music.on('nodeError', console.error)
+            client.music.on('trackPlay', (track, player) => {
+                const { title, length, uri, thumbnail, user } = track;
+                player.options.textChannel.send(
+                    new Discord.MessageEmbed()
+                        .setAuthor('음악 재생')
+                        .setTitle(`${title}`)
+                        .setDescription(
+                            `신청자: ${user}. 길이: ${formatTime(length)}`
+                        )
+                        .setURL(uri)
+                        .setImage(thumbnail.medium)
+                        .setColor('RANDOM')
+                )
+            })
         })
         client.on('message', (message) => {
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
@@ -28,13 +53,13 @@ module.exports = class Client {
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
                 content: message.content.slice(message.content.split(' ')[0].length + 1),
-                authorPerm: require("../utils").Permission.getUserPermission(message.author.id)
+                authorPerm: utils.Permission.getUserPermission(message.member)
             }
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
-            if(cmd.permission)
-            if(cmd && cmd.permission <= message.data.authorPerm) cmd.execute({ client, message })
-
+            if(!cmd) return
+            if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) cmd.execute({ client, message })
+            else return message.reply(`퍼미션 ㅅㄱ${cmd.permission} | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })
     }
 

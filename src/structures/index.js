@@ -1,3 +1,4 @@
 module.exports = {
-    Client: require('./Client')
+    Client: require('./Client'),
+    audio: require('./audio')
 }
