@@ -4,6 +4,7 @@ const child = require("child_process")
 module.exports = class Exec extends Command {
     alias = [ "exec" ]
     permission = 0x8
+    category = "dev"
 
     async execute({ client, message }){
         try{

@@ -4,6 +4,7 @@ const Discord = require("discord.js")
 module.exports = class Ping extends Command {
     alias = [ "ping", "핑" ]
     permission = 0x0
+    category = "general"
 
     async execute({ client, message }){
         try{

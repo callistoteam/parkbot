@@ -3,6 +3,7 @@ const Command = require("../../structures/Command");
 module.exports = class Volume extends Command {
     alias = [ "volume", "vol", '패ㅣㅕㅡㄷ' ]
     permission = 0x0
+    category = "music"
 
     async execute({ client, message }){
         const player = await client.music.playerCollection.get(message.guild.id)

@@ -5,6 +5,7 @@ const { Embed } = require("../../structures")
 module.exports = class Queue extends Command {
     alias = [ "queue", "q", "큐" ]
     permission = 0x0
+    category = "music"
 
     async execute({ client, message }){
         const player = await client.music.playerCollection.get(message.guild.id)

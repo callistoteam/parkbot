@@ -3,6 +3,7 @@ const Command = require("../../structures/Command");
 module.exports = class Stop extends Command {
     alias = [ "stop", 'ㄴ새ㅔ' ]
     permission = 0x0
+    category = "music"
 
     async execute({ client, message }){
         const player = await client.music.playerCollection.get(message.guild.id)

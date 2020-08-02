@@ -4,6 +4,7 @@ module.exports = class Skip extends Command {
     alias = [ "skip", "s", '스킵' ]
     permission = 0x0
     voiceChannel = true
+    category = "music"
 
     async execute({ client, message }){
         const player = await client.music.playerCollection.get(message.guild.id)

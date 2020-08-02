@@ -6,6 +6,7 @@ module.exports = class Play extends Command {
     permission = 0x0
     voiceChannel = true
     args = [ { name: "곡명 또는 URL", required: true } ]
+    category = "music"
 
     async execute({ client, message }){
         const { channel } = message.member.voice
