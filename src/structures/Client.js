@@ -75,6 +75,7 @@ module.exports = class ParkBotClient {
                 if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
                 if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
                 client.commands = this.commands
+                client.prefix = this.config.client.prefix
                 cmd.execute({ client, message })
                 .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
             }
