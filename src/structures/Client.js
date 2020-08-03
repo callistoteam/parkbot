@@ -51,14 +51,14 @@ module.exports = class ParkBotClient {
                 player.options.textChannel.send(
                     new Embed().queueEnd()
                 )
-                // if(player.noRelated) {
-                //     player.destroy()
-                //     player.options.textChannel.send(
-                //         new Embed().queueEnd()
-                //     )
-                // } else {
-                //     console.log(await new utils.ytUtils(player).related(player.previous.uri, player.previous.title, player.options.guild.me))
-                // }
+                /* if(player.noRelated) {
+                     player.destroy()
+                     player.options.textChannel.send(
+                         new Embed().queueEnd()
+                     )
+                 } else {
+                     console.log(await new utils.ytUtils(player).related(player.previous.uri, player.previous.title, player.options.guild.me))
+                }*/
             })
         })
         
