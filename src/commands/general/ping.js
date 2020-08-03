@@ -15,8 +15,7 @@ module.exports = class Ping extends Command {
             .addField("지연 시간", `${msg.createdTimestamp - message.createdTimestamp}ms`)
             .addField("API지연시간", `${client.ws.ping}ms`)
             pingembed.setTimestamp()
-            msg.edit("Pong")
-            msg.edit(pingembed)
+            msg.edit("", pingembed)
           })
         }catch(e) {
             message.channel.send("오류")

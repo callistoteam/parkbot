@@ -36,6 +36,9 @@ module.exports = class ParkBotClient {
             client.music.on('nodeError', console.error)
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
+                if(user.presence.clientStatus.mobile){ // mobile이면
+                    return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
+                }
                 player.options.textChannel.send(
                     new Embed().trackPlay(title, length, uri, thumbnail, user)
                 )
