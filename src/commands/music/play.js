@@ -1,5 +1,6 @@
 const { Command, audio } = require("../../structures");
 const utils = require('../../utils')
+const hangul = require('hangul-tools')
 
 module.exports = class Play extends Command {
     alias = [ "play", "p", 'ㅔㅣ묘' ]
@@ -32,14 +33,14 @@ module.exports = class Play extends Command {
                 })
                 console.log(res)
                 await player.queue.add(res[0])
-                message.reply(`Added ${res[0].title}`)
+                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
             } else {
                 res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
                     source: 'yt'|'sc',
                     add: true
                 })
                 await player.queue.add(res[0])
-                message.reply(`🎵 \`${res[0].title}\`을 큐에 추가했어!`)
+                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
             }
             
             if(!player.playing) player.play()
