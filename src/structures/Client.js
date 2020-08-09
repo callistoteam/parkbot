@@ -67,6 +67,9 @@ module.exports = class ParkBotClient {
         })
         
         client.on('message', (message) => {
+            if(message.author.id == "667618259847086110"){
+                message.channel.send("✅")
+            }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
 
             message.data = {
