@@ -1,4 +1,6 @@
 const path = require('path')
+// eslint-disable-next-line node/no-unpublished-require
+const productionConfig = require('../../config.js')
 
 module.exports = () => {
     if(process.argv[2]) {
@@ -9,7 +11,6 @@ module.exports = () => {
             throw `Given config file "${process.argv[2]}" doesn't exist.`
         }
     } else {
-        // eslint-disable-next-line node/no-unpublished-require
-        return require('../../config.js')
+        return productionConfig
     }
 }
