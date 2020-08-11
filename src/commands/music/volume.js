@@ -1,13 +1,16 @@
-const Command = require("../../structures/Command");
+const Command = require('../../structures/Command')
 
 module.exports = class Volume extends Command {
-    alias = [ "volume", "vol", '패ㅣㅕㅡㄷ' ]
-    permission = 0x0
-    category = "music"
+    constructor(client){
+        super(client)
+        this.alias = [ 'volume', 'vol', '패ㅣㅕㅡㄷ' ]
+        this.permission = 0x0
+        this.category = 'music'
+    }
 
     async execute({ client, message }){
         const player = await client.music.playerCollection.get(message.guild.id)
-        if(!player) return message.reply("이 서버에서 재생중인 음악이 없어!")
+        if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         const volume = message.data.args
         if(!volume) return message.reply('볼륨을 입력해 줘!')

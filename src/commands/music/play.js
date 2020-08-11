@@ -1,13 +1,16 @@
-const { Command, audio } = require("../../structures");
+const { Command } = require('../../structures')
 const utils = require('../../utils')
 const hangul = require('hangul-tools')
 
 module.exports = class Play extends Command {
-    alias = [ "play", "p", 'ㅔㅣ묘' ]
-    permission = 0x0
-    voiceChannel = true
-    args = [ { name: "곡명 또는 URL", required: true } ]
-    category = "music"
+    constructor(client){
+        super(client)
+        this.alias = [ 'play', 'p', 'ㅔㅣ묘' ]
+        this.permission = 0x0
+        this.voiceChannel = true
+        this.args = [ { name: '곡명 또는 URL', required: true } ]
+        this.category = 'music'
+    }
 
     async execute({ client, message }){
         const { channel } = message.member.voice
@@ -47,7 +50,7 @@ module.exports = class Play extends Command {
         } catch (e) {
             if (e)
                 console.error(e)
-                return await message.channel.send('처리중에 오류가 발생하였습니다.')
+            return await message.channel.send('처리중에 오류가 발생하였습니다.')
         }
     }
 }

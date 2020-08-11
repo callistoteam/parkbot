@@ -1,5 +1,3 @@
-const getConfig = require('./getConfig');
-
 module.exports = {
     Permission: require('./Permission'),
     ytUtils: require('./ytUtils'),

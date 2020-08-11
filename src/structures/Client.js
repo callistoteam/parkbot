@@ -1,7 +1,7 @@
 const { Client, Collection } = require('discord.js')
-const { LavaClient } = require("@anonymousg/lavajs");
+const { LavaClient } = require('@anonymousg/lavajs')
 
-const utils = require("../utils")
+const utils = require('../utils')
 const Embed = require('./Embed')
 
 const fs = require('fs')
@@ -40,6 +40,7 @@ module.exports = class ParkBotClient {
                     if(user.presence.clientStatus.mobile){ // mobile이면
                         return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
                     }
+                // eslint-disable-next-line node/no-unsupported-features/es-syntax
                 } catch {
                     return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
                 }
@@ -47,7 +48,7 @@ module.exports = class ParkBotClient {
                     new Embed().trackPlay(title, length, uri, thumbnail, user)
                 )
             })
-            client.music.on('trackOver', (track, player) => {
+            client.music.on('trackOver', (track) => {
                 console.log(track)
             })
             client.music.on('queueOver', async(player) => {
@@ -67,8 +68,8 @@ module.exports = class ParkBotClient {
         })
         
         client.on('message', (message) => {
-            if(message.author.id == "667618259847086110"){
-                message.channel.send("✅")
+            if(message.author.id == '667618259847086110'){
+                message.channel.send('✅')
             }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
 
@@ -87,17 +88,20 @@ module.exports = class ParkBotClient {
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
                 cmd.execute({ client, message })
-                .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
+                    .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
             }
             else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })
     }
 
     loadCommands(dir) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         const categories = fs.readdirSync(path.join(__dirname, '../', dir)).filter(el=> fs.lstatSync(path.join(__dirname, '../', dir, el)).isDirectory())
         categories.forEach(category => {
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
             const commands = fs.readdirSync(path.join(__dirname, '../', dir, category)).filter(el=> !fs.lstatSync(path.join(__dirname, '../', dir, category, el)).isDirectory() && el.split('.').pop() === 'js')
             commands.forEach(command => {
+                // eslint-disable-next-line security/detect-non-literal-require
                 let cmd = require(path.join(__dirname, '../', dir, category, command))
                 cmd.category = category
                 this.commands.set(command.split('.').shift(), new cmd(client))

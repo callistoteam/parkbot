@@ -1,4 +1,4 @@
-const { MessageEmbed, Message } = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 module.exports = class Embed {
     /**
      * Fucking embed Builder
@@ -16,17 +16,17 @@ module.exports = class Embed {
     }
     trackPlay (title, length, url, thumbnail, user) {
         return this.embed.setAuthor('음악 재생')
-        .setTitle(`${title}`)
-        .setDescription(
-            `신청자: ${user} | 길이: ${this._formatTime(length)}`
-        )
-        .setURL(url)
-        .setImage(thumbnail.medium)
-        .setColor('RANDOM')
+            .setTitle(`${title}`)
+            .setDescription(
+                `신청자: ${user} | 길이: ${this._formatTime(length)}`
+            )
+            .setURL(url)
+            .setImage(thumbnail.medium)
+            .setColor('RANDOM')
     }
     
     viewQueue(queue) {
-        let data = ""
+        let data = ''
         for(let k of queue) {
             let g = k[0]
             k = k[1]
@@ -34,12 +34,12 @@ module.exports = class Embed {
             else console.log(k)
         }
         return this.embed.setAuthor('대기열')
-        .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
+            .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
     }
     queueEnd() {
         return this.embed.setAuthor('대기열 종료')
-        .setTitle('신청한 모든 음악을 재생했습니다.')
-        .setDescription('그럼 난 이만 :wave:')
+            .setTitle('신청한 모든 음악을 재생했습니다.')
+            .setDescription('그럼 난 이만 :wave:')
     }
 
     _formatTime(ms) {
@@ -58,6 +58,7 @@ module.exports = class Embed {
         time.h = time.h % 24
     
         const res = []
+        // eslint-disable-next-line no-unused-vars
         for (const [ k, v ] of Object.entries(time)) {
             let first = false
             if (v < 1 && !first) continue

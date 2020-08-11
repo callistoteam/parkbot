@@ -1,4 +1,5 @@
-const { Client } = require('@sirubot/yt-related-scraper')
+/* eslint-disable */
+const { Client } = require("@sirubot/yt-related-scraper")
 
 module.exports = class ytUtils {
     constructor(player) {
@@ -9,13 +10,13 @@ module.exports = class ytUtils {
     }
     related(url, title, member) {
         return Client.get(url)
-        .then(results => {
-            return results
-        })
-        .catch(async (e) => {
-            const result = await this.player.lavaSearch(encodeURI(title), member, { source: 'yt' })
-            if(lavaSearch.length === 0) return undefined
-            return Client.get(result[0].uri).then(r=> r).catch(e=> undefined)
-        })
+            .then(results => {
+                return results
+            })
+            .catch(async (e) => {
+                const result = await this.player.lavaSearch(encodeURI(title), member, { source: "yt" })
+                if(lavaSearch.length === 0) return undefined
+                return Client.get(result[0].uri).then(r=> r).catch(e=> undefined)
+            })
     }
 }
