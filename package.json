@@ -24,5 +24,8 @@
     "eslint": "^7.6.0",
     "hangul-tools": "^0.1.4",
     "knex": "^0.21.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-node": "^11.1.0"
   }
 }
