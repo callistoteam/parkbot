@@ -1,5 +1,5 @@
 const path = require('path')
-// eslint-disable-next-line node/no-unpublished-require
+// eslint-disable-next-line
 const productionConfig = require('../../config.js')
 
 module.exports = () => {
