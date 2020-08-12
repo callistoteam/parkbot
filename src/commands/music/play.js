@@ -1,6 +1,8 @@
 const { Command } = require('../../structures')
 const utils = require('../../utils')
 const hangul = require('hangul-tools')
+// eslint-disable-next-line node/no-unpublished-require
+const config = require('../../../config')
 
 module.exports = class Play extends Command {
     constructor(client){
@@ -15,12 +17,52 @@ module.exports = class Play extends Command {
     async execute({ client, message }){
         const { channel } = message.member.voice
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
+        if(config.client.blackcows.includes(message.author.id)){
+            const player = await client.premiumMusic.spawnPlayer(
+                {
+                    guild: message.guild,
+                    voiceChannel: channel,
+                    textChannel: message.channel,
+                    volume: 25,
+                    deafen: true
+                },
+                {
+                    skipOnError: true
+                }
+            )
+            let res
+            try {
+                if(utils.Formats.validURL(message.data.arg[0])) {
+                    res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    console.log(res)
+                    await player.queue.add(res[0])
+                    message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                } else {
+                    res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                }
+                
+                if(!player.playing) player.play()
+            } catch (e) {
+                if (e)
+                    console.error(e)
+                return await message.channel.send('처리중에 오류가 발생하였습니다.')
+            }
+        }
+
         const player = await client.music.spawnPlayer(
             {
                 guild: message.guild,
                 voiceChannel: channel,
                 textChannel: message.channel,
-                volume: 50,
+                volume: 25,
                 deafen: true
             },
             {

@@ -26,13 +26,30 @@ module.exports = class ParkBotClient {
         else this.initialized = true
         this.loadCommands('./commands')
         client.login(this.config.client.token)
+        
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
+
+            client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
+            client.premiumMusic.on('nodeSuccess', (node) => {
+                console.log(`[INFO | Premium] Node connected: ${node.options.host}`)
+            })
+            client.premiumMusic.on('nodeError', console.error)
+            client.premiumMusic.on('trackPlay', (track, player) => {
+                const { title, length, uri, thumbnail, user } = track
+                return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
+            })
+            client.premiumMusic.on('queueOver', async(player) => {
+                player.destroy()
+                player.options.textChannel.send(
+                    new Embed().queueEnd()
+                )
+            })
+            
             client.music = new LavaClient(client, this.config.lavalink.nodes)
             client.music.on('nodeSuccess', (node) => {
                 console.log(`[INFO] Node connected: ${node.options.host}`)
-            }
-            )
+            })
             client.music.on('nodeError', console.error)
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
@@ -40,6 +57,7 @@ module.exports = class ParkBotClient {
                     if(user.presence.clientStatus.mobile){ // mobile이면
                         return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
                     }
+
                 // eslint-disable-next-line node/no-unsupported-features/es-syntax
                 } catch {
                     return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
