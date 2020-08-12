@@ -1,7 +1,7 @@
 const { Command } = require('../../structures')
 const utils = require('../../utils')
 const hangul = require('hangul-tools')
-// eslint-disable-next-line node/no-unpublished-require
+// eslint-disable-next-line
 const config = require('../../../config')
 
 module.exports = class Play extends Command {
