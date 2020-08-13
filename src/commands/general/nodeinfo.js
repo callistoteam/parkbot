@@ -43,8 +43,8 @@ module.exports = class Nodeinfo extends Command {
                 const normalStat = this.client.music.nodeCollection.KVArray()[0][1].stats
                 const nodeEmbed = new MessageEmbed
                 nodeEmbed.setTitle('노드 정보')
-                nodeEmbed.addField('Premium Server', `재생하고있는 서버 수: ${premiumStat.playingPlayers}\n메모리사용량: ${premiumStat.memory.used / 1000000}\n업타임: ${formatTime(premiumStat.uptime)}`)
-                nodeEmbed.addField('Normal Server',  `재생하고있는 서버 수: ${normalStat.playingPlayers}\n메모리사용량: ${normalStat.memory.used / 1000000}\n업타임: ${formatTime(normalStat.uptime)}`)
+                nodeEmbed.addField('Premium Server', `재생하고있는 서버 수: ${premiumStat.playingPlayers}\n메모리사용량: ${premiumStat.memory.used / 1000000}\n업타임: ${formatTime(premiumStat.uptime)}`, true)
+                nodeEmbed.addField('Normal Server',  `재생하고있는 서버 수: ${normalStat.playingPlayers}\n메모리사용량: ${normalStat.memory.used / 1000000}\n업타임: ${formatTime(normalStat.uptime)}`, true)
                 msg.edit('', nodeEmbed)
             })
         }catch(e) {
