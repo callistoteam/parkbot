@@ -28,6 +28,11 @@ module.exports = class ParkBotClient {
         else this.initialized = true
         this.loadCommands('./commands')
         client.login(this.config.client.token)
+        setInterval(() => {
+            const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
+            // eslint-disable-next-line security/detect-object-injection
+            client.user.setActivity(this.config.client.statusList[interstatus])
+        }, 10000)
         
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
