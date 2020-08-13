@@ -21,7 +21,7 @@ module.exports = class Ping extends Command {
                 msg.edit('', pingembed)
             })
         }catch(e) {
-            message.channel.send('오류')
+            message.reply('알 수 없는 오류가 발생했어요.')
             console.log(e)
         }
     }

@@ -48,7 +48,7 @@ module.exports = class Nodeinfo extends Command {
                 msg.edit('', nodeEmbed)
             })
         }catch(e) {
-            message.channel.send('오류')
+            message.reply('알 수 없는 오류가 발생했어요.')
             console.log(e)
         }
     }
