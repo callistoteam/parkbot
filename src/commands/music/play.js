@@ -23,7 +23,7 @@ module.exports = class Play extends Command {
                     guild: message.guild,
                     voiceChannel: channel,
                     textChannel: message.channel,
-                    volume: 25,
+                    volume: 50,
                     deafen: true
                 },
                 {
@@ -49,7 +49,7 @@ module.exports = class Play extends Command {
                     message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
                 }
                 
-                if(!player.playing) player.play()
+                if(!player.playing) return player.play()
             } catch (e) {
                 if (e)
                     console.error(e)
