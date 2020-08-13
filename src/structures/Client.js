@@ -7,6 +7,8 @@ const Embed = require('./Embed')
 const fs = require('fs')
 const path = require('path')
 
+const cooldown = new Set()
+
 const client = new Client()
 
 module.exports = class ParkBotClient {
@@ -90,6 +92,7 @@ module.exports = class ParkBotClient {
                 message.channel.send('✅')
             }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            if(cooldown.has(message.author.id)) return message.reply('쿨타임(2.5초)을 기다려주세요.')
 
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
@@ -107,6 +110,10 @@ module.exports = class ParkBotClient {
                 client.prefix = this.config.client.prefix
                 cmd.execute({ client, message })
                     .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
+                cooldown.add(message.author.id)
+                setTimeout(() => {
+                    cooldown.delete(message.author.id)
+                }, 2500)
             }
             else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })
