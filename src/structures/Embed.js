@@ -36,10 +36,15 @@ module.exports = class Embed {
         return this.embed.setAuthor('대기열')
             .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
     }
+
     queueEnd() {
         return this.embed.setAuthor('대기열 종료')
             .setTitle('신청한 모든 음악을 재생했습니다.')
             .setDescription('그럼 난 이만 :wave:')
+    }
+
+    nowPlay(music) {
+        return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setImage(music.thumbnail.medium)
     }
 
     _formatTime(ms) {
