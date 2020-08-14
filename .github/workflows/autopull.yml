@@ -1,0 +1,27 @@
+name: auto
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  autopull:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js v12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - run: npm install
+    - run: node autopull.js
+      env:
+        CI: true
+
+        WEBHOOK: ${{ secrets.WEBHOOK }}
