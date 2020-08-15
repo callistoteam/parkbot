@@ -38,8 +38,13 @@ module.exports = class Embed {
             if(g !== 1) data += `[#${g-1}] [${k.title}](${k.uri}) - ${this._formatTime(k.length)} by ${k.user}\n`
             else console.log(k)
         }
-        return this.embed.setAuthor('대기열')
-            .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
+        try{
+            return this.embed.setAuthor('대기열')
+                .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
+        } catch{
+            return this.embed.setAuthor('대기열')
+                .setDescription(`${data}`)
+        } 
     }
 
     queueEnd() {
