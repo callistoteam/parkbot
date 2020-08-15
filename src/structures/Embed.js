@@ -14,6 +14,7 @@ module.exports = class Embed {
         this.embed.setFooter(message.author.tag, message.author.avatarURL())
         this.embed.setTimestamp(new Date())
     }
+
     trackPlay (title, length, url, thumbnail, user) {
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
@@ -23,6 +24,10 @@ module.exports = class Embed {
             .setURL(url)
             .setImage(thumbnail.medium)
             .setColor('RANDOM')
+    }
+
+    lyrics(result){
+        return this.embed.setTitle(result.title).addField("가사", result.result.substr(0, 1000) + '`...1000자 이상`')
     }
     
     viewQueue(queue) {

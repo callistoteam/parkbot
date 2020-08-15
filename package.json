@@ -23,7 +23,8 @@
     "common-tags": "^1.8.0",
     "discord.js": "^12.2.0",
     "eslint": "^7.6.0",
-    "hangul-tools": "^0.1.4"
+    "hangul-tools": "^0.1.4",
+    "slyrics": "^0.1.42"
   },
   "devDependencies": {
     "eslint-plugin-node": "^11.1.0",
