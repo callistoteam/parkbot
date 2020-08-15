@@ -27,7 +27,7 @@ module.exports = class Embed {
     }
 
     lyrics(result){
-        return this.embed.setTitle(result.title).addField("가사", result.result.substr(0, 1000) + '`...1000자 이상`')
+        return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1000) + '`...1000자 이상`')
     }
     
     viewQueue(queue) {
@@ -41,6 +41,7 @@ module.exports = class Embed {
         try{
             return this.embed.setAuthor('대기열')
                 .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
+        // eslint-disable-next-line
         } catch{
             return this.embed.setAuthor('대기열')
                 .setDescription(`${data}`)
