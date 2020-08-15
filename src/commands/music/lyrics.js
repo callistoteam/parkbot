@@ -17,7 +17,7 @@ module.exports = class Lyrics extends Command {
     }
 
     async execute({ message }){
-        if(!message.data.args) return message.reply("가사를 검색할 음악 제목을 입력해줘!")
+        if(!message.data.args) return message.reply('가사를 검색할 음악 제목을 입력해줘!')
         message.channel.send(new Embed(message).lyrics(await search('melon', message.data.args)))
     }
 }
