@@ -18,7 +18,7 @@ module.exports = class Play extends Command {
         const { channel } = message.member.voice
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
         if(config.client.blackcows.includes(message.author.id)){
-            const player = await client.premiumMusic.spawnPlayer(
+            /* const player = await client.premiumMusic.spawnPlayer(
                 {
                     guild: message.guild,
                     voiceChannel: channel,
@@ -54,7 +54,7 @@ module.exports = class Play extends Command {
                 if (e)
                     console.error(e)
                 return await message.channel.send('처리중에 오류가 발생하였습니다.')
-            }
+            } */
         }
 
         const player = await client.music.spawnPlayer(

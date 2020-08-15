@@ -36,6 +36,7 @@ module.exports = class ParkBotClient {
         
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
+            /*
 
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
@@ -51,7 +52,7 @@ module.exports = class ParkBotClient {
                 player.options.textChannel.send(
                     new Embed().queueEnd()
                 )
-            })
+            }) */
             
             client.music = new LavaClient(client, this.config.lavalink.nodes)
             client.music.on('nodeSuccess', (node) => {
