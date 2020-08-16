@@ -1,4 +1,52 @@
+/* eslint-disable */
 const Command = require('../../structures/Command')
+
+function filter() {
+    var i = 0;
+  
+    return function(key, value) {
+        if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value) 
+            return '[Circular]'; 
+  
+        if(i >= 1000) // seems to be a harded maximum of 30 serialized objects?
+            return '[Unknown]';
+  
+        ++i; // so we know we aren't using the original object anymore
+  
+        return value;
+    }
+}
+  
+function stringify(item, censor, space) {
+    return JSON.stringify(item, censor ? censor : filter(item), space)
+}
+
+function formatTime(ms) {
+    const time = {
+        d: 0,
+        h: 0,
+        m: 0,
+        s: 0
+    }
+    time.s = Math.floor(ms / 1000)
+    time.m = Math.floor(time.s / 60)
+    time.s = time.s % 60
+    time.h = Math.floor(time.m / 60)
+    time.m = time.m % 60
+    time.d = Math.floor(time.h / 24)
+    time.h = time.h % 24
+
+    const res = []
+    // eslint-disable-next-line no-unused-vars
+    for (const [ k, v ] of Object.entries(time)) {
+        let first = false
+        if (v < 1 && !first) continue
+
+        res.push(v < 10 ? `0${v}` : `${v}`)
+        first = true
+    }
+    return res.join(':')
+}
 
 module.exports = class Compile extends Command {
     constructor(client) {

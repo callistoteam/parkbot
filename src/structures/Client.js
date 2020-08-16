@@ -37,7 +37,6 @@ module.exports = class ParkBotClient {
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
             /*
-
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
                 console.log(`[INFO | Premium] Node connected: ${node.options.host}`)
