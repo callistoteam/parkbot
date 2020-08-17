@@ -28,13 +28,21 @@ module.exports = class ParkBotClient {
         else this.initialized = true
         this.loadCommands('./commands')
         client.login(this.config.client.token)
-        setInterval(() => {
-            const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
-            // eslint-disable-next-line security/detect-object-injection
-            client.user.setActivity(this.config.client.statusList[interstatus])
-        }, 10000)
+        
+        client.on('guildCreate', guild => {
+            client.channels.cache.get(this.config.client.guildchannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+        })
+
+        client.on('guildDelete', guild => {
+            client.channels.cache.get(this.config.client.guildchannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+        })
         
         client.on('ready', () => {
+            setInterval(() => {
+                const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
+                // eslint-disable-next-line security/detect-object-injection
+                client.user.setActivity(this.config.client.statusList[interstatus])
+            }, 10000)
             console.log(`[READY] Logged in to ${client.user.tag}`)
             /*
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
