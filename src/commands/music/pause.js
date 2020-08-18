@@ -1,10 +1,9 @@
 const Command = require('../../structures/Command')
-const { Embed } = require('../../structures')
 
-module.exports = class Nowplay extends Command {
+module.exports = class Pause extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'nowplay', 'np', 'ㅞ' ]
+        this.alias = [ 'pause' ]
         this.permission = 0x0
         this.category = 'music'
     }
@@ -13,6 +12,7 @@ module.exports = class Nowplay extends Command {
         const player = await client.music.playerCollection.get(message.guild.id)
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
-        message.channel.send(new Embed(message).nowPlay(player.queue.get(1)))
+        player.pause()
+        message.channel.send("> 음악을 일시정지했어. `#resume`으로 다시 재생해봐!")
     }
 }
