@@ -16,7 +16,7 @@ module.exports = class Delete extends Command {
         const num = parseInt(message.data.arg[0])
         if(!player.queue.has(num)) return message.reply('정확한 숫자를 입력해줘.')
 
-        player.queue.delete(num)
+        player.queue.delete(num + 1)
         message.reply('큐 목록에서 해당 음악을 제거했어.')
     }
 }
