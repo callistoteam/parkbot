@@ -13,6 +13,6 @@ module.exports = class Resume extends Command {
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         player.resume()
-        message.channel.send("음악을 다시 재생할께!")
+        message.channel.send("음악을 다시 재생할게!")
     }
 }
