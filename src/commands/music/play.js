@@ -62,7 +62,7 @@ module.exports = class Play extends Command {
                 guild: message.guild,
                 voiceChannel: channel,
                 textChannel: message.channel,
-                volume: 25,
+                volume: 50,
                 deafen: true
             },
             {

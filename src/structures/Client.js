@@ -37,12 +37,13 @@ module.exports = class ParkBotClient {
             client.channels.cache.get(this.config.client.guildchannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
         })
         
+        setInterval(() => {
+            const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
+            // eslint-disable-next-line security/detect-object-injection
+            client.user.setActivity(this.config.client.statusList[interstatus])
+        }, 15000)
+
         client.on('ready', () => {
-            setInterval(() => {
-                const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
-                // eslint-disable-next-line security/detect-object-injection
-                client.user.setActivity(this.config.client.statusList[interstatus])
-            }, 10000)
             console.log(`[READY] Logged in to ${client.user.tag}`)
             /*
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
