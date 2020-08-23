@@ -1,6 +1,6 @@
 const { Client, Collection } = require('discord.js')
 const { LavaClient } = require('@anonymousg/lavajs')
-
+const uuid = require('uuid')
 const utils = require('../utils')
 const Embed = require('./Embed')
 
@@ -30,11 +30,11 @@ module.exports = class ParkBotClient {
         client.login(this.config.client.token)
         
         client.on('guildCreate', guild => {
-            client.channels.cache.get(this.config.client.guildchannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            client.channels.cache.get(this.config.client.noticechannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
         })
 
         client.on('guildDelete', guild => {
-            client.channels.cache.get(this.config.client.guildchannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            client.channels.cache.get(this.config.client.noticechannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
         })
         
         setInterval(() => {
@@ -123,8 +123,9 @@ module.exports = class ParkBotClient {
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
                 cmd.execute({ client, message }).catch(e=> {
-                    console.error(e)
-                    message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')
+                    let errcode = uuid.v1()
+                    client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
+                    message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
                 })
                 cooldown.add(message.author.id)
                 setTimeout(() => {

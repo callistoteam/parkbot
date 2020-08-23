@@ -24,7 +24,8 @@
     "discord.js": "^12.2.0",
     "eslint": "^7.6.0",
     "hangul-tools": "^0.1.4",
-    "slyrics": "^0.1.42"
+    "slyrics": "^0.1.42",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "eslint-plugin-node": "^11.1.0",
