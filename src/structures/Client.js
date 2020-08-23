@@ -70,7 +70,7 @@ module.exports = class ParkBotClient {
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
                 try{
-                    if(user.presence.clientStatus.mobile){ // mobile이면
+                    if(user.presence.clientStatus.mobile){
                         return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
                     }
 
