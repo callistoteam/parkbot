@@ -1,6 +1,6 @@
 const { Client, Collection } = require('discord.js')
 const { LavaClient } = require('@anonymousg/lavajs')
-
+const uuid = require('uuid')
 const utils = require('../utils')
 const Embed = require('./Embed')
 
@@ -30,19 +30,20 @@ module.exports = class ParkBotClient {
         client.login(this.config.client.token)
         
         client.on('guildCreate', guild => {
-            client.channels.cache.get(this.config.client.guildchannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            client.channels.cache.get(this.config.client.noticechannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
         })
 
         client.on('guildDelete', guild => {
-            client.channels.cache.get(this.config.client.guildchannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            client.channels.cache.get(this.config.client.noticechannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
         })
         
+        setInterval(() => {
+            const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
+            // eslint-disable-next-line security/detect-object-injection
+            client.user.setActivity(this.config.client.statusList[interstatus])
+        }, 15000)
+
         client.on('ready', () => {
-            setInterval(() => {
-                const interstatus = Math.floor(Math.random() * (this.config.client.statusList.length - 1) + 1)
-                // eslint-disable-next-line security/detect-object-injection
-                client.user.setActivity(this.config.client.statusList[interstatus])
-            }, 10000)
             console.log(`[READY] Logged in to ${client.user.tag}`)
             /*
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
@@ -69,7 +70,7 @@ module.exports = class ParkBotClient {
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
                 try{
-                    if(user.presence.clientStatus.mobile){ // mobile이면
+                    if(user.presence.clientStatus.mobile){
                         return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
                     }
 
@@ -121,8 +122,11 @@ module.exports = class ParkBotClient {
                 if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
-                cmd.execute({ client, message })
-                    .catch(e=> {console.error(e); message.reply('푸시🤒... 봇을 실행하는 도중 오류가 발생했어요.')})
+                cmd.execute({ client, message }).catch(e=> {
+                    let errcode = uuid.v1()
+                    client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
+                    message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
+                })
                 cooldown.add(message.author.id)
                 setTimeout(() => {
                     cooldown.delete(message.author.id)

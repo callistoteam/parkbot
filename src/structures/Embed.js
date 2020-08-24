@@ -58,6 +58,10 @@ module.exports = class Embed {
         return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setImage(music.thumbnail.medium)
     }
 
+    error(message, err, errorcode){
+        return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${JSON.stringify(err)}\`\`\``)
+    }
+
     _formatTime(ms) {
         const time = {
             d: 0,
