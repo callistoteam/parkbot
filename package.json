@@ -24,6 +24,9 @@
     "discord.js": "^12.2.0",
     "eslint": "^7.6.0",
     "hangul-tools": "^0.1.4",
+    "melon-chart-api": "^1.1.4",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.31",
     "slyrics": "^0.1.42",
     "uuid": "^8.3.0"
   },

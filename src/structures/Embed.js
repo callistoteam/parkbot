@@ -1,4 +1,8 @@
 const { MessageEmbed } = require('discord.js')
+const moment = require('moment-timezone')
+require('moment-duration-format')(moment)
+moment.locale('ko-KR')
+
 module.exports = class Embed {
     /**
      * Fucking embed Builder
@@ -62,30 +66,18 @@ module.exports = class Embed {
         return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${JSON.stringify(err)}\`\`\``)
     }
 
+    async melonchart(){
+        let date = moment(Date.now()).tz("Asia/Seoul")
+        let yoru = ''
+        let melon = require('melon-chart-api')
+        const { data } = await melon(date.format("DD/MM/YYYY"), { cutLine: 10 }).realtime()
+        data.forEach(element => {
+            yoru += `**${element.rank}위**\n${element.title} - ${element.artist}\n`
+        })
+        return this.embed.setTitle('멜론차트').setDescription(yoru)
+    }
+
     _formatTime(ms) {
-        const time = {
-            d: 0,
-            h: 0,
-            m: 0,
-            s: 0
-        }
-        time.s = Math.floor(ms / 1000)
-        time.m = Math.floor(time.s / 60)
-        time.s = time.s % 60
-        time.h = Math.floor(time.m / 60)
-        time.m = time.m % 60
-        time.d = Math.floor(time.h / 24)
-        time.h = time.h % 24
-    
-        const res = []
-        // eslint-disable-next-line no-unused-vars
-        for (const [ k, v ] of Object.entries(time)) {
-            let first = false
-            if (v < 1 && !first) continue
-    
-            res.push(v < 10 ? `0${v}` : `${v}`)
-            first = true
-        }
-        return res.join(':')
+        return moment.duration(ms).format("HH:mm:ss")
     }
 }
