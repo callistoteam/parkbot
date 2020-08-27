@@ -22,7 +22,7 @@ module.exports = class Lyrics extends Command {
             message.channel.send(new Embed(message).lyrics(await search('melon', message.data.args)))
         // eslint-disable-next-line node/no-unsupported-features/es-syntax
         } catch {
-            message.channel.send('검색된 음악이 없어!')
+            message.channel.send('검색된 음악이 없어. 확인 후 다시 시도해줘.')
         }
     }
 }
