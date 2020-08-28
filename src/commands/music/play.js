@@ -17,7 +17,7 @@ module.exports = class Play extends Command {
     async execute({ client, message }){
         const { channel } = message.member.voice
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
-        /* if(config.client.blackcows.includes(message.author.id)){
+        if(config.client.blackcows.includes(message.author.id)){
              const player = await client.premiumMusic.spawnPlayer(
                 {
                     guild: message.guild,
@@ -48,14 +48,14 @@ module.exports = class Play extends Command {
                     await player.queue.add(res[0])
                     message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
                 }
-                
-                if(!player.playing) return player.play()
+                if(!player.playing) player.play()
+                return
             } catch (e) {
                 if (e)
                     console.error(e)
                 return await message.channel.send('처리중에 오류가 발생하였습니다.')
             } 
-        }*/
+        }
 
         const player = await client.music.spawnPlayer(
             {

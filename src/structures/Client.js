@@ -45,7 +45,7 @@ module.exports = class ParkBotClient {
 
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
-            /*
+            
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
                 console.log(`[INFO | Premium] Node connected: ${node.options.host}`)
@@ -60,7 +60,7 @@ module.exports = class ParkBotClient {
                 player.options.textChannel.send(
                     new Embed().queueEnd()
                 )
-            }) */
+            })
             
             client.music = new LavaClient(client, this.config.lavalink.nodes)
             client.music.on('nodeSuccess', (node) => {
@@ -70,10 +70,7 @@ module.exports = class ParkBotClient {
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
                 try{
-                    if(user.presence.clientStatus.mobile){
-                        return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
-                    }
-
+                    if(user.presence.clientStatus.mobile) return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
                 // eslint-disable-next-line node/no-unsupported-features/es-syntax
                 } catch {
                     return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
