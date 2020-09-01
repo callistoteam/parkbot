@@ -9,8 +9,7 @@ module.exports = class Skip extends Command {
         this.category = 'music'
     }
 
-    async execute({ client, message }){
-        const player = await client.music.playerCollection.get(message.guild.id)
+    async execute({ message, player }){
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         if(player.queue.size === 0) return message.reply('스킵한 후에 재생할 곡이 없어!')
