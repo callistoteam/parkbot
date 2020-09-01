@@ -103,7 +103,7 @@ module.exports = class ParkBotClient {
                 message.channel.send('✅')
             }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
-            if(cooldown.has(message.author.id)) return message.reply('쿨타임(2.5초)을 기다려주세요.')
+            if(cooldown.has(message.author.id)) return message.reply('쿨타임(2초)을 기다려줘')
 
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
@@ -119,6 +119,7 @@ module.exports = class ParkBotClient {
                 if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
+
                 cmd.execute({ client, message }).catch(e=> {
                     let errcode = uuid.v1()
                     client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
@@ -127,7 +128,7 @@ module.exports = class ParkBotClient {
                 cooldown.add(message.author.id)
                 setTimeout(() => {
                     cooldown.delete(message.author.id)
-                }, 2500)
+                }, 2000)
             }
             else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })
