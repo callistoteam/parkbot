@@ -125,6 +125,7 @@ module.exports = class ParkBotClient {
                     client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
                     message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
                 })
+                
                 cooldown.add(message.author.id)
                 setTimeout(() => {
                     cooldown.delete(message.author.id)
