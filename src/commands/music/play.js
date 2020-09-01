@@ -17,8 +17,8 @@ module.exports = class Play extends Command {
     async execute({ client, message }){
         const { channel } = message.member.voice
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
-        
         let player
+
         if(config.client.blackcows.includes(message.author.id)){
             player = await client.premiumMusic.spawnPlayer(
                 {
@@ -26,7 +26,7 @@ module.exports = class Play extends Command {
                     voiceChannel: channel,
                     textChannel: message.channel,
                     volume: 50,
-                    deafen: true
+                    deafen: false
                 },
                 {
                     skipOnError: true
@@ -42,28 +42,31 @@ module.exports = class Play extends Command {
                     deafen: true
                 },
                 {
-                    skipOnError: true
+                    skipOnError: false
                 }
             )
         }
-
         let res
-        if(utils.Formats.validURL(message.data.arg[0])) {
-            res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
-                source: 'yt'|'sc',
-                add: true
-            })
-            console.log(res)
-            await player.queue.add(res[0])
-            message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
-        } else {
-            res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
-                source: 'yt'|'sc',
-                add: true
-            })
-            await player.queue.add(res[0])
-            message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+        try{
+            if(utils.Formats.validURL(message.data.arg[0])) {
+                res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
+                    source: 'yt'|'sc',
+                    add: true
+                })
+                await player.queue.add(res[0])
+                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+            } else {
+                res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
+                    source: 'yt'|'sc',
+                    add: true
+                })
+                await player.queue.add(res[0])
+                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+            }
+            if(!player.playing) player.play()
+            // eslint-disable-next-line
+        } catch {
+            return message.channel.send('처리중에 오류가 발생한거같아.')
         }
-        if(!player.playing) player.play()
     }
 }
