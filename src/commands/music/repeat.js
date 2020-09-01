@@ -13,6 +13,6 @@ module.exports = class Repeat extends Command {
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         player.loop = !player.loop
-        message.channel.send(`반복이 \`${player.loop ? "활성화" : "비활성화"}\` 되었어!`)
+        message.channel.send(`반복이 \`${player.loop ? '활성화' : '비활성화'}\` 되었어!`)
     }
 }

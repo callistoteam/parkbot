@@ -67,10 +67,10 @@ module.exports = class Embed {
     }
 
     async melonchart(){
-        let date = moment(Date.now()).tz("Asia/Seoul")
+        let date = moment(Date.now()).tz('Asia/Seoul')
         let yoru = ''
         let melon = require('melon-chart-api')
-        const { data } = await melon(date.format("DD/MM/YYYY"), { cutLine: 10 }).realtime()
+        const { data } = await melon(date.format('DD/MM/YYYY'), { cutLine: 10 }).realtime()
         data.forEach(element => {
             yoru += `**${element.rank}위**\n${element.title} - ${element.artist}\n`
         })
@@ -78,6 +78,6 @@ module.exports = class Embed {
     }
 
     _formatTime(ms) {
-        return moment.duration(ms).format("HH:mm:ss")
+        return moment.duration(ms).format('HH:mm:ss')
     }
 }
