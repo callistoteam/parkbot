@@ -98,10 +98,11 @@ module.exports = class ParkBotClient {
             })
         })
         
-        client.on('message', (message) => {
+        client.on('message', async (message) => {
             if(message.author.id == '667618259847086110'){
                 message.channel.send('✅')
             }
+
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
             if(cooldown.has(message.author.id)) return message.reply('쿨타임(2초)을 기다려줘')
 
@@ -117,15 +118,22 @@ module.exports = class ParkBotClient {
             if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) {
                 if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
                 if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
+
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
+                let player
 
-                cmd.execute({ client, message }).catch(e=> {
+                if(this.config.client.blackcows.includes(message.author.id)){
+                    player = await client.premiumMusic.playerCollection.get(message.guild.id)
+                } else{
+                    player = await client.music.playerCollection.get(message.guild.id)
+                }
+                cmd.execute({ client, message, player }).catch(e=> {
                     let errcode = uuid.v1()
                     client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
                     message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
                 })
-                
+
                 cooldown.add(message.author.id)
                 setTimeout(() => {
                     cooldown.delete(message.author.id)

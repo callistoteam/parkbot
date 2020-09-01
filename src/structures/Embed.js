@@ -40,7 +40,6 @@ module.exports = class Embed {
             let g = k[0]
             k = k[1]
             if(g !== 1) data += `[#${g-1}] [${k.title}](${k.uri}) - ${this._formatTime(k.length)} by ${k.user}\n`
-            else console.log(k)
         }
         try{
             return this.embed.setAuthor('대기열')

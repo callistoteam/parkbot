@@ -8,8 +8,7 @@ module.exports = class Volume extends Command {
         this.category = 'music'
     }
 
-    async execute({ client, message }){
-        const player = await client.music.playerCollection.get(message.guild.id)
+    async execute({ message, player }){
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         const volume = message.data.args

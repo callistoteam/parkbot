@@ -8,9 +8,8 @@ module.exports = class Delete extends Command {
         this.category = 'music'
     }
 
-    async execute({ client, message }){
+    async execute({ message, player }){
         if(!message.data.args) return message.reply('삭제할 곡 번호를 입력해줘.')
-        const player = await client.music.playerCollection.get(message.guild.id)
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         const num = parseInt(message.data.arg[0])
