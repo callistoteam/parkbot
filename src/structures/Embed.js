@@ -58,7 +58,7 @@ module.exports = class Embed {
     }
 
     nowPlay(music) {
-        return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setImage(music.thumbnail.medium)
+        return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setThumbnail(music.thumbnail.medium)
     }
 
     error(message, err, errorcode){

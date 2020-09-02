@@ -56,7 +56,7 @@ module.exports = class Compile extends Command {
         this.category = 'dev'
     }
 
-    async execute({ message }){
+    async execute({ client, message, player }){
         let code_in = 'const Discord = require(\'discord.js\')\nconst child = require(\'child_process\')\nconst fetch = require(\'node-fetch\')\nconst client = this.client\n\n'+message.data.args
         let type
         try {
