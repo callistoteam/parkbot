@@ -57,8 +57,8 @@ module.exports = class Embed {
             .setDescription('그럼 난 이만 :wave:')
     }
 
-    nowPlay(music) {
-        return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setThumbnail(music.thumbnail.medium)
+    nowPlay(music, server) {
+        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
     }
 
     error(message, err, errorcode){
