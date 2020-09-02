@@ -12,6 +12,13 @@ module.exports = class Nowplay extends Command {
     async execute({ message, player }){
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
-        message.channel.send(new Embed(message).nowPlay(player.queue.get(1)))
+        let server = ''
+        if(player.node.options.host.includes('ml')){
+            server = 'Premium'
+        } else {
+            server = 'Normal'
+        }
+
+        message.channel.send(new Embed(message).nowPlay(player.queue.get(1), server))
     }
 }
