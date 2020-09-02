@@ -13,7 +13,7 @@ module.exports = class Nowplay extends Command {
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
         let server = ''
-        if(player.node.options.host.includes('ml')){
+        if(player.node.options.host.includes('org')){
             server = 'Premium'
         } else {
             server = 'Normal'
