@@ -42,7 +42,7 @@ module.exports = class Play extends Command {
                     deafen: true
                 },
                 {
-                    skipOnError: false
+                    skipOnError: true
                 }
             )
         }
