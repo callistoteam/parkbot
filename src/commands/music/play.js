@@ -1,6 +1,7 @@
 const { Command } = require('../../structures')
 const utils = require('../../utils')
 const hangul = require('hangul-tools')
+const yts = require('yt-search')
 // eslint-disable-next-line
 const config = require('../../../config')
 
@@ -56,14 +57,18 @@ module.exports = class Play extends Command {
                 await player.queue.add(res[0])
                 message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
             } else {
-                res = await player.lavaSearch(encodeURI(message.data.args), message.member, {
-                    source: 'yt'|'sc',
-                    add: true
-                })
-                await player.queue.add(res[0])
-                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                var opts = { query: message.data.args }
+                await yts( opts, async function ( err, r ) {
+                    if ( err ) throw err
+                    res = await player.lavaSearch(r.videos[0].url, message.member, {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                    if(!player.playing) player.play()
+                } )
             }
-            if(!player.playing) player.play()
             // eslint-disable-next-line
         } catch {
             return message.channel.send('처리중에 오류가 발생한거같아.')
