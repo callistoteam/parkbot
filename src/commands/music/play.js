@@ -66,6 +66,7 @@ module.exports = class Play extends Command {
             if(!player.playing) player.play()
             // eslint-disable-next-line
         } catch {
+            await player.destroy()
             return message.channel.send('처리중에 오류가 발생한거같아.')
         }
     }
