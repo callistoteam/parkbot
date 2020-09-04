@@ -130,7 +130,7 @@ module.exports = class ParkBotClient {
                 client.prefix = this.config.client.prefix
                 let player
 
-                if(this.config.client.blackcows.includes(message.author.id)){
+                if(message.author.data.premium > new Date){
                     player = await client.premiumMusic.playerCollection.get(message.guild.id)
                 } else{
                     player = await client.music.playerCollection.get(message.guild.id)

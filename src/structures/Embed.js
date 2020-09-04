@@ -61,6 +61,10 @@ module.exports = class Embed {
         return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
     }
 
+    profile(user) {
+        return this.embed.setTitle('프로필').addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')
+    }
+
     error(message, err, errorcode){
         return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
     }
