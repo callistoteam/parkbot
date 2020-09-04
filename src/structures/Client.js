@@ -111,6 +111,7 @@ module.exports = class ParkBotClient {
 
             try{
                 if(authordata.blacklist == 1) message.reply('블랙리스트된 유저.')
+                // eslint-disable-next-line
             } catch {
                 await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0'})
                 userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
