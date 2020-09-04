@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+/* const Command = require('../../structures/Command')
 
 module.exports = class Premium extends Command {
     constructor(client){
@@ -11,4 +11,4 @@ module.exports = class Premium extends Command {
     async execute({  }){
         
     }
-}
+} */
