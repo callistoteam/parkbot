@@ -8,7 +8,8 @@ const fs = require('fs')
 const path = require('path')
 
 const cooldown = new Set()
-
+// eslint-disable-next-line
+const knex = require('knex')(require('../../database'))
 const client = new Client()
 
 module.exports = class ParkBotClient {
@@ -45,7 +46,9 @@ module.exports = class ParkBotClient {
 
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
-            
+
+            client.knex = knex
+
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
                 console.log(`[INFO | Premium] Node connected: ${node.options.host}`)
@@ -102,8 +105,19 @@ module.exports = class ParkBotClient {
             if(message.author.id == '667618259847086110'){
                 message.channel.send('✅')
             }
-
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            let userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
+            let authordata = userdata.find(yy => yy.id == message.author.id)
+
+            try{
+                if(authordata.blacklist == 1) message.reply('블랙리스트된 유저.')
+                // eslint-disable-next-line
+            } catch {
+                await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0'})
+                userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
+                authordata = userdata.find(yy => yy.id == message.author.id)
+            }
+            
             if(cooldown.has(message.author.id)) return message.reply('쿨타임(2초)을 기다려줘')
 
             message.data = {
@@ -112,6 +126,8 @@ module.exports = class ParkBotClient {
                 arg: message.content.replace(this.config.client.prefix, '').split(' ').slice(1),
                 authorPerm: utils.Permission.getUserPermission(message.member)
             }
+
+            message.author.data = authordata
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
             if(!cmd) return
@@ -123,7 +139,7 @@ module.exports = class ParkBotClient {
                 client.prefix = this.config.client.prefix
                 let player
 
-                if(this.config.client.blackcows.includes(message.author.id)){
+                if(message.author.data.premium > new Date){
                     player = await client.premiumMusic.playerCollection.get(message.guild.id)
                 } else{
                     player = await client.music.playerCollection.get(message.guild.id)

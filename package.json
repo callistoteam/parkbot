@@ -24,9 +24,13 @@
     "discord.js": "^12.2.0",
     "eslint": "^7.6.0",
     "hangul-tools": "^0.1.4",
+    "knex": "^0.21.5",
+    "knex-mariadb": "^2.0.0",
+    "mariadb": "^2.4.2",
     "melon-chart-api": "^1.1.4",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.31",
+    "mysql": "^2.18.1",
     "slyrics": "^0.1.42",
     "uuid": "^8.3.0",
     "yt-search": "^2.3.0"
