@@ -8,7 +8,7 @@ const fs = require('fs')
 const path = require('path')
 
 const cooldown = new Set()
-
+// eslint-disable-next-line
 const knex = require('knex')(require('../../database'))
 const client = new Client()
 
