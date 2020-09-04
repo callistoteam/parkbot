@@ -45,6 +45,17 @@ module.exports = class ParkBotClient {
 
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
+
+            const knex = require('knex')({
+                client: 'mysql',
+                connection: {
+                  host : this.config.database.host,
+                  user : this.config.database.user,
+                  password : this.config.database.password,
+                  database : this.config.database.database
+                }
+            })
+            
             
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
