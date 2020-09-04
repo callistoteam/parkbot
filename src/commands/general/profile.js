@@ -1,5 +1,4 @@
 const Command = require('../../structures/Command')
-const Discord = require('discord.js')
 const { Embed } = require('../../structures')
 
 module.exports = class Profile extends Command {
@@ -10,7 +9,7 @@ module.exports = class Profile extends Command {
         this.category = 'general'
     }
 
-    async execute({ client, message }){
+    async execute({ message }){
         message.channel.send(new Embed(message).profile(message.author.data))
     }
 }

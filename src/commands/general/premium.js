@@ -1,5 +1,4 @@
 const Command = require('../../structures/Command')
-const Discord = require('discord.js')
 
 module.exports = class Premium extends Command {
     constructor(client){
@@ -9,7 +8,7 @@ module.exports = class Premium extends Command {
         this.category = 'general'
     }
 
-    async execute({ client, message }){
+    async execute({  }){
         
     }
 }
