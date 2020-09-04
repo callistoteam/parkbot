@@ -9,6 +9,7 @@ const path = require('path')
 
 const cooldown = new Set()
 
+const knex = require('knex')(require('../../database'))
 const client = new Client()
 
 module.exports = class ParkBotClient {
@@ -46,17 +47,8 @@ module.exports = class ParkBotClient {
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
 
-            const knex = require('knex')({
-                client: 'mysql',
-                connection: {
-                  host : this.config.database.host,
-                  user : this.config.database.user,
-                  password : this.config.database.password,
-                  database : this.config.database.database
-                }
-            })
-            
-            
+            client.knex = knex
+
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
                 console.log(`[INFO | Premium] Node connected: ${node.options.host}`)
@@ -109,11 +101,14 @@ module.exports = class ParkBotClient {
             })
         })
         
-        client.on('message', (message) => {
+        client.on('message', async (message) => {
             if(message.author.id == '667618259847086110'){
                 message.channel.send('✅')
             }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            var userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
+            if(userdata.find(yy => yy.id == message.author.id).blacklist == 1) message.reply('블랙리스트된 유저.')
+            // if(userdata.find(yy => yy.id == message.author.id).blacklist)
             if(cooldown.has(message.author.id)) return message.reply('쿨타임(2.5초)을 기다려주세요.')
 
             message.data = {
@@ -122,6 +117,8 @@ module.exports = class ParkBotClient {
                 arg: message.content.replace(this.config.client.prefix, '').split(' ').slice(1),
                 authorPerm: utils.Permission.getUserPermission(message.member)
             }
+
+            message.author.data = userdata.find(yy => yy.id == message.author.id)
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
             if(!cmd) return

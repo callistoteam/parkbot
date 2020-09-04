@@ -128,3 +128,4 @@ yarn.lock
 # config file
 config.js
 config.dev.js
+database.js
