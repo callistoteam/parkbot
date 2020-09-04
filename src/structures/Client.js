@@ -105,11 +105,11 @@ module.exports = class ParkBotClient {
             if(message.author.id == '667618259847086110'){
                 message.channel.send('✅')
             }
+
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
             var userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
             if(userdata.find(yy => yy.id == message.author.id).blacklist == 1) message.reply('블랙리스트된 유저.')
-            // if(userdata.find(yy => yy.id == message.author.id).blacklist)
-            if(cooldown.has(message.author.id)) return message.reply('쿨타임(2.5초)을 기다려주세요.')
+            if(cooldown.has(message.author.id)) return message.reply('쿨타임(2초)을 기다려줘')
 
             message.data = {
                 cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
@@ -125,17 +125,26 @@ module.exports = class ParkBotClient {
             if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) {
                 if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
                 if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${this.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
+
                 client.commands = this.commands
                 client.prefix = this.config.client.prefix
-                cmd.execute({ client, message }).catch(e=> {
+                let player
+
+                if(this.config.client.blackcows.includes(message.author.id)){
+                    player = await client.premiumMusic.playerCollection.get(message.guild.id)
+                } else{
+                    player = await client.music.playerCollection.get(message.guild.id)
+                }
+                cmd.execute({ client, message, player }).catch(e=> {
                     let errcode = uuid.v1()
                     client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
                     message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
                 })
+
                 cooldown.add(message.author.id)
                 setTimeout(() => {
                     cooldown.delete(message.author.id)
-                }, 2500)
+                }, 2000)
             }
             else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
         })

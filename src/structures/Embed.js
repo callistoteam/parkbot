@@ -40,7 +40,6 @@ module.exports = class Embed {
             let g = k[0]
             k = k[1]
             if(g !== 1) data += `[#${g-1}] [${k.title}](${k.uri}) - ${this._formatTime(k.length)} by ${k.user}\n`
-            else console.log(k)
         }
         try{
             return this.embed.setAuthor('대기열')
@@ -58,19 +57,19 @@ module.exports = class Embed {
             .setDescription('그럼 난 이만 :wave:')
     }
 
-    nowPlay(music) {
-        return this.embed.setDescription(`현재 재생 중: [${music.title}](${music.uri})\n음악 출처: ${music.author}`).setImage(music.thumbnail.medium)
+    nowPlay(music, server) {
+        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
     }
 
     error(message, err, errorcode){
-        return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${JSON.stringify(err)}\`\`\``)
+        return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
     }
 
     async melonchart(){
-        let date = moment(Date.now()).tz("Asia/Seoul")
+        let date = moment(Date.now()).tz('Asia/Seoul')
         let yoru = ''
         let melon = require('melon-chart-api')
-        const { data } = await melon(date.format("DD/MM/YYYY"), { cutLine: 10 }).realtime()
+        const { data } = await melon(date.format('DD/MM/YYYY'), { cutLine: 10 }).realtime()
         data.forEach(element => {
             yoru += `**${element.rank}위**\n${element.title} - ${element.artist}\n`
         })
@@ -78,6 +77,6 @@ module.exports = class Embed {
     }
 
     _formatTime(ms) {
-        return moment.duration(ms).format("HH:mm:ss")
+        return moment.duration(ms).format('HH:mm:ss')
     }
 }

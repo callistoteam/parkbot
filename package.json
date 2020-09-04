@@ -32,7 +32,8 @@
     "moment-timezone": "^0.5.31",
     "mysql": "^2.18.1",
     "slyrics": "^0.1.42",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "yt-search": "^2.3.0"
   },
   "devDependencies": {
     "eslint-plugin-node": "^11.1.0",
