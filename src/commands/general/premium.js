@@ -10,5 +10,6 @@ module.exports = class Premium extends Command {
 
     async execute({ message }){
         message.reply('준비중인 기능입니다.')
+        
     }
 }

@@ -62,7 +62,20 @@ module.exports = class Embed {
     }
 
     profile(user) {
-        return this.embed.setTitle('프로필').addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')
+        var now = new Date(parseInt(user.premium))
+        var hour = now.getHours()
+
+        let month = now.getMonth() + 1 + '월'
+        let day = now.getDate() + '일'
+        let daytime = hour >= 12 ? '오후' : '오전'
+        let time = hour%12+'시' + now.getMinutes() + '분'
+        let dow = ['일','월','화','수','목','금','토','일'][now.getDay()]+'요일'
+
+        let rt = `${month}${day} ${dow} ${daytime} ${time}`
+
+        return this.embed.setTitle('프로필')
+            .addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')
+            .addField('프리미엄 만료일', rt)
     }
 
     error(message, err, errorcode){
