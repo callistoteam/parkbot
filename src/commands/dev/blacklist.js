@@ -1,9 +1,9 @@
 const Command = require('../../structures/Command')
 
-module.exports = class Exec extends Command {
+module.exports = class Blacklist extends Command {
     constructor(client) {
         super(client)
-        this.alias = [ 'exec' ]
+        this.alias = [ 'blacklist' ]
         this.permission = 0x8
         this.category = 'dev'
     }
