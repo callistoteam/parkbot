@@ -78,6 +78,24 @@ module.exports = class Embed {
             .addField('프리미엄 만료일', rt)
     }
 
+    premium() {
+        let desc = `
+        파크봇은 일부 유료화로,  기존 서비스는 동일하게 이용할 수 있지만 정액제/1회성 회원권(이하 '프리미엄')으로 질 높은 음악을 제공합니다.
+        **혜택**
+        ▶️ **향상된 음악 품질**
+        많은 유저들이 이용하는 서버와 프리미엄을 소유하고 있는 유저들을 위한 음악 서버는 분리되어 있어 쾌적한 서버에서 음악을 즐기실 수 있습니다.
+
+        ⚡ **업데이트 스포일러**
+        업데이트 예정 기능들을 빠르게 아실 수 있습니다.
+
+        📱 **4/7 서포트**
+        기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
+
+        [프리미엄 구매하기](https://premium.parkbot.ml)
+        `
+        return this.embed.setTitle('파크봇 프리미엄').setDescription(desc)
+    }
+
     error(message, err, errorcode){
         return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
     }

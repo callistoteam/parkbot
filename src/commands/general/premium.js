@@ -1,4 +1,5 @@
 const Command = require('../../structures/Command')
+const { Embed } = require('../../structures')
 
 module.exports = class Premium extends Command {
     constructor(client){
@@ -9,7 +10,6 @@ module.exports = class Premium extends Command {
     }
 
     async execute({ message }){
-        message.reply('준비중인 기능입니다.')
-        
+        message.reply(new Embed(message).premium())
     }
 }
