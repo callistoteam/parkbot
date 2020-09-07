@@ -69,10 +69,10 @@ module.exports = class Play extends Command {
                         message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
                         if(!player.playing) player.play()
                     } catch(e) {
-                        if(e.includes('available in your country')){
+                        if(e.toString().includes('available in your country')){
                             return message.reply('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
                         }
-                        else if(e.includes('Track information is unavailable')) {
+                        else if(e.toString().includes('Track information is unavailable')) {
                             return message.reply('다른 키워드로 검색해줘.\n\n예시: `meteor 창모` => `창모 meteor`')
                         }
                     }
