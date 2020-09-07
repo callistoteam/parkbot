@@ -20,7 +20,7 @@ module.exports = class Play extends Command {
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
         let player
 
-        if(config.client.blackcows.includes(message.author.id)){
+        if(message.author.data.premium > new Date()){
             player = await client.premiumMusic.spawnPlayer(
                 {
                     guild: message.guild,
