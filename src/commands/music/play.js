@@ -59,14 +59,23 @@ module.exports = class Play extends Command {
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {
-                    if ( err ) throw err
-                    res = await player.lavaSearch(r.videos[0].url, message.member, {
-                        source: 'yt'|'sc',
-                        add: true
-                    })
-                    await player.queue.add(res[0])
-                    message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
-                    if(!player.playing) player.play()
+                    if(err) throw err
+                    try{
+                        res = await player.lavaSearch(r.videos[0].url, message.member, {
+                            source: 'yt'|'sc',
+                            add: true
+                        })
+                        await player.queue.add(res[0])
+                        message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                        if(!player.playing) player.play()
+                    } catch(e) {
+                        if(e.includes('available in your country')){
+                            return message.reply('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
+                        }
+                        else if(e.includes('Track information is unavailable')) {
+                            return message.reply('다른 키워드로 검색해줘.\n\n예시: `meteor 창모` => `창모 meteor`')
+                        }
+                    }
                 } )
             }
             // eslint-disable-next-line
