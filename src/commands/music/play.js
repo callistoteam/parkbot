@@ -59,7 +59,7 @@ module.exports = class Play extends Command {
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {
-                    if ( err ) throw err
+                    if ( err ) return message.reply('다른 키워드로 검색해줘.')
                     res = await player.lavaSearch(r.videos[0].url, message.member, {
                         source: 'yt'|'sc',
                         add: true
