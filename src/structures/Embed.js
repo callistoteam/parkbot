@@ -58,7 +58,7 @@ module.exports = class Embed {
     }
 
     nowPlay(music, server) {
-        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
+        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.high).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
     }
 
     profile(user) {
