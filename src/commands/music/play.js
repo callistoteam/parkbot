@@ -57,6 +57,7 @@ module.exports = class Play extends Command {
                 })
                 await player.queue.add(res[0])
                 msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                if(!player.playing) player.play()
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {

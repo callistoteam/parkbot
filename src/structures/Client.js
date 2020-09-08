@@ -86,18 +86,19 @@ module.exports = class ParkBotClient {
                 console.log(track)
             })
             client.music.on('queueOver', async(player) => {
+                if(player.noRelated) {
+                    player.destroy()
+                    player.options.textChannel.send(
+                        new Embed().queueEnd()
+                    )
+                } else {
+                    console.log(player.queue)
+                }
+
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
                 )
-                /* if(player.noRelated) {
-                     player.destroy()
-                     player.options.textChannel.send(
-                         new Embed().queueEnd()
-                     )
-                 } else {
-                     console.log(await new utils.ytUtils(player).related(player.previous.uri, player.previous.title, player.options.guild.me))
-                }*/
             })
         })
         
