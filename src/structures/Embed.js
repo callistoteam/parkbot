@@ -63,6 +63,7 @@ module.exports = class Embed {
 
     profile(user) {
         var now = new Date(parseInt(user.premium))
+        var year = now.getFullYear()
         var hour = now.getHours()
 
         let month = now.getMonth() + 1 + '월'
@@ -71,7 +72,7 @@ module.exports = class Embed {
         let time = hour%12+'시' + now.getMinutes() + '분'
         let dow = ['일','월','화','수','목','금','토','일'][now.getDay()]+'요일'
 
-        let rt = `${month}${day} ${dow} ${daytime} ${time}`
+        let rt = `${year}년 ${month}${day} ${dow} ${daytime} ${time}`
 
         return this.embed.setTitle('프로필')
             .addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')
