@@ -49,13 +49,14 @@ module.exports = class Play extends Command {
         }
         let res
         try{
+            let msg = await message.channel.send('<a:loadingforpark:702385005590085632> 검색중이야. 잠깐만 기다려줘.')
             if(utils.Formats.validURL(message.data.arg[0])) {
                 res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
                     source: 'yt'|'sc',
                     add: true
                 })
                 await player.queue.add(res[0])
-                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {
@@ -66,14 +67,14 @@ module.exports = class Play extends Command {
                             add: true
                         })
                         await player.queue.add(res[0])
-                        message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                        msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
                         if(!player.playing) player.play()
                     } catch(e) {
                         if(e.toString().includes('available in your country')){
-                            return message.reply('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
+                            return msg.edit('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
                         }
                         else if(e.toString().includes('Track information is unavailable')) {
-                            return message.reply('다른 키워드로 검색해줘.\n\n예시: `meteor 창모` => `창모 meteor`')
+                            return msg.edit('다른 키워드로 검색해줘.\n\n예시: `meteor 창모` => `창모 meteor`')
                         }
                     }
                 } )
