@@ -57,6 +57,7 @@ module.exports = class Play extends Command {
                 })
                 await player.queue.add(res[0])
                 msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                if(!player.playing) player.play()
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {
@@ -68,7 +69,15 @@ module.exports = class Play extends Command {
                         })
                         await player.queue.add(res[0])
                         msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
-                        if(!player.playing) player.play()
+                        if(!player.playing) {
+                            try{
+                                await client.knex('guild').delete().where('id', message.guild.id)
+                            } catch(err_db) {
+                                console.log(err_db)
+                            }
+                            player.play()
+                            await client.knex('guild').insert({id: message.guild.id, uri: ''})
+                        }
                     } catch(e) {
                         if(e.toString().includes('available in your country')){
                             return msg.edit('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
