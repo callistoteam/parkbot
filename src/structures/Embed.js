@@ -19,7 +19,8 @@ module.exports = class Embed {
         this.embed.setTimestamp(new Date())
     }
 
-    trackPlay (title, length, url, thumbnail, user) {
+    trackPlay (title, length, url, thumbnail, user, guild, knex) {
+        require('../utils').knexGuild(knex, url, guild)
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
             .setDescription(
