@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Blacklist extends Command {
     constructor(client) {
         super(client)
-        this.alias = [ 'blacklist', '블랙리스트' ]
+        this.alias = [ '블랙리스트', 'blacklist' ]
         this.permission = 0x8
         this.category = 'dev'
     }

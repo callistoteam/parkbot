@@ -4,7 +4,7 @@ const { Embed } = require('../../structures')
 module.exports = class Premium extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'premium', '프리미엄' ]
+        this.alias = [ '프리미엄', '프리미엄' ]
         this.permission = 0x0
         this.category = 'general'
     }

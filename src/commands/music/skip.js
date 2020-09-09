@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Skip extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'skip', 's', '스킵' ]
+        this.alias = [ '스킵', 'skip', 's', '스킵' ]
         this.permission = 0x0
         this.voiceChannel = true
         this.category = 'music'

@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Resume extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'resume' ]
+        this.alias = [ '일시정지해제', 'resume' ]
         this.permission = 0x0
         this.category = 'music'
     }

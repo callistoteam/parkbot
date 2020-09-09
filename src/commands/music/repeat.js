@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Repeat extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'repeat', '반복', 'loop' ]
+        this.alias = [ '반복', 'repeat', 'loop' ]
         this.permission = 0x0
         this.category = 'music'
     }

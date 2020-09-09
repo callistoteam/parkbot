@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Pause extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'pause' ]
+        this.alias = [ '일시정지', 'pause' ]
         this.permission = 0x0
         this.category = 'music'
     }
