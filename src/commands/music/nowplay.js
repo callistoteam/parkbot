@@ -19,6 +19,6 @@ module.exports = class Nowplay extends Command {
             server = 'Normal'
         }
 
-        message.channel.send(new Embed(message).nowPlay(player.queue.get(1), server))
+        message.channel.send(new Embed(message).nowPlay(player, server))
     }
 }

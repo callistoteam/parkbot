@@ -57,8 +57,17 @@ module.exports = class Embed {
             .setDescription('그럼 난 이만 :wave:')
     }
 
-    nowPlay(music, server) {
-        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버`).setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
+    nowPlay(player, server) {
+        let music = player.queue.get(1)
+        let nowsecond = moment.duration(player.position).format('HH시간 mm분 ss초')
+        let fsecond = moment.duration(music.length).format('HH시간 mm분 ss초')
+        return this.embed
+            .setDescription(`<a:playforpark:708621715571474482> [${music.title}](${music.uri})
+            ⏰ \`${nowsecond}\` / \`${fsecond}\`
+            > 음악 재생 서버: \`${server}\`서버
+            `)
+            .setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`)
+            .setColor('RANDOM')
     }
 
     profile(user) {
