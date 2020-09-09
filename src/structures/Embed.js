@@ -19,14 +19,15 @@ module.exports = class Embed {
         this.embed.setTimestamp(new Date())
     }
 
-    trackPlay (title, length, url, thumbnail, user) {
+    trackPlay (title, length, url, thumbnail, user, guild, knex) {
+        require('../utils').knexGuild(knex, url, guild)
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
             .setDescription(
                 `신청자: ${user} | 길이: ${this._formatTime(length)}`
             )
             .setURL(url)
-            .setImage(thumbnail.medium)
+            .setThumbnail(thumbnail.medium)
             .setColor('RANDOM')
     }
 
@@ -56,7 +57,6 @@ module.exports = class Embed {
             .setTitle('신청한 모든 음악을 재생했습니다.')
             .setDescription('그럼 난 이만 :wave:')
     }
-
     nowPlay(player, server) {
         let music = player.queue.get(1)
         let nowsecond = moment.duration(player.position).format('HH시간 mm분 ss초')
@@ -66,12 +66,14 @@ module.exports = class Embed {
             ⏰ \`${nowsecond}\` / \`${fsecond}\`
             > 음악 재생 서버: \`${server}\`서버
             `)
-            .setThumbnail(music.thumbnail.max).setFooter(`음악 출처: ${music.author}`)
+            .setThumbnail(music.thumbnail.high)
+            .setFooter(`음악 출처: ${music.author}`)
             .setColor('RANDOM')
     }
 
     profile(user) {
         var now = new Date(parseInt(user.premium))
+        var year = now.getFullYear()
         var hour = now.getHours()
 
         let month = now.getMonth() + 1 + '월'
@@ -80,7 +82,7 @@ module.exports = class Embed {
         let time = hour%12+'시' + now.getMinutes() + '분'
         let dow = ['일','월','화','수','목','금','토','일'][now.getDay()]+'요일'
 
-        let rt = `${month}${day} ${dow} ${daytime} ${time}`
+        let rt = `${year}년 ${month}${day} ${dow} ${daytime} ${time}`
 
         return this.embed.setTitle('프로필')
             .addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')

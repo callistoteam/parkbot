@@ -57,11 +57,14 @@ module.exports = class Compile extends Command {
     }
 
     async execute({ client, message, player }){
+        let code_in_time = new Date()
         let code_in = 'const Discord = require(\'discord.js\')\nconst child = require(\'child_process\')\nconst fetch = require(\'node-fetch\')\nconst client = this.client\n\n'+message.data.args
         let type
         try {
             // eslint-disable-next-line security/detect-eval-with-expression
             const result = new Promise((resolve) => resolve(eval(code_in)))
+            let result_time = new Date()
+            let time = result_time - code_in_time
             result.then(res => {
                 let code = type = res
 
@@ -77,6 +80,7 @@ module.exports = class Compile extends Command {
                     code = code.substr(0, 1000) + '\n(1000자 이상..'
                 }
                 message.channel.send(`:outbox_tray: 출력\n\`\`\`js\n${code} \n\`\`\``)
+                message.channel.send(`\`${time}\`ms`)
             }).catch(e => {
                 let err = e.stack || e
                 if (code_in.length > 1000) {

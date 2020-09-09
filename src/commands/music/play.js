@@ -20,7 +20,7 @@ module.exports = class Play extends Command {
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
         let player
 
-        if(config.client.blackcows.includes(message.author.id)){
+        if(message.author.data.premium > new Date()){
             player = await client.premiumMusic.spawnPlayer(
                 {
                     guild: message.guild,
@@ -49,24 +49,43 @@ module.exports = class Play extends Command {
         }
         let res
         try{
+            let msg = await message.channel.send('<a:loadingforpark:702385005590085632> 검색중이야. 잠깐만 기다려줘.')
             if(utils.Formats.validURL(message.data.arg[0])) {
                 res = await player.lavaSearch(encodeURI(message.data.arg[0]), message.member, {
                     source: 'yt'|'sc',
                     add: true
                 })
                 await player.queue.add(res[0])
-                message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                if(!player.playing) player.play()
             } else {
                 var opts = { query: message.data.args }
                 await yts( opts, async function ( err, r ) {
-                    if ( err ) throw err
-                    res = await player.lavaSearch(r.videos[0].url, message.member, {
-                        source: 'yt'|'sc',
-                        add: true
-                    })
-                    await player.queue.add(res[0])
-                    message.reply(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
-                    if(!player.playing) player.play()
+                    if(err) throw err
+                    try{
+                        res = await player.lavaSearch(r.videos[0].url, message.member, {
+                            source: 'yt'|'sc',
+                            add: true
+                        })
+                        await player.queue.add(res[0])
+                        msg.edit(`🎵 \`${res[0].title}\`${hangul.josa(res[0].title, '을를')} 큐에 추가했어!`)
+                        if(!player.playing) {
+                            try{
+                                await client.knex('guild').delete().where('id', message.guild.id)
+                            } catch(err_db) {
+                                console.log(err_db)
+                            }
+                            player.play()
+                            await client.knex('guild').insert({id: message.guild.id, uri: ''})
+                        }
+                    } catch(e) {
+                        if(e.toString().includes('available in your country')){
+                            return msg.edit('업로더가 해당 영상을 재생할 수 없게 설정해놨어.')
+                        }
+                        else if(e.toString().includes('Track information is unavailable')) {
+                            return msg.edit('다른 키워드로 검색해줘.\n\n예시: `meteor 창모` => `창모 meteor`')
+                        }
+                    }
                 } )
             }
             // eslint-disable-next-line

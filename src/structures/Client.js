@@ -56,9 +56,21 @@ module.exports = class ParkBotClient {
             client.premiumMusic.on('nodeError', console.error)
             client.premiumMusic.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
-                return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
+                const guild = player.options.guild.id
+                return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
             })
             client.premiumMusic.on('queueOver', async(player) => {
+                // console.log(player.options.guild.id)
+                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
+                if(player.loop) {
+                    let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    if(!player.playing) player.play()
+                    return
+                }
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
@@ -72,33 +84,37 @@ module.exports = class ParkBotClient {
             client.music.on('nodeError', console.error)
             client.music.on('trackPlay', (track, player) => {
                 const { title, length, uri, thumbnail, user } = track
-                try{
-                    if(user.presence.clientStatus.mobile) return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
-                // eslint-disable-next-line node/no-unsupported-features/es-syntax
-                } catch {
-                    return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user))
+                const guild = player.options.guild.id
+                console.log(uri)
+                return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
+            })
+            client.music.on('queueOver', async (player) => {
+                // console.log(player.options.guild.id)
+                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
+                if(player.loop) {
+                    let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    if(!player.playing) player.play()
+                    return
                 }
-                player.options.textChannel.send(
-                    new Embed().trackPlay(title, length, uri, thumbnail, user)
-                )
-            })
-            client.music.on('trackOver', (track) => {
-                console.log(track)
-            })
-            client.music.on('queueOver', async(player) => {
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
                 )
-                /* if(player.noRelated) {
-                     player.destroy()
-                     player.options.textChannel.send(
-                         new Embed().queueEnd()
-                     )
-                 } else {
-                     console.log(await new utils.ytUtils(player).related(player.previous.uri, player.previous.title, player.options.guild.me))
-                }*/
             })
+            /*
+            if(player.noRelated) {
+                player.destroy()
+                player.options.textChannel.send(
+                    new Embed().queueEnd()
+                )
+            } else {
+                console.log(player.queue.get(player.options.guild.id).queue.songs.shift())
+            }
+            */
         })
         
         client.on('message', async (message) => {
