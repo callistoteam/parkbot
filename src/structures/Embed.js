@@ -27,7 +27,7 @@ module.exports = class Embed {
                 `신청자: ${user} | 길이: ${this._formatTime(length)}`
             )
             .setURL(url)
-            .setImage(thumbnail.medium)
+            .setThumbnail(thumbnail.medium)
             .setColor('RANDOM')
     }
 

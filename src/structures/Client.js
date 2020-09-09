@@ -60,6 +60,17 @@ module.exports = class ParkBotClient {
                 return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
             })
             client.premiumMusic.on('queueOver', async(player) => {
+                // console.log(player.options.guild.id)
+                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
+                if(player.loop) {
+                    let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    if(!player.playing) player.play()
+                    return
+                }
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
@@ -75,18 +86,20 @@ module.exports = class ParkBotClient {
                 const { title, length, uri, thumbnail, user } = track
                 const guild = player.options.guild.id
                 console.log(uri)
-                try{
-                    if(user.presence.clientStatus.mobile) return player.options.textChannel.send(`<a:playforpark:708621715571474482> \`${title}\`을(를) 재생할게!`)
-                // eslint-disable-next-line node/no-unsupported-features/es-syntax
-                } catch {
-                    return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
-                }
-                player.options.textChannel.send(
-                    new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex)
-                )
+                return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
             })
-            client.music.on('queueOver', async(player) => {
-                console.log(player.options.guild.id)
+            client.music.on('queueOver', async (player) => {
+                // console.log(player.options.guild.id)
+                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
+                if(player.loop) {
+                    let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
+                        source: 'yt'|'sc',
+                        add: true
+                    })
+                    await player.queue.add(res[0])
+                    if(!player.playing) player.play()
+                    return
+                }
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()

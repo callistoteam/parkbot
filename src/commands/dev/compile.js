@@ -64,7 +64,7 @@ module.exports = class Compile extends Command {
             // eslint-disable-next-line security/detect-eval-with-expression
             const result = new Promise((resolve) => resolve(eval(code_in)))
             let result_time = new Date()
-            let time = code_in_time - result_time
+            let time = result_time - code_in_time
             result.then(res => {
                 let code = type = res
 
