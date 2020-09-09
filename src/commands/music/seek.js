@@ -1,4 +1,7 @@
 const Command = require('../../structures/Command')
+const moment = require('moment-timezone')
+require('moment-duration-format')(moment)
+moment.locale('ko-KR')
 
 module.exports = class Seek extends Command {
     constructor(client){
@@ -17,5 +20,8 @@ module.exports = class Seek extends Command {
         if(message.data.arg[0] > 262000) return message.reply('건너뛸 초는 262보다 작아야해.')
 
         await player.seek(second * 1000)
+
+        let rs = moment.duration(player.position).format('HH시간 mm분 ss초')
+        message.channel.send(`\`${rs}\`로 건너뛰었어!`)
     }
 }
