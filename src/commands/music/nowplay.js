@@ -4,7 +4,7 @@ const { Embed } = require('../../structures')
 module.exports = class Nowplay extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'nowplay', 'np', 'ㅞ' ]
+        this.alias = [ '현재재생', 'nowplaying', 'nowplay', 'np', 'ㅞ' ]
         this.permission = 0x0
         this.category = 'music'
     }

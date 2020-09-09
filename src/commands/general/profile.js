@@ -4,7 +4,7 @@ const { Embed } = require('../../structures')
 module.exports = class Profile extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'profile', '프로필' ]
+        this.alias = [ '프로필', 'profile' ]
         this.permission = 0x0
         this.category = 'general'
     }

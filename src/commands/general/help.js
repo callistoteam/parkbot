@@ -5,7 +5,7 @@ const { stripIndents } = require('common-tags')
 module.exports = class Help extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'help', '도움말' ]
+        this.alias = [ '도움말', 'help', '도움' ]
         this.permission = 0x0
         this.category = 'general'
     }

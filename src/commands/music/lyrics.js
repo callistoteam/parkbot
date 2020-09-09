@@ -11,7 +11,7 @@ async function search (provider, title) {
 module.exports = class Lyrics extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'lyrics', '가사' ]
+        this.alias = [ '가사', 'lyrics' ]
         this.permission = 0x0
         this.category = 'music'
     }

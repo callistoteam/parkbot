@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Volume extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'volume', 'vol', '패ㅣㅕㅡㄷ' ]
+        this.alias = [ '음량', '볼륨', 'volume', 'vol', '패ㅣㅕㅡㄷ' ]
         this.permission = 0x0
         this.category = 'music'
     }
