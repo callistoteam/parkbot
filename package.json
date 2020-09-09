@@ -1,6 +1,6 @@
 {
   "name": "parkbot",
-  "version": "2.5.0b",
+  "version": "2.5.5a",
   "description": "",
   "main": "src/index.js",
   "scripts": {
