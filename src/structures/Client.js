@@ -48,6 +48,7 @@ module.exports = class ParkBotClient {
             console.log(`[READY] Logged in to ${client.user.tag}`)
 
             client.knex = knex
+            client.config = this.config
 
             client.premiumMusic = new LavaClient(client, this.config.lavalink.premiumnodes)
             client.premiumMusic.on('nodeSuccess', (node) => {
@@ -61,8 +62,8 @@ module.exports = class ParkBotClient {
             })
             client.premiumMusic.on('queueOver', async(player) => {
                 // console.log(player.options.guild.id)
-                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
                 if(player.loop) {
+                    let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
                     let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
                         source: 'yt'|'sc',
                         add: true
@@ -90,8 +91,8 @@ module.exports = class ParkBotClient {
             })
             client.music.on('queueOver', async (player) => {
                 // console.log(player.options.guild.id)
-                let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
                 if(player.loop) {
+                    let knexresult = await client.knex('guild').select(['id', 'uri']).then(aaaa => aaaa.find(aaaaa => aaaaa.id == player.options.guild.id))
                     let res = await player.lavaSearch(encodeURI(knexresult.uri), '음악 반복', {
                         source: 'yt'|'sc',
                         add: true
@@ -161,7 +162,9 @@ module.exports = class ParkBotClient {
                     player = await client.music.playerCollection.get(message.guild.id)
                 }
                 cmd.execute({ client, message, player }).catch(e=> {
+                    console.log(e)
                     let errcode = uuid.v1()
+
                     client.channels.cache.get(this.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
                     message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
                 })
