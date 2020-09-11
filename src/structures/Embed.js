@@ -57,9 +57,19 @@ module.exports = class Embed {
             .setTitle('신청한 모든 음악을 재생했습니다.')
             .setDescription('그럼 난 이만 :wave:\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)')
     }
-
-    nowPlay(music, server) {
-        return this.embed.setDescription(`[${music.title}](${music.uri})\n> 음악 재생 서버: \`${server}\`서버\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)`).setThumbnail(music.thumbnail.high).setFooter(`음악 출처: ${music.author}`).setColor('RANDOM')
+  
+  nowPlay(player, server) {
+        let music = player.queue.get(1)
+        let nowsecond = moment.duration(player.position).format('HH시간 mm분 ss초')
+        let fsecond = moment.duration(music.length).format('HH시간 mm분 ss초')
+        return this.embed
+            .setDescription(`<a:playforpark:708621715571474482> [${music.title}](${music.uri})
+            ⏰ \`${nowsecond}\` / \`${fsecond}\`
+            > 음악 재생 서버: \`${server}\`서버\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)
+            `)
+            .setThumbnail(music.thumbnail.high)
+            .setFooter(`음악 출처: ${music.author}`)
+            .setColor('RANDOM')
     }
 
     profile(user) {
@@ -82,20 +92,28 @@ module.exports = class Embed {
 
     premium() {
         let desc = `
-        파크봇은 일부 유료화로,  기존 서비스는 동일하게 이용할 수 있지만 정액제/1회성 회원권(이하 '프리미엄')으로 질 높은 음악을 제공합니다.
-        **혜택**
-        ▶️ **향상된 음악 품질**
-        많은 유저들이 이용하는 서버와 프리미엄을 소유하고 있는 유저들을 위한 음악 서버는 분리되어 있어 쾌적한 서버에서 음악을 즐기실 수 있습니다.
+파크봇은 일부 유료화로,  기존 서비스는 동일하게 이용할 수 있지만 정액제/1회성 회원권(이하 '프리미엄')으로 질 높은 음악을 제공합니다.
+**혜택**
+▶️ **향상된 음악 품질**
+많은 유저들이 이용하는 서버와 프리미엄을 소유하고 있는 유저들을 위한 음악 서버는 분리되어 있어 쾌적한 서버에서 음악을 즐기실 수 있습니다.
 
-        ⚡ **업데이트 스포일러**
-        업데이트 예정 기능들을 빠르게 아실 수 있습니다.
+⚡ **업데이트 스포일러**
+업데이트 예정 기능들을 빠르게 아실 수 있습니다.
 
-        📱 **4/7 서포트**
-        기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
+📱 **4/7 서포트**
+기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
 
-        [프리미엄 구매하기](https://premium.parkbot.ml)
+[프리미엄 구매하기](https://premium.parkbot.ml)
         `
         return this.embed.setTitle('파크봇 프리미엄').setDescription(desc)
+    }
+
+    weather(res) {
+        return this.embed
+            .setTitle(`\`${res.name}\` - \`${res.sys.country}\``)
+            .addField('현재 날씨', `${res.weather['0'].main} - ${res.weather['0'].description}`)
+            .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
+            .setColor('RANDOM')
     }
 
     error(message, err, errorcode){

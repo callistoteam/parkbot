@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Delete extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'delete', '삭제', '제거' ]
+        this.alias = [ '삭제', 'delete', '제거' ]
         this.permission = 0x0
         this.category = 'music'
     }

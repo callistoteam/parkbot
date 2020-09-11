@@ -3,7 +3,7 @@ const Command = require('../../structures/Command')
 module.exports = class Stop extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'stop', 'ㄴ새ㅔ' ]
+        this.alias = [ '정지', 'stop', 'ㄴ새ㅔ' ]
         this.permission = 0x0
         this.category = 'music'
     }
