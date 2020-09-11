@@ -26,6 +26,6 @@ module.exports = class Help extends Command {
             .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
             .reduce((string, category) => string + '\n' + category)
 
-        return message.channel.send(embed.setDescription(info))
+        return message.channel.send(embed.setDescription(info + '\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)'))
     }
 }
