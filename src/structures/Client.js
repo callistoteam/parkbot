@@ -30,12 +30,14 @@ module.exports = class ParkBotClient {
         this.loadCommands('./commands')
         client.login(this.config.client.token)
         
-        client.on('guildCreate', guild => {
+        client.on('guildCreate', async guild => {
             client.channels.cache.get(this.config.client.noticechannel).send(`new guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            await knex('guild').insert({id: guild.id, uri: '', prefix: '#'})
         })
 
-        client.on('guildDelete', guild => {
+        client.on('guildDelete', async guild => {
             client.channels.cache.get(this.config.client.noticechannel).send(`left guild\nName:\`${guild.name}\`(${guild.id})\nOwner:${guild.owner}(@${guild.owner.id})`)
+            await knex('guild').delete().where('id', guild.id)
         })
         
         setInterval(() => {
@@ -72,7 +74,6 @@ module.exports = class ParkBotClient {
                     if(!player.playing) player.play()
                     return
                 }
-                await client.knex('guild').delete().where('id', player.options.guild.id)
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
@@ -102,7 +103,6 @@ module.exports = class ParkBotClient {
                     if(!player.playing) player.play()
                     return
                 }
-                await client.knex('guild').delete().where('id', player.options.guild.id)
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
@@ -124,7 +124,23 @@ module.exports = class ParkBotClient {
             if(message.author.id == '667618259847086110'){
                 message.channel.send('✅')
             }
-            if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
+            if(message.author.bot) return
+            let guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
+            let guilddata = guilddb.find(as => as.id == message.guild.id)
+            if(!guilddata) {
+                await knex('guild').insert({id: message.guild.id, uri: '', prefix: '#'})
+                guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
+                guilddata = guilddb.find(as => as.id == message.guild.id)
+            }
+            
+            let prefix
+            if(message.content.startsWith(this.config.client.prefix)) {
+                prefix = this.config.client.prefix
+            }
+            if(message.content.startsWith(guilddata.prefix)) {
+                prefix = guilddata.prefix
+            }
+            if(!prefix) return
             let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color'])
             let authordata = userdata.find(yy => yy.id == message.author.id)
 
@@ -140,13 +156,14 @@ module.exports = class ParkBotClient {
             if(cooldown.has(message.author.id)) return message.reply('쿨타임(2초)을 기다려줘')
 
             message.data = {
-                cmd: message.content.replace(this.config.client.prefix, '').split(' ').shift(),
-                args: message.content.replace(this.config.client.prefix, '').split(' ').slice(1).join(' '),
-                arg: message.content.replace(this.config.client.prefix, '').split(' ').slice(1),
+                cmd: message.content.replace(prefix, '').split(' ').shift(),
+                args: message.content.replace(prefix, '').split(' ').slice(1).join(' '),
+                arg: message.content.replace(prefix, '').split(' ').slice(1),
                 authorPerm: utils.Permission.getUserPermission(message.member)
             }
 
             message.author.data = authordata
+            message.guild.data = guilddata
 
             const cmd = this.commands.find(r=> r.alias.includes(message.data.cmd))
             if(!cmd) return
