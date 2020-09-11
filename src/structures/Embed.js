@@ -17,6 +17,12 @@ module.exports = class Embed {
         if(!message) return this.embed
         this.embed.setFooter(message.author.tag, message.author.avatarURL())
         this.embed.setTimestamp(new Date())
+        if(message.author.data.premium > new Date){
+            if(message.author.data.color) this.embed.setColor(message.author.data.color)
+            if(!message.author.data.color) this.embed.setColor('RANDOM')
+        } else {
+            this.embed.setColor('RANDOM')
+        }
     }
 
     trackPlay (title, length, url, thumbnail, user, guild, knex) {
@@ -28,7 +34,6 @@ module.exports = class Embed {
             )
             .setURL(url)
             .setThumbnail(thumbnail.medium)
-            .setColor('RANDOM')
     }
 
     lyrics(result){
@@ -69,7 +74,6 @@ module.exports = class Embed {
             `)
             .setThumbnail(music.thumbnail.high)
             .setFooter(`음악 출처: ${music.author}`)
-            .setColor('RANDOM')
     }
 
     profile(user) {
@@ -103,6 +107,9 @@ module.exports = class Embed {
 📱 **4/7 서포트**
 기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
 
+<a:loadingforpark:702385005590085632> **Embed 색 커스텀**
+기존 랜덤 EMBED색과는 달리 자신이 원하는 색으로 대부분의 EMBED색을 변경하실 수 있습니다.(\`#컬러 [hex코드]\`)
+
 [프리미엄 구매하기](https://premium.parkbot.ml)
         `
         return this.embed.setTitle('파크봇 프리미엄').setDescription(desc)
@@ -113,7 +120,10 @@ module.exports = class Embed {
             .setTitle(`\`${res.name}\` - \`${res.sys.country}\``)
             .addField('현재 날씨', `${res.weather['0'].main} - ${res.weather['0'].description}`)
             .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
-            .setColor('RANDOM')
+    }
+
+    embedcolor(color) {
+        return this.embed.setColor(color).setDescription('앞으로 이 색으로 출력할게!')
     }
 
     error(message, err, errorcode){

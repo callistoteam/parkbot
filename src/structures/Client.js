@@ -125,7 +125,7 @@ module.exports = class ParkBotClient {
                 message.channel.send('✅')
             }
             if(message.author.bot || !message.content.startsWith(this.config.client.prefix)) return
-            let userdata = await client.knex('users').select(['id', 'premium', 'blacklist'])
+            let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color'])
             let authordata = userdata.find(yy => yy.id == message.author.id)
 
             try{
