@@ -24,7 +24,7 @@ module.exports = class Embed {
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
             .setDescription(
-                `신청자: ${user} | 길이: ${this._formatTime(length)}`
+                `신청자: ${user} | 길이: ${this._formatTime(length)}\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)`
             )
             .setURL(url)
             .setThumbnail(thumbnail.medium)
@@ -44,19 +44,20 @@ module.exports = class Embed {
         }
         try{
             return this.embed.setAuthor('대기열')
-                .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
+                .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)`)
         // eslint-disable-next-line
         } catch{
             return this.embed.setAuthor('대기열')
-                .setDescription(`${data}`)
+                .setDescription(`${data}\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)`)
         } 
     }
 
     queueEnd() {
         return this.embed.setAuthor('대기열 종료')
             .setTitle('신청한 모든 음악을 재생했습니다.')
-            .setDescription('그럼 난 이만 :wave:')
+            .setDescription('그럼 난 이만 :wave:\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)')
     }
+
     nowPlay(player, server) {
         let music = player.queue.get(1)
         let nowsecond = moment.duration(player.position).format('HH시간 mm분 ss초')
@@ -64,7 +65,7 @@ module.exports = class Embed {
         return this.embed
             .setDescription(`<a:playforpark:708621715571474482> [${music.title}](${music.uri})
             ⏰ \`${nowsecond}\` / \`${fsecond}\`
-            > 음악 재생 서버: \`${server}\`서버
+            > 음악 재생 서버: \`${server}\`서버\n\n[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)
             `)
             .setThumbnail(music.thumbnail.high)
             .setFooter(`음악 출처: ${music.author}`)

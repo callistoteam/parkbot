@@ -13,9 +13,9 @@ module.exports = class Help extends Command {
     async execute({ client, message }){
         const embed = new MessageEmbed()
             .setColor('RANDOM')
-            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)\n[프리미엄 구매하기](https://premium.parkbot.ml)')
-
-        const commands = (category) => {
+            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)\n[프리미엄 구매하기](https://premium.parkbot.ml)\n**[이벤트 참여하기](https://forms.gle/EHrUD1DZWzdvFXb17)')
+        
+        let commands = (category) => {
             return client.commands
                 .filter(cmd => cmd.category === category)
                 .map(cmd => `\`${client.prefix}${cmd.alias[0]}\``)

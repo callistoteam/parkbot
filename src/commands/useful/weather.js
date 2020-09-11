@@ -1,4 +1,5 @@
 const Command = require('../../structures/Command')
+// eslint-disable-next-line
 const fetch = require('node-fetch')
 const { Embed } = require('../../structures')
 

@@ -72,6 +72,7 @@ module.exports = class ParkBotClient {
                     if(!player.playing) player.play()
                     return
                 }
+                await client.knex('guild').delete().where('id', player.options.guild.id)
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
@@ -101,6 +102,7 @@ module.exports = class ParkBotClient {
                     if(!player.playing) player.play()
                     return
                 }
+                await client.knex('guild').delete().where('id', player.options.guild.id)
                 player.destroy()
                 player.options.textChannel.send(
                     new Embed().queueEnd()
