@@ -52,7 +52,7 @@ module.exports = class Compile extends Command {
     constructor(client) {
         super(client)
         this.alias = [ 'compile', 'eval' ]
-        this.permission = 8
+        this.permission = 0x8
         this.category = 'dev'
     }
 

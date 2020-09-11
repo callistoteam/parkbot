@@ -31,7 +31,7 @@ function formatTime(ms) {
 module.exports = class Nodeinfo extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'nodeinfo', '노드정보' ]
+        this.alias = [ '노드정보', 'nodeinfo' ]
         this.permission = 0x0
         this.category = 'general'
     }

@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 module.exports = class Ping extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'ping', '핑' ]
+        this.alias = [ '핑', 'ping' ]
         this.permission = 0x0
         this.category = 'general'
     }

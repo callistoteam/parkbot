@@ -4,7 +4,7 @@ const { Embed } = require('../../structures')
 module.exports = class Queue extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'queue', 'q', '큐' ]
+        this.alias = [ '대기열', 'queue', 'q', '큐' ]
         this.permission = 0x0
         this.category = 'music'
     }

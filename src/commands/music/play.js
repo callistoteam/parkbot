@@ -8,7 +8,7 @@ const config = require('../../../config')
 module.exports = class Play extends Command {
     constructor(client){
         super(client)
-        this.alias = [ 'play', 'p', 'ㅔㅣ묘' ]
+        this.alias = [ '재생', 'play', 'p', 'ㅔㅣ묘' ]
         this.permission = 0x0
         this.voiceChannel = true
         this.args = [ { name: '곡명 또는 URL', required: true } ]
