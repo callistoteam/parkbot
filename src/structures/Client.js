@@ -145,7 +145,7 @@ module.exports = class ParkBotClient {
             let authordata = userdata.find(yy => yy.id == message.author.id)
 
             try{
-                if(authordata.blacklist == 1) message.reply('블랙리스트된 유저.')
+                if(authordata.blacklist == 1) return message.reply('블랙리스트된 유저.\n이의제기: <yoru@outlook.kr>')
                 // eslint-disable-next-line
             } catch {
                 await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0'})
