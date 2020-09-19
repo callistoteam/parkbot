@@ -1,11 +1,8 @@
-const utils = require('./utils')
-const Client = require('./structures').Client
+const Client = require('./Client')
+const { getConfig } = require('./utils')
+const Bot = new Client(getConfig())
 
-const config = utils.getConfig()
-
-const ParkBot = new Client(config)
-
-ParkBot.init()
+Bot.init()
 
 process.on('uncaughtException', (err) => {
     console.error(err)

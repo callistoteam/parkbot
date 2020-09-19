@@ -126,6 +126,6 @@ yarn.lock
 .vscode/
 
 # config file
-config.js
+config/
 config.dev.js
 database.js

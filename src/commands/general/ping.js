@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+const { Command } = require('../../utils')
 const Discord = require('discord.js')
 
 module.exports = class Ping extends Command {
