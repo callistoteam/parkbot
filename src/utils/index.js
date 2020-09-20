@@ -3,5 +3,6 @@ module.exports = {
     loadCommands: require('./loadCommands'),
     Command: require('./Command'),
     Permission: require('./Permission'),
-    Formats: require('./Formats')
+    Formats: require('./Formats'),
+    Embed: require('./generateEmbed'),
 }

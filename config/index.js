@@ -29,9 +29,9 @@ module.exports = {
     lavalink: {
         nodes: [
             {
-                host: 'lavalink.lostarkbot.ga',
+                host: 'localhost',
                 port: 5000,
-                password: 'By3W04Ld',
+                password: '652867CU66eB7YGs7JqU66Oo',
                 retries: 5
             }
         ],
