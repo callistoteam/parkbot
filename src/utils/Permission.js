@@ -7,8 +7,13 @@ const permissions = [
         filter: () => true
     },
     {
-        name: 'admin',
+        name: 'premium',
         flag: 0x1,
+        filter: (member) => member.data.premium > new Date()
+    },
+    {
+        name: 'admin',
+        flag: 0x2,
         filter: (member) => member.hasPermission(8)
     },
     /*{
