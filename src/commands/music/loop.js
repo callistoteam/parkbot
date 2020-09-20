@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+const { Command } = require('../../utils')
 
 module.exports = class Repeat extends Command {
     constructor(client){

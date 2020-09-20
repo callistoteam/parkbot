@@ -1,5 +1,4 @@
-const Command = require('../../structures/Command')
-const { Embed } = require('../../structures')
+const { Command, Embed } = require('../../utils')
 const Lyrics = require('slyrics')
 const lyrics = new Lyrics()
 

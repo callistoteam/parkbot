@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+const { Command } = require('../../utils')
 const moment = require('moment-timezone')
 require('moment-duration-format')(moment)
 moment.locale('ko-KR')

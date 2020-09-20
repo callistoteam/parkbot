@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+const { Command } = require('../../utils')
 
 module.exports = class SetEQ extends Command {
     constructor(client){
@@ -17,7 +17,6 @@ module.exports = class SetEQ extends Command {
 \`#이퀄라이저 --14 1 --14 1\` - 고음강조
 \`#이퀄라이저 --7 1 --7 1\` - 저음을 지나치게 강조
 \`#이퀄라이저 --0 0 --0 0\` - 기본설정
-
 위의 샘플 값들은 개발자가 들어서 이용자의 귀하고는 차이가 있을 수 있어.
         `)
 

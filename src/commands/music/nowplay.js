@@ -1,5 +1,4 @@
-const Command = require('../../structures/Command')
-const { Embed } = require('../../structures')
+const { Command, Embed } = require('../../utils')
 
 module.exports = class Nowplay extends Command {
     constructor(client){
@@ -12,12 +11,12 @@ module.exports = class Nowplay extends Command {
     async execute({ message, player }){
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
 
-        let server = ''
-        if(player.node.options.host.includes('org')){
+        let server = '알 수 없음'
+        /* if(player.node.options.host.includes('org')){
             server = 'Premium'
         } else {
             server = 'Normal'
-        }
+        } */
 
         message.channel.send(new Embed(message).nowPlay(player, server))
     }

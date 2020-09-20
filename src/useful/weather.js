@@ -1,4 +1,4 @@
-const Command = require('../../structures/Command')
+const { Command } = require('../../utils')
 // eslint-disable-next-line
 const fetch = require('node-fetch')
 const { Embed } = require('../../structures')
@@ -18,11 +18,10 @@ module.exports = class Weather extends Command {
         let rs = await fetch(baseurl).then(res => res.json())
         let regmsg = `
 지역을 찾을 수 없어. 아래와 같이 수정해봐.
-
 \`\`\`
 서울 => 서울특별시
-고양 => 고양시
-일산 => 일산동구
+광주 => 광주광역시
+분당 => 분당구
 캘리포니아 => California
 \`\`\`
         `

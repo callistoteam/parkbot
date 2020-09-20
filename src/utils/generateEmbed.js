@@ -25,8 +25,8 @@ module.exports = class Embed {
         }
     }
 
-    trackPlay (title, length, url, thumbnail, user, guild, knex) {
-        require('../utils').knexGuild(knex, url, guild)
+    async trackPlay (title, length, url, thumbnail, user, guild, knex) {
+        await knex('guild').update({uri: url}).where('id', guild)
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
             .setDescription(
@@ -76,7 +76,7 @@ module.exports = class Embed {
             .setFooter(`음악 출처: ${music.author}`)
     }
 
-    profile(user) {
+    premium(user) {
         var now = new Date(parseInt(user.premium))
         var year = now.getFullYear()
         var hour = now.getHours()
@@ -88,29 +88,22 @@ module.exports = class Embed {
         let dow = ['일','월','화','수','목','금','토','일'][now.getDay()]+'요일'
 
         let rt = `${year}년 ${month}${day} ${dow} ${daytime} ${time}`
-
-        return this.embed.setTitle('프로필')
-            .addField('프리미엄여부', user.premium > new Date ? '참' : '거짓')
-            .addField('프리미엄 만료일', rt)
-    }
-
-    premium() {
         let desc = `
 파크봇은 일부 유료화로,  기존 서비스는 동일하게 이용할 수 있지만 정액제/1회성 회원권(이하 '프리미엄')으로 질 높은 음악을 제공합니다.
 **혜택**
 ▶️ **향상된 음악 품질**
 많은 유저들이 이용하는 서버와 프리미엄을 소유하고 있는 유저들을 위한 음악 서버는 분리되어 있어 쾌적한 서버에서 음악을 즐기실 수 있습니다.
-
 ⚡ **업데이트 스포일러**
 업데이트 예정 기능들을 빠르게 아실 수 있습니다.
-
 📱 **4/7 서포트**
 기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
-
 <a:loadingforpark:702385005590085632> **Embed 색 커스텀**
 기존 랜덤 EMBED색과는 달리 자신이 원하는 색으로 대부분의 EMBED색을 변경하실 수 있습니다.(\`#컬러 [hex코드]\`)
-
 [프리미엄 구매하기](https://premium.parkbot.ml)
+
+**정보**
+프리미엄 여부: ${user.premium > new Date ? "참" : "거짓"}
+프리미엄 만료일: ${rt}
         `
         return this.embed.setTitle('파크봇 프리미엄').setDescription(desc)
     }
