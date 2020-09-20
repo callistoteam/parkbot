@@ -1,7 +1,6 @@
-const { Command } = require('../../utils')
+const { Command, Embed } = require('../../utils')
 // eslint-disable-next-line
 const fetch = require('node-fetch')
-const { Embed } = require('../../structures')
 
 module.exports = class Weather extends Command {
     constructor(client){
