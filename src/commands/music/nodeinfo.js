@@ -18,7 +18,7 @@ module.exports = class Nodeinfo extends Command {
 
     async execute({ message }){
         try{
-            await message.channel.send('잠시만 기다려주세요').then(async msg => {
+            await message.channel.send('<a:loadingforpark:702385005590085632>잠시만 기다려주세요').then(async msg => {
                 // const premiumStat = this.client.premiumMusic.nodeCollection.KVArray()[0][1].stats
                 const normalStat = this.client.music.nodeCollection.KVArray()[0][1].stats
                 const nodeEmbed = new MessageEmbed
