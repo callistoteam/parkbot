@@ -135,6 +135,6 @@ module.exports = class Embed {
     }
 
     _formatTime(ms) {
-        return moment.duration(ms).format('HH:mm:ss')
+        return moment.duration(ms).format('HH시간 mm분 ss초')
     }
 }

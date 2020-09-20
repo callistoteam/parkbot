@@ -127,5 +127,6 @@ yarn.lock
 
 # config file
 config/
+config.js
 config.dev.js
 database.js

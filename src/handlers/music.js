@@ -1,4 +1,5 @@
 const { LavaClient } = require('@anonymousg/lavajs')
+const { Embed } = require('../utils')
 
 module.exports = async (client, knex, commands, nodes) => {
     client.music = new LavaClient(client, nodes)
@@ -6,13 +7,14 @@ module.exports = async (client, knex, commands, nodes) => {
         console.log(`[INFO] Node connected: ${node.options.host}`)
     })
     client.music.on('nodeError', console.error)
-    client.music.on('trackPlay', (track, player) => {
+    client.music.on('trackPlay', async (track, player) => {
         const { title, length, uri, thumbnail, user } = track
         const guild = player.options.guild.id
-        console.log(uri)
-        return player.options.textChannel.send(`${title}을 재생할게`)
-        // return player.options.textChannel.send(new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
+        // console.log(uri)
+        // return player.options.textChannel.send(`${title}을 재생할게`)
+        return player.options.textChannel.send(await new Embed().trackPlay(title, length, uri, thumbnail, user, guild, knex))
     })
+
     client.music.on('queueOver', async (player) => {
         // console.log(player.options.guild.id)
         if(player.loop) {
@@ -27,8 +29,7 @@ module.exports = async (client, knex, commands, nodes) => {
         }
         player.destroy()
         player.options.textChannel.send(
-            //new Embed().queueEnd()
-            'ㅁㄴㅇㄹ'
+            new Embed().queueEnd()
         )
     })
 }
