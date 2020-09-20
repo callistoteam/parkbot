@@ -1,6 +1,6 @@
 const { Command } = require('../../utils')
 
-module.exports = class Repeat extends Command {
+module.exports = class Loop extends Command {
     constructor(client){
         super(client)
         this.alias = [ '반복', 'repeat', 'loop' ]

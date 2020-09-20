@@ -1,31 +1,11 @@
 const { Command } = require('../../utils')
 const { MessageEmbed } = require('discord.js')
+const moment = require('moment-timezone')
+require('moment-duration-format')(moment)
+moment.locale('ko-KR')
 
 function formatTime(ms) {
-    const time = {
-        d: 0,
-        h: 0,
-        m: 0,
-        s: 0
-    }
-    time.s = Math.floor(ms / 1000)
-    time.m = Math.floor(time.s / 60)
-    time.s = time.s % 60
-    time.h = Math.floor(time.m / 60)
-    time.m = time.m % 60
-    time.d = Math.floor(time.h / 24)
-    time.h = time.h % 24
-
-    const res = []
-    // eslint-disable-next-line no-unused-vars
-    for (const [ k, v ] of Object.entries(time)) {
-        let first = false
-        if (v < 1 && !first) continue
-
-        res.push(v < 10 ? `0${v}` : `${v}`)
-        first = true
-    }
-    return res.join(':')
+    return moment.duration(ms).format('HH시간 mm분 ss초')
 }
 
 module.exports = class Nodeinfo extends Command {
@@ -38,7 +18,7 @@ module.exports = class Nodeinfo extends Command {
 
     async execute({ message }){
         try{
-            await message.channel.send('잠시만 기다려주세요').then(async msg => {
+            await message.channel.send('<a:loadingforpark:702385005590085632>잠시만 기다려주세요').then(async msg => {
                 // const premiumStat = this.client.premiumMusic.nodeCollection.KVArray()[0][1].stats
                 const normalStat = this.client.music.nodeCollection.KVArray()[0][1].stats
                 const nodeEmbed = new MessageEmbed
