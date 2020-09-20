@@ -9,6 +9,6 @@ module.exports = class Premium extends Command {
     }
 
     async execute({ message }){
-        message.reply(new Embed().premium(message.author.data))
+        message.reply(new Embed(message).premium(message.author.data))
     }
 }
