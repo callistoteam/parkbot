@@ -37,6 +37,12 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# config file
+config
+config.js
+config.dev.js
+database.js
+
 # Dependency directories
 node_modules/
 jspm_packages/
@@ -124,9 +130,3 @@ yarn.lock
 
 # text editor
 .vscode/
-
-# config file
-config/
-config.js
-config.dev.js
-database.js
