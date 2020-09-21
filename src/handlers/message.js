@@ -1,4 +1,5 @@
 const utils = require('../utils')
+const uuid = require('uuid')
 
 module.exports = async (client, knex, commands) => {
     client.on('message', async (message) => {
@@ -51,7 +52,7 @@ module.exports = async (client, knex, commands) => {
                 console.log(e)
                 let errcode = uuid.v1()
 
-                client.channels.cache.get(client.config.client.noticechannel).send(new Embed(message).error(message, e, errcode))
+                client.channels.cache.get(client.config.client.noticechannel).send(new utils.Embed(message).error(message, e, errcode))
                 message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
             })
         }

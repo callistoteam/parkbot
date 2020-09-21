@@ -102,7 +102,7 @@ module.exports = class Embed {
 [프리미엄 구매하기](https://premium.parkbot.ml)
 
 **정보**
-프리미엄 여부: ${user.premium > new Date ? "참" : "거짓"}
+프리미엄 여부: ${user.premium > new Date ? '참' : '거짓'}
 프리미엄 만료일: ${rt}
         `
         return this.embed.setTitle('파크봇 프리미엄').setDescription(desc)
