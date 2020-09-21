@@ -5,4 +5,5 @@ module.exports = {
     Permission: require('./Permission'),
     Formats: require('./Formats'),
     Embed: require('./generateEmbed'),
+    Database: require('./Database')
 }
