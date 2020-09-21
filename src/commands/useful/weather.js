@@ -7,11 +7,11 @@ module.exports = class Weather extends Command {
         super(client)
         this.alias = [ '날씨', 'weather', 'skfTl' ]
         this.permission = 0x0
+        this.args = [ { name: '지역', required: true } ]
         this.category = 'useful'
     }
 
     async execute({ client, message }){
-        if(!message.data.arg[0]) return message.reply('지역을 입력해줘')
         let reg = message.data.arg[0]
         let baseurl = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURI(reg)}&appid=${client.config.api.weather}&units=metric`
         let rs = await fetch(baseurl).then(res => res.json())

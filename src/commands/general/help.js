@@ -11,6 +11,24 @@ module.exports = class Help extends Command {
     }
 
     async execute({ client, message }){
+        if(message.data.arg[0]) {
+            let command1 = client.commands.filter(cmd => cmd.alias.includes(message.data.arg[0]))
+            let command = await command1.map(aa => aa)[0]
+            console.log(command)
+            let usage
+            if(command.args){
+                usage = `${client.config.client.prefix}${message.data.arg[0]} ${command.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}`   
+            } else {
+                usage = `${client.config.client.prefix}${message.data.arg[0]}`
+            }
+            const embed = new MessageEmbed()
+                .setTitle(`\`${message.data.arg[0]}\`커맨드의 정보`)
+                .addField('카테고리', command.category)
+                .addField('다른 사용법들', `\`${command.alias.join('`, `')}\``)
+                .addField('사용법', usage)
+
+            return message.reply(embed)
+        }
         const embed = new MessageEmbed()
             .setColor('RANDOM')
             .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)\n[프리미엄 구매하기](https://premium.parkbot.ml)')
