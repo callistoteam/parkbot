@@ -4,13 +4,7 @@ module.exports = async (client, knex, commands) => {
     client.on('message', async (message) => {
         if(message.author.bot) return
 
-        let guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
-        let guilddata = guilddb.find(as => as.id == message.guild.id)
-        if(!guilddata) {
-            await knex('guild').insert({id: message.guild.id, uri: '', prefix: '#'})
-            guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
-            guilddata = guilddb.find(as => as.id == message.guild.id)
-        }
+        let guilddata = utils.Database.getGuildData(client, message)
         
         let prefix
         if(message.content.startsWith(client.config.client.prefix)) {
