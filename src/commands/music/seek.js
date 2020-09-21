@@ -8,13 +8,13 @@ module.exports = class Seek extends Command {
         super(client)
         this.alias = [ '탐색', 'seek' ]
         this.permission = 0x0
+        this.args = [ { name: '탐색할 초', required: true } ]
         this.category = 'music'
     }
 
     async execute({ message, player }){
         if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
-
-        if(!message.data.arg[0]) return message.reply('탐색할 초를 입력해줘.')
+        
         let second = parseInt(message.data.arg[0])
         if(message.data.arg[0] < 0) return message.reply('탐색할 초는 0보다 커야해.')
 

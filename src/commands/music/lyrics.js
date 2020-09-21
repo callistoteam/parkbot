@@ -12,11 +12,11 @@ module.exports = class Lyrics extends Command {
         super(client)
         this.alias = [ '가사', 'lyrics' ]
         this.permission = 0x0
+        this.args = [ { name: '곡명', required: true } ]
         this.category = 'music'
     }
 
     async execute({ message }){
-        if(!message.data.args) return message.reply('가사를 검색할 음악 제목을 입력해줘!')
         try{
             message.channel.send(new Embed(message).lyrics(await search('melon', message.data.args)))
         // eslint-disable-next-line node/no-unsupported-features/es-syntax
