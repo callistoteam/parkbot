@@ -33,7 +33,7 @@ module.exports = class ParkBotClient {
     
             y.map(handler => {
                 // eslint-disable-next-line
-                require(`../handlers/${handler}`)(client, client.knex, this.commands, this.config.lavalink.nodes)
+                require(`../handlers/${handler}`)(client, client.knex, this.commands)
             })
         })
     }
