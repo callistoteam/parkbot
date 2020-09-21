@@ -32,6 +32,8 @@ module.exports = async (client, knex, commands) => {
             authordata = userdata.find(yy => yy.id == message.author.id)
         }
 
+        message.member.data = authordata
+
         message.data = {
             cmd: message.content.replace(prefix, '').split(' ').shift(),
             args: message.content.replace(prefix, '').split(' ').slice(1).join(' '),
@@ -59,6 +61,6 @@ module.exports = async (client, knex, commands) => {
                 message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 개발자한테 전달해주시면 에러 해결에 도움이 될거에요.\n\n에러코드: \`${errcode}\``)
             })
         }
-        else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | ${message.data.authorPerm} | ${utils.Permission.compare(cmd.permission, message.data.authorPerm)}`)
+        else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | 현재 퍼미션: ${message.data.authorPerm}`)
     })
 }
