@@ -8,3 +8,14 @@ module.exports.getGuildData = async (client, message) => {
     }
     return guilddata
 }
+
+module.exports.getUserData = async (client, message) => {
+    let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color'])
+    let authordata = userdata.find(yy => yy.id == message.author.id)
+    return authordata
+}
+
+module.exports.generateUserData = async(client, message) => {
+    await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0'})
+    return
+}
