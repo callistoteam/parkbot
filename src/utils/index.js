@@ -5,5 +5,6 @@ module.exports = {
     Permission: require('./Permission'),
     Formats: require('./Formats'),
     Embed: require('./generateEmbed'),
+    // eslint-disable-next-line
     Database: require('./Database')
 }

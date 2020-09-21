@@ -1,4 +1,3 @@
-const knex = require('knex')(require('../../config').database)
 const { Client, Collection } = require('discord.js')
 const fs = require('fs')
 
@@ -12,7 +11,8 @@ module.exports = class ParkBotClient {
         if(!config) throw '[ERR] "config" is not given'
         else {
             this.config = config
-            console.log(`[LOAD] Loaded Confing.`)
+            console.log('[LOAD] Loaded Confing.')
+            this.knex = require('knex')(this.config.database)
         }
         this.initialized = false
         this.commands = new Collection()
@@ -25,14 +25,16 @@ module.exports = class ParkBotClient {
         await client.login(this.config.client.token)
         client.on('ready', () => {
             console.log(`[READY] Logged in to ${client.user.tag}`)
-            client.knex = knex
+            client.knex = this.knex
             client.config = this.config
     
+            // eslint-disable-next-line
             let y = fs.readdirSync(path.join(__dirname, '../handlers')).filter(el=> el.split('.').pop() === 'js')
     
             y.map(handler => {
+                // eslint-disable-next-line
                 require(`../handlers/${handler}`)(client, client.knex, this.commands, this.config.lavalink.nodes)
-            });
+            })
         })
     }
 }
