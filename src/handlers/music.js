@@ -8,7 +8,9 @@ module.exports = async (client, knex, commands) => {
         server.on('nodeSuccess', (node) => {
             console.log(`[INFO] Node connected: ${node.options.host}`)
         })
+        
         server.on('nodeError', console.error)
+
         server.on('trackPlay', async (track, player) => {
             const { title, length, uri, thumbnail, user } = track
             const guild = player.options.guild.id
