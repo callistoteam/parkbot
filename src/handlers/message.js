@@ -17,14 +17,14 @@ module.exports = async (client, knex, commands) => {
 
         if(!prefix) return
         
-        let authordata = utils.Database.getUserData(client, message)
+        let authordata = await utils.Database.getUserData(client, message)
 
         try{
             if(authordata.blacklist == 1) return message.reply('블랙리스트된 유저.\n이의제기: <yoru@outlook.kr>')
             // eslint-disable-next-line
         } catch {
             utils.Database.generateUserData
-            authordata = utils.Database.getUserData(client, message)
+            authordata = await utils.Database.getUserData(client, message)
         }
 
         message.member.data = authordata

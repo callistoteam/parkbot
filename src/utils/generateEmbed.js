@@ -99,7 +99,8 @@ module.exports = class Embed {
 기존 3/5 서포트와 달리 프리미엄을 소유하고 있는 유저들만을 위한 전용 이메일로 문의를 하실 수 있습니다.
 <a:loadingforpark:702385005590085632> **Embed 색 커스텀**
 기존 랜덤 EMBED색과는 달리 자신이 원하는 색으로 대부분의 EMBED색을 변경하실 수 있습니다.(\`#컬러 [hex코드]\`)
-[프리미엄 구매하기](https://premium.parkbot.ml)
+~~[프리미엄 구매하기](https://premium.parkbot.ml)~~
+**준비중입니다, 프리미엄을 구매하고 싶으신 분은 \`Yoru#0002\`로 DM보내주세요.**
 
 **정보**
 프리미엄 여부: ${user.premium > new Date ? '참' : '거짓'}
