@@ -42,7 +42,7 @@ module.exports = async (client, knex, commands) => {
         if(!cmd) return
         if(utils.Permission.compare(cmd.permission, message.data.authorPerm)) {
             if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
-            if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다!\n\`\`\`사용법: ${client.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
+            if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다.\n\`\`\`사용법: ${client.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
 
             client.commands = commands
             client.prefix = client.config.client.prefix
