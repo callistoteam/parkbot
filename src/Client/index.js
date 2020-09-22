@@ -36,9 +36,9 @@ module.exports = class ParkBotClient {
                 require(`../handlers/${handler}`)(client, client.knex, this.commands)
             })
             setInterval(() => {
-                const index = Math.floor(Math.random() * (client.config.client.statusList.length - 1) + 1);
-                client.user.setActivity(client.config.client.statusList[index]); 
-            }, 10000);
+                const index = Math.floor(Math.random() * (client.config.client.statusList.length - 1) + 1)
+                client.user.setActivity(client.config.client.statusList[index]) 
+            }, 10000)
         })
     }
 }
