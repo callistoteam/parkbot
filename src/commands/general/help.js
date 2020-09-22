@@ -14,7 +14,6 @@ module.exports = class Help extends Command {
         if(message.data.arg[0]) {
             let command1 = client.commands.filter(cmd => cmd.alias.includes(message.data.arg[0]))
             let command = await command1.map(aa => aa)[0]
-            console.log(command)
             let usage
             if(command.args){
                 usage = `${client.config.client.prefix}${message.data.arg[0]} ${command.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}`   
@@ -31,7 +30,8 @@ module.exports = class Help extends Command {
         }
         const embed = new MessageEmbed()
             .setColor('RANDOM')
-            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)\n~~[프리미엄 구매하기](https://premium.parkbot.ml)~~')
+            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)')
+            .setFooter('`#help [커맨드]`로 자세한 도움말을 확인할 수 있어!')
         
         let commands = (category) => {
             return client.commands
