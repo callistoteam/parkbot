@@ -12,19 +12,22 @@ module.exports = class Help extends Command {
 
     async execute({ client, message }){
         if(message.data.arg[0]) {
-            let command1 = client.commands.filter(cmd => cmd.alias.includes(message.data.arg[0]))
+            let abcd = message.data.arg[0].replace('#', '')
+            let command1 = client.commands.filter(cmd => cmd.alias.includes(abcd))
             let command = await command1.map(aa => aa)[0]
+            if(!command) return message.reply('없는 커맨드같아. 다시 확인해줘!')
             let usage
             if(command.args){
-                usage = `${client.config.client.prefix}${message.data.arg[0]} ${command.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}`   
+                usage = `${client.config.client.prefix}${abcd} ${command.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}`   
             } else {
-                usage = `${client.config.client.prefix}${message.data.arg[0]}`
+                usage = `${client.config.client.prefix}${abcd}`
             }
             const embed = new MessageEmbed()
-                .setTitle(`\`${message.data.arg[0]}\`커맨드의 정보`)
+                .setTitle(`\`${abcd}\`커맨드의 정보`)
                 .addField('카테고리', command.category)
                 .addField('다른 사용법들', `\`${command.alias.join('`, `')}\``)
-                .addField('사용법', usage)
+                .addField('사용법', `\`${usage}\``)
+                .setColor('RANDOM')
 
             return message.reply(embed)
         }
