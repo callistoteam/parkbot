@@ -12,8 +12,9 @@ module.exports = class Help extends Command {
 
     async execute({ client, message }){
         if(message.data.arg[0]) {
-            let command1 = client.commands.filter(cmd => cmd.alias.includes(message.data.arg[0]))
+            let command1 = client.commands.filter(cmd => cmd.alias.includes(message.data.arg[0].replace('#', '')))
             let command = await command1.map(aa => aa)[0]
+            if(!command) return message.reply('없는 커맨드같아. 다시 확인해줘!')
             let usage
             if(command.args){
                 usage = `${client.config.client.prefix}${message.data.arg[0]} ${command.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}`   
