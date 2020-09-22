@@ -45,9 +45,12 @@ module.exports = async (client, knex, commands) => {
             if(cmd.voiceChannel && !message.member.voice.channel) return message.reply('먼저 음성 채널에 접속해줘!')
             if(cmd.args && cmd.args.length > message.data.arg.length) return message.reply(`누락된 항목이 있습니다.\n\`\`\`사용법: ${client.config.client.prefix}${message.data.cmd} ${cmd.args.map(el=> el.required ? `[${el.name}]` : `(${el.name})`)}\`\`\``)
 
+            let premium = message.author.data.premium > new Date
+            console.log(premium)
             client.commands = commands
             client.prefix = client.config.client.prefix
             let player = await client.music.playerCollection.get(message.guild.id)
+            if(premium) player = await client.premiumMusic.playerCollection.get(message.guild.id)
             cmd.execute({ client, message, player }).catch(e=> {
                 console.log(e)
                 let errcode = uuid.v1()

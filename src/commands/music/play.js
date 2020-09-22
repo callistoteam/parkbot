@@ -17,19 +17,34 @@ module.exports = class Play extends Command {
         const { channel } = message.member.voice
         if (!channel.joinable || !channel.speakable) return message.reply('봇이 해당 채널에 접속할 수 없습니다.')
         let player
-
-        player = await client.music.spawnPlayer(
-            {
-                guild: message.guild,
-                voiceChannel: channel,
-                textChannel: message.channel,
-                volume: 50,
-                deafen: true
-            },
-            {
-                skipOnError: false
-            }
-        )
+        if(message.author.data.premium > new Date()) {
+            player = await client.premiumMusic.spawnPlayer(
+                {
+                    guild: message.guild,
+                    voiceChannel: channel,
+                    textChannel: message.channel,
+                    volume: 50,
+                    deafen: true
+                },
+                {
+                    skipOnError: false
+                }
+            )
+        } else {
+            player = await client.music.spawnPlayer(
+                {
+                    guild: message.guild,
+                    voiceChannel: channel,
+                    textChannel: message.channel,
+                    volume: 50,
+                    deafen: true
+                },
+                {
+                    skipOnError: false
+                }
+            )
+        }
+        
         let res
         try{
             let msg = await message.channel.send('<a:loadingforpark:702385005590085632> 검색중이야. 잠깐만 기다려줘.')

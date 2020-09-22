@@ -1,14 +1,14 @@
 const { LavaClient } = require('@anonymousg/lavajs')
 const { Embed } = require('../utils')
 
-module.exports = async (client, knex, commands) => {
+module.exports = async (client, knex) => {
     client.music = new LavaClient(client, client.config.lavalink.nodes)
     client.premiumMusic = new LavaClient(client, client.config.lavalink.premiumnodes)
     await [client.music, client.premiumMusic].map(async (server) => {
         server.on('nodeSuccess', (node) => {
             console.log(`[INFO] Node connected: ${node.options.host}`)
         })
-        
+
         server.on('nodeError', console.error)
 
         server.on('trackPlay', async (track, player) => {

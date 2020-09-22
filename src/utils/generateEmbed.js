@@ -34,6 +34,7 @@ module.exports = class Embed {
             )
             .setURL(url)
             .setThumbnail(thumbnail.medium)
+            .setColor("RANDOM")
     }
 
     lyrics(result){
