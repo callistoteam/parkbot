@@ -34,7 +34,7 @@ module.exports = class Embed {
             )
             .setURL(url)
             .setThumbnail(thumbnail.medium)
-            .setColor("RANDOM")
+            .setColor('RANDOM')
     }
 
     lyrics(result){
@@ -115,6 +115,13 @@ module.exports = class Embed {
             .setTitle(`\`${res.name}\` - \`${res.sys.country}\``)
             .addField('현재 날씨', `${res.weather['0'].main} - ${res.weather['0'].description}`)
             .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
+    }
+
+    nodeinfo(nor, pre){
+        return this.embed
+            .setTitle('노드 정보')
+            .addField('Premium Server', `서버위치: \`US\`\n재생하고있는 서버 수: ${pre.playingPlayers}\n메모리사용량: ${(pre.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(pre.uptime)}`, true)
+            .addField('Normal Server', `서버위치: \`KR\`\n재생하고있는 서버 수: ${nor.playingPlayers}\n메모리사용량: ${(nor.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(nor.uptime)}`, true)
     }
 
     embedcolor(color) {
