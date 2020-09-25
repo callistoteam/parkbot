@@ -8,7 +8,7 @@ const path = require('path')
 
 module.exports = class ParkBotClient {
     constructor( config ) {
-        if(!config) throw '[ERR] "config" is not given'
+        if(!config) throw '[ERR0R] "config" is not given'
         else {
             this.config = config
             console.log('[LOAD] Loaded Confing.')
