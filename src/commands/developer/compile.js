@@ -25,7 +25,7 @@ module.exports = class Compile extends Command {
     constructor(client) {
         super(client)
         this.alias = [ 'compile', 'eval' ]
-        this.permission = 0x8
+        this.permission = 0x16
         this.category = 'dev'
     }
 
@@ -64,6 +64,7 @@ module.exports = class Compile extends Command {
                 }
                 message.channel.send(`:outbox_tray: 오류\n\`\`\`js\n${e} \n\`\`\``)
             })
+            
         } catch (e) {
             let err = e.stack || e
             if (code_in.length > 1000) {

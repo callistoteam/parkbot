@@ -18,17 +18,17 @@ const permissions = [
     },
     /*{
         name: 'bughunter',
-        flag: 0x5,
+        flag: 0x4,
         filter: (member) => config.client.bughunter.includes(member.id)
     }, */
     {
         name: 'team',
-        flag: 0x7,
+        flag: 0x8,
         filter: (member) => config.client.team.includes(member.id)
     },
     {
         name: 'dev',
-        flag: 0x8,
+        flag: 0x16,
         filter: (member) => config.client.dev.includes(member.id)
     }
 ] 
