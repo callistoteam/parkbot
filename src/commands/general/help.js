@@ -33,7 +33,7 @@ module.exports = class Help extends Command {
         }
         const embed = new MessageEmbed()
             .setColor('RANDOM')
-            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)')
+            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[문의](http://support.parkbot.ml)\n[이용약관](https://callisto.team/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)')
             .setFooter('`#help [커맨드]`로 자세한 도움말을 확인할 수 있어!')
         
         let commands = (category) => {
