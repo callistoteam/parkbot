@@ -23,7 +23,7 @@ module.exports = async (client, knex, commands) => {
             if(authordata.blacklist == 1) return message.reply('블랙리스트된 유저.\n이의제기: <yoru@outlook.kr>')
             // eslint-disable-next-line
         } catch {
-            utils.Database.generateUserData
+            utils.Database.generateUserData(client, message)
             authordata = await utils.Database.getUserData(client, message)
         }
 
