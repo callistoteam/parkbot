@@ -174,6 +174,8 @@ class Music(commands.Cog):
 {QueueText}
 """
             )
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
 
     @commands.command()
     async def seek(self, ctx, offset1):
@@ -185,6 +187,8 @@ class Music(commands.Cog):
             await vc.seek(offset)
 
             return await ctx.send(f"{offset}초로 뛰어넘었어..")
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
             
 
 def setup(client):
