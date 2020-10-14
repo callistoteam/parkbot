@@ -90,6 +90,101 @@ class Music(commands.Cog):
             return await ctx.send(f"{Volume * 100}%로 볼륨을 설정했어.")
         except:
             return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def remove(self, ctx, offset1):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+            if not vc:
+                return await ctx.send("Please type `!join` first.")
+            offset = int(offset1) if offset1 else 1
+            Data = await vc.remove(offset)
+            return await ctx.send(f'{Data["removed"]["title"]} removed.')
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def crossfade(self, ctx, offset1):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+
+            offset = int(offset1) if offset1 else 5
+
+            Crossfade = await vc.setCrossfade(offset)
+
+            return await ctx.send(
+                f"크로스페이드를 {Crossfade} 초로 설정했어."
+            )
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def autoplay(self, ctx, offset1):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+            offset = (
+                int(offset1) if offset1 else "on"
+            )
+            offset = {"on": True, "off": False}.get(offset, True)
+
+            autoplay = await vc.setAutoplay(offset)
+
+            return await ctx.send(
+                f'추천 영상 재생이 {"활성화" if autoplay else "비활성화"} 되었어.'
+            )
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def np(self, ctx):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+
+            Data = await vc.getState()
+
+            return await ctx.send(
+                f'현재 재생 중: {Data["current"]["title"]} `{Data["position"]}:{Data["duration"]}`'
+            )
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def shuffle(self, ctx):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+            await vc.shuffle()
+            return await ctx.send("큐를 셔플했어.")
+        except:
+            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+
+    @commands.command()
+    async def queue(self, ctx):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+
+            State = await vc.getState()
+            Queue = await vc.getQueue()
+            QueueText = "\n".join(
+                [str(Queue.index(Item) + 1) + ". " + Item["title"] for Item in Queue]
+            )
+
+            return await ctx.send(
+                f"""
+현재 재생중: {State["current"]["title"]} `{State["position"]}:{State["duration"]}`
+{QueueText}
+"""
+            )
+
+    @commands.command()
+    async def seek(self, ctx, offset1):
+        try:
+            vc = self.Audio.getVC(ctx.guild)
+
+            offset = int(offset1) if offset else 1
+
+            await vc.seek(offset)
+
+            return await ctx.send(f"{offset}초로 뛰어넘었어..")
             
 
 def setup(client):
