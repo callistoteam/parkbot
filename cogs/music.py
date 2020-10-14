@@ -171,7 +171,9 @@ class Music(commands.Cog):
             return await ctx.send(
                 f"""
 현재 재생중: {State["current"]["title"]} `{State["position"]}:{State["duration"]}`
+```
 {QueueText}
+```
 """
             )
         except:
