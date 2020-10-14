@@ -91,24 +91,26 @@ class Music(commands.Cog):
         except:
             return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
 
+    """
     @commands.command()
     async def remove(self, ctx, offset1):
         try:
             vc = self.Audio.getVC(ctx.guild)
             if not vc:
                 return await ctx.send("Please type `!join` first.")
-            offset = int(offset1) if offset1 else 1
+            offset = int(offset1 + 1) if offset1 else 2
             Data = await vc.remove(offset)
             return await ctx.send(f'{Data["removed"]["title"]} removed.')
         except:
             return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
+    """
 
     @commands.command()
-    async def crossfade(self, ctx, offset1):
+    async def crossfade(self, ctx, *offset1):
         try:
             vc = self.Audio.getVC(ctx.guild)
 
-            offset = int(offset1) if offset1 else 5
+            offset = int(offset1[0]) if offset1[0] else 5
 
             Crossfade = await vc.setCrossfade(offset)
 
@@ -119,16 +121,14 @@ class Music(commands.Cog):
             return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
 
     @commands.command()
-    async def autoplay(self, ctx, offset1):
+    async def autoplay(self, ctx, *offset1):
         try:
             vc = self.Audio.getVC(ctx.guild)
             offset = (
-                int(offset1) if offset1 else "on"
+                int(offset1[0]) if offset1[0] else "on"
             )
             offset = {"on": True, "off": False}.get(offset, True)
-
             autoplay = await vc.setAutoplay(offset)
-
             return await ctx.send(
                 f'추천 영상 재생이 {"활성화" if autoplay else "비활성화"} 되었어.'
             )
@@ -180,18 +180,14 @@ class Music(commands.Cog):
             return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
 
     @commands.command()
-    async def seek(self, ctx, offset1):
-        try:
-            vc = self.Audio.getVC(ctx.guild)
+    async def seek(self, ctx, *offset1):
+        vc = self.Audio.getVC(ctx.guild)
 
-            offset = int(offset1) if offset else 1
+        offset = int(offset1[0]) if offset1[0] else 1
 
-            await vc.seek(offset)
+        await vc.seek(offset)
 
-            return await ctx.send(f"{offset}초로 뛰어넘었어..")
-        except:
-            return await ctx.send("`#join`커맨드를 통해 플레이어를 먼저 생성해줘.")
-            
+        return await ctx.send(f"{offset}초로 뛰어넘었어..")
 
 def setup(client):
     client.add_cog(Music(client))
