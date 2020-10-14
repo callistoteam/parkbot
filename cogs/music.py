@@ -7,7 +7,7 @@ class Music(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.Audio = discodo.DPYClient(client)
-        self.Audio.register_node("localhost", 8000, password="hellodiscodo")
+        self.Audio.register_node("yoruroong.iptime.org", 8000, password="hellodiscodo")
 
         URL_REGEX = re.compile(
             r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
