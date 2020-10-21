@@ -4,7 +4,7 @@ module.exports = class ParkBotClient {
     constructor( config ) {
         if(!config) throw '[ERR0R] "config" is not given'
         this.initialized = false
-        this.manager = new ShardingManager('./src/Client/bot.js', { token: config.client.token, totalShards: 2 })
+        this.manager = new ShardingManager('./src/Client/bot.js', { token: config.client.token, totalShards: 1 })
     }
 
     async init() {

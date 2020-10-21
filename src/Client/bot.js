@@ -1,4 +1,5 @@
 const { Client, Collection } = require('discord.js')
+// eslint-disable-next-line
 const config = require('../../config')
 const fs = require('fs')
 const utils = require('../utils')
@@ -27,6 +28,7 @@ client.on('ready', () => {
     
     setInterval(() => {
         const index = Math.floor(Math.random() * (client.config.client.statusList.length - 1) + 1)
+        // eslint-disable-next-line
         client.user.setActivity(client.config.client.statusList[index]) 
     }, 10000)
 })
