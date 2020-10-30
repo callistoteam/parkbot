@@ -16,6 +16,6 @@ module.exports.getUserData = async (client, message) => {
 }
 
 module.exports.generateUserData = async(client, message) => {
-    await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0'})
+    await client.knex('users').insert({id: message.author.id, premium: '1601827684505', blacklist: '0', point: '0'})
     return
 }
