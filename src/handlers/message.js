@@ -56,7 +56,7 @@ module.exports = async (client, knex, commands) => {
                 let errcode = uuid.v1()
 
                 client.channels.cache.get(client.config.client.noticechannel).send(new utils.Embed(message).error(message, e, errcode))
-                message.reply(`푸시🤒... 봇을 실행하는 도중 오류가 발생했어요. 아래 에러 코드를 <https://suppport.parkbot.ml>에 티켓을 열고 남겨 주시면 오류 해결에 도움이 될 거에요.\n\n에러코드: \`${errcode}\``)
+                message.reply(`푸시🤒... 커맨드를 실행하는 도중 오류가 발생했어요.\n\n에러코드: \`${errcode}\``)
             })
         }
         else return message.reply(`해당 커맨드를 실행하려면 퍼미션 \`${cmd.permission}\`이 필요합니다. | 현재 퍼미션: ${message.data.authorPerm}`)
