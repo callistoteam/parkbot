@@ -6,7 +6,7 @@ module.exports = class Premium extends Command {
         super(client)
         this.alias = [ '컬러', 'color' ]
         this.permission = 0x1
-        this.category = 'premium'
+        this.category = 'point'
     }
 
     async execute({ client, message }){
