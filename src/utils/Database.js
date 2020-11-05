@@ -10,7 +10,7 @@ module.exports.getGuildData = async (client, message) => {
 }
 
 module.exports.getUserData = async (client, message) => {
-    let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color'])
+    let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color', 'point'])
     let authordata = userdata.find(yy => yy.id == message.author.id)
     return authordata
 }
