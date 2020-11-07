@@ -4,15 +4,8 @@ const { Shoukaku } = require('shoukaku')
 const config = require('../../config')
 const fs = require('fs')
 const utils = require('../utils')
-const client = new Client()
 const path = require('path')
 console.log('[LOAD] Loaded Confing.')
-
-this.config = config
-this.knex = require('knex')(this.config.database)
-this.commands = new Collection()
-
-utils.loadCommands(this.commands, client, './commands')
 
 const LavalinkServer = config.lavalink.nodes
 const ShoukakuOptions = { moveOnDisconnect: false, resumable: false, resumableTimeout: 30, reconnectTries: 2, restTimeout: 10000 }
@@ -37,36 +30,15 @@ class ParkBot extends Client {
     }
 
     _setupClientEvents() {
-        this.on('message', async (msg) => {
-            if (msg.author.bot || !msg.guild) return
-            if (!msg.content.startsWith('$play')) return
-            if (this.shoukaku.getPlayer(msg.guild.id)) return
-            const args = msg.content.split(' ')
-            if (!args[1]) return
-            const node = this.shoukaku.getNode()
-            let data = await node.rest.resolve(args[1])
-            if (!data) return
-            const player = await node.joinVoiceChannel({
-                guildID: msg.guild.id,
-                voiceChannelID: msg.member.voice.channelID
-            }) 
-            player.on('error', (error) => {
-                console.error(error)
-                player.disconnect()
-            })
-            for (const event of ['end', 'closed', 'nodeDisconnect']) player.on(event, () => player.disconnect())
-            data = data.tracks.shift()
-            await player.playTrack(data) 
-            await msg.channel.send('Now Playing: ' + data.info.title)
-        })
-
         this.on('ready', () => {
             var client = this
+            this.commands = new Collection()
+            utils.loadCommands(this.commands, client, './commands')
 
             console.log(`[READY] Logged in to ${client.user.tag}`)
 
-            client.knex = this.knex
-            client.config = this.config
+            client.knex = require('knex')(config.database)
+            client.config = config
         
             client.music = this.shoukaku
             // eslint-disable-next-line

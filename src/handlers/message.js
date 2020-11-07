@@ -1,6 +1,32 @@
 const utils = require('../utils')
 const uuid = require('uuid')
 
+/*
+
+        this.on('message', async (msg) => {
+            if (msg.author.bot || !msg.guild) return
+            if (!msg.content.startsWith('$play')) return
+            if (this.shoukaku.getPlayer(msg.guild.id)) return
+            const args = msg.content.split(' ')
+            if (!args[1]) return
+            const node = this.shoukaku.getNode()
+            let data = await node.rest.resolve(args[1])
+            if (!data) return
+            const player = await node.joinVoiceChannel({
+                guildID: msg.guild.id,
+                voiceChannelID: msg.member.voice.channelID
+            }) 
+            player.on('error', (error) => {
+                console.error(error)
+                player.disconnect()
+            })
+            for (const event of ['end', 'closed', 'nodeDisconnect']) player.on(event, () => player.disconnect())
+            data = data.tracks.shift()
+            await player.playTrack(data) 
+            await msg.channel.send('Now Playing: ' + data.info.title)
+        }) 
+*/
+
 module.exports = async (client, commands) => {
     client.on('message', async (message) => {
         if(message.author.bot) return

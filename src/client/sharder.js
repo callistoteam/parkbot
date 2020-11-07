@@ -1,6 +1,6 @@
 const { ShardingManager } = require('discord.js')
 
-module.exports = class ParkBotClient {
+module.exports = class ParkBotSharder {
     constructor( config ) {
         if(!config) throw '[ERROR] "config" is not given'
         this.initialized = false
