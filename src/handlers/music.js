@@ -1,7 +1,7 @@
 const { Shoukaku } = require('shoukaku')
 // eslint-disable-next-line node/no-unpublished-require
 const config = require('../../config')
-const Options = { moveOnDisconnect: false, resumable: false, resumableTimeout: 30, reconnectTries: 2, restTimeout: 10000 }
+const Options = { moveOnDisconnect: false, resumable: false, resumableTimeout: 30, reconnectTries: 5, restTimeout: 10000 }
 
 class ShoukakuHandler extends Shoukaku {
     constructor(client) {
