@@ -1,4 +1,5 @@
 const Sharder = require('./client').Sharder
+// eslint-disable-next-line node/no-unpublished-require
 const Bot = new Sharder(require('../config.js'))
 
 Bot.init()
