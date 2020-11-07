@@ -1,43 +1,19 @@
 const utils = require('../utils')
 const uuid = require('uuid')
 
-module.exports = async (client, knex, commands) => {
+module.exports = async (client, commands) => {
     client.on('message', async (message) => {
         if(message.author.bot) return
 
-        let guilddata = utils.Database.getGuildData(client, message)
-        
-        let prefix
-        if(message.content.startsWith(client.config.client.prefix)) {
-            prefix = client.config.client.prefix
-        }
-        if(message.content.startsWith(guilddata.prefix)) {
-            prefix = guilddata.prefix
-        }
-
-        if(!prefix) return
-        
-        let authordata = await utils.Database.getUserData(client, message)
-
-        try{
-            if(authordata.blacklist == 1) return message.reply('블랙리스트된 유저.\n이의제기: <yoru@outlook.kr>')
-            // eslint-disable-next-line
-        } catch {
-            utils.Database.generateUserData(client, message)
-            authordata = await utils.Database.getUserData(client, message)
-        }
-
-        message.member.data = authordata
+        message.author.data = utils.Database.getUserData(message)
+        message.guild.data = utils.Database.getGuildData(message)
 
         message.data = {
-            cmd: message.content.replace(prefix, '').split(' ').shift(),
-            args: message.content.replace(prefix, '').split(' ').slice(1).join(' '),
-            arg: message.content.replace(prefix, '').split(' ').slice(1),
+            cmd: message.content.replace(message.guild.data.prefix, '').split(' ').shift(),
+            args: message.content.replace(message.guild.data.prefix, '').split(' ').slice(1).join(' '),
+            arg: message.content.replace(message.guild.data.prefix, '').split(' ').slice(1),
             authorPerm: utils.Permission.getUserPermission(message.member)
         }
-
-        message.author.data = authordata
-        message.guild.data = guilddata
 
         const cmd = await commands.find(r=> r.alias.includes(message.data.cmd))
         if(!cmd) return

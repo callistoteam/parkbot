@@ -1,6 +1,5 @@
-const Sharder = require('./Client').Sharder
-const { getConfig } = require('./utils')
-const Bot = new Sharder(getConfig())
+const Sharder = require('./client').Sharder
+const Bot = new Sharder(require('../config.js'))
 
 Bot.init()
 

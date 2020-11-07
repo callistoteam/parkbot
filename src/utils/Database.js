@@ -1,21 +1,17 @@
 module.exports.getGuildData = async (client, message) => {
-    let guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
-    let guilddata = guilddb.find(as => as.id == message.guild.id)
-    if(!guilddata) {
+    var guildData = await client.knex('guild').where({id: message.guild.id}).then(a => a[0])
+    if(!guildData) {
         await client.knex('guild').insert({id: message.guild.id, uri: '', prefix: '#'})
-        guilddb = await client.knex('guild').select(['id', 'uri', 'prefix'])
-        guilddata = guilddb.find(as => as.id == message.guild.id)
+        guildData = await client.knex('guild').where({id: message.guild.id}).then(a => a[0])
     }
-    return guilddata
+    return guildData
 }
 
 module.exports.getUserData = async (client, message) => {
-    let userdata = await client.knex('users').select(['id', 'premium', 'blacklist', 'color', 'point'])
-    let authordata = userdata.find(yy => yy.id == message.author.id)
-    return authordata
-}
-
-module.exports.generateUserData = async(client, message) => {
-    await client.knex('users').insert({id: message.author.id, premium: '0', blacklist: '0', point: '100'})
-    return
+    var userdata = await client.knex('users').where({id: message.author.id}).then(a => a[0])
+    if(!userdata) {
+        await client.knex('users').insert({id: message.author.id, premium: '0', blacklist: '0', point: '100'})
+        userdata = await client.knex('users').where({id: message.author.id}).then(a => a[0])
+    }
+    return userdata
 }
