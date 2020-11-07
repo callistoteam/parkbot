@@ -28,6 +28,7 @@
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.31",
     "mysql": "^2.18.1",
+    "shoukaku": "^1.5.2",
     "slyrics": "^0.1.42",
     "uuid": "^8.3.0"
   },

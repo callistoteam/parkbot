@@ -1,4 +1,5 @@
-const config = require('../utils/getConfig')()
+// eslint-disable-next-line node/no-unpublished-require
+const config = require('../../config')
 
 const permissions = [
     {
