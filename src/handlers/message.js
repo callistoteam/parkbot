@@ -7,6 +7,7 @@ module.exports = async (client, commands) => {
 
         message.author.data = utils.Database.getUserData(client, message)
         message.guild.data = utils.Database.getGuildData(client, message)
+        message.member.data = message.author.data
 
         message.data = {
             cmd: message.content.replace(message.guild.data.prefix, '').split(' ').shift(),
