@@ -34,7 +34,7 @@ module.exports = class Resume extends Command {
             return await message.channel.send('검색 결과가 없어. 더 간단하거나 자세하게 검색해봐.');
         const track = searchData.tracks.shift();
         const res = await client.queue.handle(node, track, message);
-        await message.channel.send(`🎵\`${track.info.title}\`을(를) 대기열에 추가했어.`).catch(() => null);
+        await message.channel.send(`🎵 \`${track.info.title}\`을(를) 대기열에 추가했어.`).catch(() => null);
         if (res) await res.play();
     }
 }

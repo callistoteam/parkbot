@@ -1,4 +1,5 @@
 const moment = require('moment-timezone')
+var youtubeThumbnail = require('youtube-thumbnail')
 require('moment-duration-format')(moment)
 moment.locale('ko-KR')
 
@@ -14,6 +15,7 @@ class Dispatcher {
 
         this.player.on('start', () =>
             // this.text.send(await new Embed().trackPlay(this.current.info.title, this.current.info.length, this.current.info.uri, this.guild, this.client.knex)).catch(() => null)
+            
             this.text.send(this.client.SE
                 .setAuthor('음악 재생')
                 .setTitle(`${this.current.info.title}`)
@@ -21,7 +23,7 @@ class Dispatcher {
                     `길이: ${this._formatTime(this.current.info.length)}`
                 )
                 .setURL(this.current.info.uri)
-                // .setThumbnail(thumbnail.medium)
+                .setThumbnail(youtubeThumbnail(this.current.info.uri).medium.url)
                 .setColor('RANDOM')
             )
         )
