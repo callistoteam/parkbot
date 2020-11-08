@@ -23,7 +23,7 @@ class ParkBot extends Client {
     }
 
     _setupShoukakuEvents() {
-        this.shoukaku.on('ready', (name) => console.log(`Lavalink ${name}: Ready!`))
+        this.shoukaku.on('ready', (name) => console.log(`[READY] Lavalink ${name}: Ready!`))
         this.shoukaku.on('error', (name, error) => console.error(`Lavalink ${name}: Error Caught,`, error))
         this.shoukaku.on('close', (name, code, reason) => console.warn(`Lavalink ${name}: Closed, Code ${code}, Reason ${reason || 'No reason'}`))
         this.shoukaku.on('disconnected', (name, reason) => console.warn(`Lavalink ${name}: Disconnected, Reason ${reason || 'No reason'}`))
@@ -33,7 +33,8 @@ class ParkBot extends Client {
         this.on('ready', () => {
             var client = this
             this.commands = new Collection()
-            utils.loadCommands(this.commands, client, './commands')
+            var cdm = this.commands
+            utils.loadCommands(cdm, client, './commands')
 
             console.log(`[READY] Logged in to ${client.user.tag}`)
 
@@ -48,7 +49,7 @@ class ParkBot extends Client {
                 // eslint-disable-next-line
                 if(handler.includes("music")) return
                 // eslint-disable-next-line security/detect-non-literal-require
-                require(`../handlers/${handler}`)(client, this.commands)
+                require(`../handlers/${handler}`)(client, cdm)
             })
             
             setInterval(() => {
