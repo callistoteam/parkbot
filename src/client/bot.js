@@ -33,8 +33,7 @@ class ParkBot extends Client {
         this.on('ready', () => {
             var client = this
             this.commands = new Collection()
-            var cdm = this.commands
-            utils.loadCommands(cdm, client, './commands')
+            utils.loadCommands(this.commands, client, './commands')
 
             console.log(`[READY] Logged in to ${client.user.tag}`)
 
@@ -49,7 +48,7 @@ class ParkBot extends Client {
                 // eslint-disable-next-line
                 if(handler.includes("music")) return
                 // eslint-disable-next-line security/detect-non-literal-require
-                require(`../handlers/${handler}`)(client, cdm)
+                require(`../handlers/${handler}`)(client, this.commands)
             })
             
             setInterval(() => {
