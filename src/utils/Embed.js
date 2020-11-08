@@ -25,7 +25,7 @@ module.exports = class Embed {
         }
     }
 
-    async trackPlay (title, length, url, thumbnail, user, guild, knex) {
+    async trackPlay (title, length, url, guild, knex) {
         await knex('guild').update({uri: url}).where('id', guild)
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)

@@ -1,4 +1,4 @@
-const { Client, Collection } = require('discord.js')
+const { Client, Collection, MessageEmbed } = require('discord.js')
 const { Shoukaku } = require('shoukaku')
 // eslint-disable-next-line node/no-unpublished-require
 const config = require('../../config')
@@ -39,6 +39,8 @@ class ParkBot extends Client {
 
             client.knex = require('knex')(config.database)
             client.config = config
+            client.queue = new utils.Queue(this)
+            client.SE = new MessageEmbed
         
             client.music = this.shoukaku
             // eslint-disable-next-line

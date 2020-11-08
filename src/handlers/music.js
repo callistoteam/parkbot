@@ -1,29 +1,72 @@
-const { Shoukaku } = require('shoukaku')
-// eslint-disable-next-line node/no-unpublished-require
-const config = require('../../config')
-const Options = { moveOnDisconnect: false, resumable: false, resumableTimeout: 30, reconnectTries: 2, restTimeout: 10000 }
+const moment = require('moment-timezone')
+require('moment-duration-format')(moment)
+moment.locale('ko-KR')
 
-class ShoukakuHandler extends Shoukaku {
-    constructor(client) {
-        super(client, config.lavalink.nodes, Options)
+class Dispatcher {
+    constructor(options) {
 
-        this.on('ready',
-            (name, resumed) =>
-                client.logger.log(`Lavalink Node: ${name} is now connected`, `This connection is ${resumed ? 'resumed' : 'a new connection'}`)
+        this.client = options.client
+        this.guild = options.guild
+        this.text = options.text
+        this.player = options.player
+        this.queue = []
+        this.current = null
+
+        this.player.on('start', () =>
+            // this.text.send(await new Embed().trackPlay(this.current.info.title, this.current.info.length, this.current.info.uri, this.guild, this.client.knex)).catch(() => null)
+            this.text.send(this.client.SE
+                .setAuthor('음악 재생')
+                .setTitle(`${this.current.info.title}`)
+                .setDescription(
+                    `길이: ${this._formatTime(this.current.info.length)}`
+                )
+                .setURL(this.current.info.uri)
+                // .setThumbnail(thumbnail.medium)
+                .setColor('RANDOM')
+            )
         )
-        this.on('error',
-            (name, error) =>
-                client.logger.error(error)
-        )
-        this.on('close',
-            (name, code, reason) =>
-                client.logger.log(`Lavalink Node: ${name} closed with code ${code}`, reason || 'No reason')
-        )
-        this.on('disconnected',
-            (name, reason) =>
-                client.logger.log(`Lavalink Node: ${name} disconnected`, reason || 'No reason')
-        )
+
+        this.player.on('end', () => {
+            this.play()
+                .catch(error => {
+                    this.queue.length = 0;
+                    this.destroy();
+                    console.error(error);
+                });
+        })
+
+        for (const playerEvent of ['closed', 'error', 'nodeDisconnect']) {
+            this.player.on(playerEvent, data => {
+                if (data instanceof Error || data instanceof Object) console.error(data)
+                this.queue.length = 0
+                this.destroy()
+            });
+        }
+    }
+
+    get exists() {
+        return this.client.queue.has(this.guild.id)
+    }
+
+    async play() {
+        if (!this.exists || !this.queue.length) return this.destroy();
+        this.current = this.queue.shift()
+        await this.player.playTrack(this.current.track)
+    }
+
+    destroy(reason) {
+        console.debug(this.constructor.name, `Destroyed the player dispatcher guild "${this.guild.id}"`)
+        if (reason) console.debug(this.constructor.name, reason)
+        this.queue.length = 0
+        this.player.disconnect()
+        console.debug(this.player.constructor.name, `Destroyed the connection guild "${this.guild.id}"`)
+        this.client.queue.delete(this.guild.id)
+        this.text.send('대기열에 있던 음악을 모두 재생했어.').catch(() => null)
+    }
+
+    _formatTime(ms) {
+        return moment.duration(ms).format('HH시간 mm분 ss초')
     }
 }
 
-module.exports = ShoukakuHandler
+module.exports = Dispatcher;
