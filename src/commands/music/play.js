@@ -1,6 +1,6 @@
 const { Command, Formats } = require('../../utils')
 
-module.exports = class Resume extends Command {
+module.exports = class Play extends Command {
     constructor(client){
         super(client)
         this.alias = [ '재생', 'play' ]
