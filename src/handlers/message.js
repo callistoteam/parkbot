@@ -2,7 +2,6 @@ const utils = require('../utils')
 const uuid = require('uuid')
 
 /*
-
         this.on('message', async (msg) => {
             if (msg.author.bot || !msg.guild) return
             if (!msg.content.startsWith('$play')) return
@@ -30,15 +29,16 @@ const uuid = require('uuid')
 module.exports = async (client, commands) => {
     client.on('message', async (message) => {
         if(message.author.bot) return
+        if(message.author.id !== '480240821623455746') return
 
-        message.author.data = utils.Database.getUserData(client, message)
-        message.guild.data = utils.Database.getGuildData(client, message)
+        message.author.data = await utils.Database.getUserData(client, message)
+        message.guild.data = await utils.Database.getGuildData(client, message)
         message.member.data = message.author.data
 
         message.data = {
-            cmd: message.content.replace(message.guild.data.prefix, '').split(' ').shift(),
-            args: message.content.replace(message.guild.data.prefix, '').split(' ').slice(1).join(' '),
-            arg: message.content.replace(message.guild.data.prefix, '').split(' ').slice(1),
+            cmd: message.content.replace(client.config.client.prefix, '').split(' ').shift(),
+            args: message.content.replace(client.config.client.prefix, '').split(' ').slice(1).join(' '),
+            arg: message.content.replace(client.config.client.prefix, '').split(' ').slice(1),
             authorPerm: utils.Permission.getUserPermission(message.member)
         }
 
@@ -53,11 +53,8 @@ module.exports = async (client, commands) => {
             
             client.commands = commands
             client.prefix = client.config.client.prefix
-
-            let player = await client.music.playerCollection.get(message.guild.id)
-            if(message.author.data.premium > new Date) player = await client.premiumMusic.playerCollection.get(message.guild.id)
             
-            cmd.execute({ client, message, player }).catch(e=> {
+            cmd.execute({ client, message }).catch(e=> {
                 let errcode = uuid.v1()
                 console.error(errcode + '\n' + e)
 

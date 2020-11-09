@@ -1,4 +1,4 @@
-const { Client, Collection } = require('discord.js')
+const { Client, Collection, MessageEmbed } = require('discord.js')
 const { Shoukaku } = require('shoukaku')
 // eslint-disable-next-line node/no-unpublished-require
 const config = require('../../config')
@@ -23,7 +23,7 @@ class ParkBot extends Client {
     }
 
     _setupShoukakuEvents() {
-        this.shoukaku.on('ready', (name) => console.log(`Lavalink ${name}: Ready!`))
+        this.shoukaku.on('ready', (name) => console.log(`[READY] Lavalink ${name}: Ready!`))
         this.shoukaku.on('error', (name, error) => console.error(`Lavalink ${name}: Error Caught,`, error))
         this.shoukaku.on('close', (name, code, reason) => console.warn(`Lavalink ${name}: Closed, Code ${code}, Reason ${reason || 'No reason'}`))
         this.shoukaku.on('disconnected', (name, reason) => console.warn(`Lavalink ${name}: Disconnected, Reason ${reason || 'No reason'}`))
@@ -39,6 +39,8 @@ class ParkBot extends Client {
 
             client.knex = require('knex')(config.database)
             client.config = config
+            client.queue = new utils.Queue(this)
+            client.SE = new MessageEmbed
         
             client.music = this.shoukaku
             // eslint-disable-next-line
