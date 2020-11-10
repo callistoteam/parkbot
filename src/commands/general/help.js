@@ -40,7 +40,7 @@ module.exports = class Help extends Command {
                 .join(', ')
         }
 
-        const info = ['general', 'music', 'useful']
+        const info = ['general', 'music']
             .map(cat => stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** \n${commands(cat)}`)
             .reduce((string, category) => string + '\n' + category)
 
