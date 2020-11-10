@@ -54,14 +54,14 @@ module.exports = class Embed {
             .setDescription('그럼 난 이만 :wave:')
     }
 
-    nowPlay(player, server) {
+    nowPlay(player) {
         let music = player.current.info
         let nowsecond = moment.duration(player.player.position).format('HH시간 mm분 ss초')
         let fsecond = moment.duration(music.length ? music.length : '알 수 없음').format('HH시간 mm분 ss초')
         return this.embed
             .setDescription(`<a:playforpark:708621715571474482> [${music.title}](${music.uri})
             ⏰ \`${nowsecond}\` / \`${fsecond}\`
-            > 음악 재생 서버: \`${server}\`서버
+            > 음악 재생 서버: \`${player.player.voiceConnection.node.name}\`서버
             `)
             .setThumbnail(youtubeThumbnail(music.uri).medium.url)
             .setFooter(`음악 출처: ${music.author}`)

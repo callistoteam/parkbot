@@ -6,7 +6,6 @@ module.exports = class Queue extends Command {
         this.alias = [ '대기열', 'q', 'queue' ]
         this.permission = 0x0
         this.category = 'music'
-        this.voiceChannel = true
     }
 
     async execute({ client, message }){
