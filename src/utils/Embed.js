@@ -42,21 +42,10 @@ module.exports = class Embed {
         return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1011) + '`...1024자 이상`')
     }
     
-    viewQueue(queue) {
-        let data = ''
-        for(let k of queue) {
-            let g = k[0]
-            k = k[1]
-            if(g !== 1) data += `[#${g-1}] [${k.title}](${k.uri}) - ${this._formatTime(k.length)} by ${k.user}\n`
-        }
-        try{
-            return this.embed.setAuthor('대기열')
-                .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
-        // eslint-disable-next-line
-        } catch{
-            return this.embed.setAuthor('대기열')
-                .setDescription(`${data}`)
-        } 
+    viewQueue(player) {
+        let queue = player.queue.map(a => a.info.title).join('\n')
+        let music = player.current.info
+        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`${queue}\`\`\``)
     }
 
     queueEnd() {
