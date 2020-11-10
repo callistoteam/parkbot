@@ -63,7 +63,7 @@ class Dispatcher {
         this.player.disconnect()
         console.debug(this.player.constructor.name, `Destroyed the connection guild "${this.guild.id}"`)
         this.client.queue.delete(this.guild.id)
-        this.text.send('대기열에 있던 음악을 모두 재생했어.').catch(() => null)
+        this.text.send('대기열에 있던 음악을 모두 재생해서 보이스 채널을 나갔어.').catch(() => null)
     }
 
     _formatTime(ms) {

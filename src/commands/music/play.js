@@ -3,9 +3,10 @@ const { Command, Formats } = require('../../utils')
 module.exports = class Play extends Command {
     constructor(client){
         super(client)
-        this.alias = [ '재생', 'play' ]
+        this.alias = [ '재생', 'play', 'p' ]
         this.permission = 0x0
         this.category = 'music'
+        this.args = [ { name: '곡명 또는 URL', required: true } ]
         this.voiceChannel = true
     }
 

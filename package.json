@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "dev": "node . config.dev"
+    "dev": "node . config.dev",
+    "lint": "eslint . --fix"
   },
   "repository": {
     "type": "git",

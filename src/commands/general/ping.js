@@ -20,7 +20,7 @@ module.exports = class Ping extends Command {
                 pingembed.setTimestamp()
                 msg.edit('', pingembed)
             })
-        }catch(e) {
+        } catch(e) {
             message.reply('알 수 없는 오류가 발생했어요.')
             console.log(e)
         }

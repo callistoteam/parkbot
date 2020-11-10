@@ -38,7 +38,7 @@ module.exports = class Embed {
     } */
 
     lyrics(result){
-        return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1000) + '`...1000자 이상`')
+        return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1011) + '`...1024자 이상`')
     }
     
     viewQueue(queue) {
