@@ -43,15 +43,14 @@ module.exports = class Embed {
     }
     
     viewQueue(player) {
-        let queue = player.queue.map(a => a.info.title).join('\n')
+        let queue = '+ ' + player.queue.map(a => a.info.title).join('\n+ ')
         let music = player.current.info
-        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`${queue ? queue : '대기중인 음악 없음'}\`\`\``)
+        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`diff\n${queue ? queue : '- 대기중인 음악 없음'}\n\`\`\``)
     }
 
     queueEnd() {
         return this.embed.setAuthor('대기열 종료')
-            .setTitle('신청한 모든 음악을 재생했습니다.')
-            .setDescription('그럼 난 이만 :wave:')
+            
     }
 
     nowPlay(player) {
