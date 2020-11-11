@@ -111,19 +111,23 @@ module.exports = class Embed {
             .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
     }
 
-    nodeinfo(nor, pre){
-        return this.embed
-            .setTitle('노드 정보')
-            .addField('Premium Server', `서버위치: \`US\`\n재생하고있는 서버 수: ${pre.playingPlayers}\n메모리사용량: ${(pre.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(pre.uptime)}`, true)
-            .addField('Normal Server', `서버위치: \`KR\`\n재생하고있는 서버 수: ${nor.playingPlayers}\n메모리사용량: ${(nor.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(nor.uptime)}`, true)
-    }
-
     embedcolor(color) {
-        return this.embed.setColor(color).setDescription('앞으로 이 색으로 출력할게!')
+        return this.embed.
+            setColor(color)
+            .setDescription('앞으로 이 색으로 출력할게!')
     }
 
     error(message, err, errorcode){
-        return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
+        return this.embed
+            .setTitle('에러')
+            .setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
+    }
+
+    async wallet(message){
+        return this.embed
+            .setTitle('내 지갑')
+            .addField('포인트', `\`${message.author.data.point}\`포인트`)
+            .addField('프리미엄', message.author.data.premium > new Date() ? '이용중' : '`#buy`커맨드로 프리미엄을 구매해봐!')
     }
 
     async melonchart(){
