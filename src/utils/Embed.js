@@ -45,7 +45,7 @@ module.exports = class Embed {
     viewQueue(player) {
         let queue = player.queue.map(a => a.info.title).join('\n')
         let music = player.current.info
-        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`${queue}\`\`\``)
+        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`${queue ? queue : '대기중인 음악 없음'}\`\`\``)
     }
 
     queueEnd() {
