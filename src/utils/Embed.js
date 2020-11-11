@@ -124,10 +124,11 @@ module.exports = class Embed {
     }
 
     async wallet(message){
+        let pl = JSON.parse(message.author.data.pointlog).log
         return this.embed
             .setTitle('내 지갑')
             .addField('포인트', `\`${message.author.data.point}\`포인트`)
-            .addField('포인트 내역', `\`\`\`diff\n${JSON.parse(message.author.data.pointlog).log.join('\n')}\n\`\`\``)
+            .addField('포인트 내역(최근 5건)', `\`\`\`diff\n${pl.length > 6 ? pl.slice(pl.length-5, pl.length + 1).join('\n') : pl.join('\n')}\n\`\`\``)
             .addField('프리미엄', message.author.data.premium > new Date() ? '이용중' : '`#buy`커맨드로 프리미엄을 구매해봐!')
     }
 
