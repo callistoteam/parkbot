@@ -1,6 +1,6 @@
 const { Command } = require('../../utils')
 
-module.exports = class Byt extends Command {
+module.exports = class Buy extends Command {
     constructor(client){
         super(client)
         this.alias = [ '구매', 'buy' ]

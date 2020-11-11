@@ -127,6 +127,7 @@ module.exports = class Embed {
         return this.embed
             .setTitle('내 지갑')
             .addField('포인트', `\`${message.author.data.point}\`포인트`)
+            .addField('포인트 내역', `\`\`\`diff\n${JSON.parse(message.author.data.pointlog).log.join('\n')}\n\`\`\``)
             .addField('프리미엄', message.author.data.premium > new Date() ? '이용중' : '`#buy`커맨드로 프리미엄을 구매해봐!')
     }
 
