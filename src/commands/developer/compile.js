@@ -8,10 +8,10 @@ function filter() {
         if(i !== 0 && typeof(censor) === 'object' && typeof(value) == 'object' && censor == value) 
             return '[Circular]'; 
   
-        if(i >= 1000) // seems to be a harded maximum of 30 serialized objects?
+        if(i >= 1000)
             return '[Unknown]';
   
-        ++i; // so we know we aren't using the original object anymore
+        ++i;
   
         return value;
     }

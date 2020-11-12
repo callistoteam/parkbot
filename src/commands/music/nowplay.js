@@ -1,23 +1,17 @@
 const { Command, Embed } = require('../../utils')
 
-module.exports = class Nowplay extends Command {
+module.exports = class NowPlay extends Command {
     constructor(client){
         super(client)
-        this.alias = [ '현재재생', 'nowplaying', 'nowplay', 'np', 'ㅞ' ]
+        this.alias = [ '현재재생', 'np', 'nowplay' ]
         this.permission = 0x0
         this.category = 'music'
     }
 
-    async execute({ message, player }){
-        if(!player) return message.reply('이 서버에서 재생중인 음악이 없어!')
-
-        let server = '알 수 없음'
-        if(player.node.options.host.includes('12345')){
-            server = 'Premium'
-        } else {
-            server = 'Normal'
-        }
-
-        message.channel.send(new Embed(message).nowPlay(player, server))
+    async execute({ client, message }){
+        const dispatcher = client.queue.get(message.guild.id)
+        if (!dispatcher) return await message.channel.send('이 길드에서 재생중인 음악이 없어 :(')
+        
+        message.reply(new Embed(message).nowPlay(dispatcher))
     }
 }

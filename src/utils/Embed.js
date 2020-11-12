@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js')
 const moment = require('moment-timezone')
+var youtubeThumbnail = require('youtube-thumbnail')
 require('moment-duration-format')(moment)
 moment.locale('ko-KR')
 
@@ -25,7 +26,7 @@ module.exports = class Embed {
         }
     }
 
-    async trackPlay (title, length, url, thumbnail, user, guild, knex) {
+    /* async trackPlay (title, length, url, guild, knex) {
         await knex('guild').update({uri: url}).where('id', guild)
         return this.embed.setAuthor('음악 재생')
             .setTitle(`${title}`)
@@ -35,45 +36,33 @@ module.exports = class Embed {
             .setURL(url)
             .setThumbnail(thumbnail.medium)
             .setColor('RANDOM')
-    }
+    } */
 
     lyrics(result){
-        return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1000) + '`...1000자 이상`')
+        return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1011) + '`...1024자 이상`')
     }
     
-    viewQueue(queue) {
-        let data = ''
-        for(let k of queue) {
-            let g = k[0]
-            k = k[1]
-            if(g !== 1) data += `[#${g-1}] [${k.title}](${k.uri}) - ${this._formatTime(k.length)} by ${k.user}\n`
-        }
-        try{
-            return this.embed.setAuthor('대기열')
-                .setDescription(`현재 재생중: ${queue.get(1).title} - ${queue.get(1).user}\n\n${data}`)
-        // eslint-disable-next-line
-        } catch{
-            return this.embed.setAuthor('대기열')
-                .setDescription(`${data}`)
-        } 
+    viewQueue(player) {
+        let queue = '+ ' + player.queue.map(a => a.info.title).join('\n+ ')
+        let music = player.current.info
+        return this.embed.addField(`현재 재생중: ${music.title}`, `\`\`\`diff\n${queue ? queue : '- 대기중인 음악 없음'}\n\`\`\``)
     }
 
     queueEnd() {
         return this.embed.setAuthor('대기열 종료')
-            .setTitle('신청한 모든 음악을 재생했습니다.')
-            .setDescription('그럼 난 이만 :wave:')
+            
     }
 
-    nowPlay(player, server) {
-        let music = player.queue.get(1)
-        let nowsecond = moment.duration(player.position).format('HH시간 mm분 ss초')
+    nowPlay(player) {
+        let music = player.current.info
+        let nowsecond = moment.duration(player.player.position).format('HH시간 mm분 ss초')
         let fsecond = moment.duration(music.length ? music.length : '알 수 없음').format('HH시간 mm분 ss초')
         return this.embed
             .setDescription(`<a:playforpark:708621715571474482> [${music.title}](${music.uri})
             ⏰ \`${nowsecond}\` / \`${fsecond}\`
-            > 음악 재생 서버: \`${server}\`서버
+            > 음악 재생 서버: \`${player.player.voiceConnection.node.name}\`서버
             `)
-            .setThumbnail(music.thumbnail.high)
+            .setThumbnail(youtubeThumbnail(music.uri).medium.url)
             .setFooter(`음악 출처: ${music.author}`)
     }
 
@@ -122,19 +111,25 @@ module.exports = class Embed {
             .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
     }
 
-    nodeinfo(nor, pre){
-        return this.embed
-            .setTitle('노드 정보')
-            .addField('Premium Server', `서버위치: \`US\`\n재생하고있는 서버 수: ${pre.playingPlayers}\n메모리사용량: ${(pre.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(pre.uptime)}`, true)
-            .addField('Normal Server', `서버위치: \`KR\`\n재생하고있는 서버 수: ${nor.playingPlayers}\n메모리사용량: ${(nor.memory.used / 1024 / 1024).toFixed(2)}MB\n업타임: ${this._formatTime(nor.uptime)}`, true)
-    }
-
     embedcolor(color) {
-        return this.embed.setColor(color).setDescription('앞으로 이 색으로 출력할게!')
+        return this.embed.
+            setColor(color)
+            .setDescription('앞으로 이 색으로 출력할게!')
     }
 
     error(message, err, errorcode){
-        return this.embed.setTitle('에러').setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
+        return this.embed
+            .setTitle('에러')
+            .setDescription(`**UUID**: ${errorcode}\n\nAuthor: \`${message.author.id}\`\nGuild: \`${message.guild}\`\nChannel: \`${message.channel}\`\nMessage Content: \`${message.content}\`\n\n**Error**:\`\`\`${err}\`\`\``)
+    }
+
+    async wallet(message){
+        let pl = JSON.parse(message.author.data.pointlog).log
+        return this.embed
+            .setTitle('내 지갑')
+            .addField('포인트', `\`${message.author.data.point}\`포인트`)
+            .addField('포인트 내역(최근 5건)', `\`\`\`diff\n${pl.length > 6 ? pl.slice(pl.length-5, pl.length + 1).join('\n') : pl.join('\n')}\n\`\`\``)
+            .addField('프리미엄', message.author.data.premium > new Date() ? '이용중' : '`#buy`커맨드로 프리미엄을 구매해봐!')
     }
 
     async melonchart(){

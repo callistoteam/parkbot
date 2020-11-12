@@ -1,10 +1,10 @@
 const { ShardingManager } = require('discord.js')
 
-module.exports = class ParkBotClient {
+module.exports = class ParkBotSharder {
     constructor( config ) {
-        if(!config) throw '[ERR0R] "config" is not given'
+        if(!config) throw '[ERROR] "config" is not given'
         this.initialized = false
-        this.manager = new ShardingManager('./src/Client/bot.js', { token: config.client.token, totalShards: 1 })
+        this.manager = new ShardingManager('./src/Client/bot.js', { token: config.client.token, totalShards: config.client.totalShards })
     }
 
     async init() {

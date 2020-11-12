@@ -18,10 +18,11 @@ module.exports = class Lyrics extends Command {
 
     async execute({ message }){
         try{
-            message.channel.send(new Embed(message).lyrics(await search('melon', message.data.args)))
+            message.author.send(new Embed(message).lyrics(await search('melon', message.data.args)))
+            message.reply('DM을 확인해줘!')
         // eslint-disable-next-line node/no-unsupported-features/es-syntax
         } catch {
-            message.channel.send('검색된 음악이 없어. 확인 후 다시 시도해줘.')
+            message.reply('검색된 음악이 없어. 확인 후 다시 시도해줘.')
         }
     }
 }
