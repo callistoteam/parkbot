@@ -4,7 +4,7 @@ module.exports = class ParkBotSharder {
     constructor( config ) {
         if(!config) throw '[ERROR] "config" is not given'
         this.initialized = false
-        this.manager = new ShardingManager('./src/Client/bot.js', { token: config.client.token, totalShards: config.client.totalShards })
+        this.manager = new ShardingManager('./src/client/bot.js', { token: config.client.token, totalShards: config.client.totalShards })
     }
 
     async init() {
