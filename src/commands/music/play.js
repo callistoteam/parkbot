@@ -1,5 +1,13 @@
 const { Command, Formats } = require('../../utils')
 
+var insertlog = async (client, message, track) => {
+    let usrdata = await client.knex('users').where({ id: message.author.id }).then(a => a[0])
+    console.log(track)
+    let pl = JSON.parse(usrdata.log).log
+    pl.push(`${track.info.title} : ${track.info.identifier}`)
+    await client.knex('users').update({ log: `{"log": ${JSON.stringify(pl)}}`}).where({ id: message.author.id })
+}
+
 module.exports = class Play extends Command {
     constructor(client){
         super(client)
@@ -27,6 +35,7 @@ module.exports = class Play extends Command {
             }   
             await message.channel.send(isPlaylist ? `**${playlistName}** 플레이리스트를 큐에 추가했어` : `**${track.info.title}**을(를) 큐에 추가했어.`)
                 .catch(() => null)
+            insertlog(client, message, track)
             if (res) await res.play()
             return
         }
@@ -35,7 +44,9 @@ module.exports = class Play extends Command {
             return await message.channel.send('검색 결과가 없어. 더 간단하거나 자세하게 검색해봐.')
         const track = searchData.tracks.shift()
         const res = await client.queue.handle(node, track, message)
+        insertlog(client, message, track)
         await message.channel.send(`🎵 \`${track.info.title}\`을(를) 대기열에 추가했어.`).catch(() => null)
+        
         if (res) await res.play()
     }
 }
