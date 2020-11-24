@@ -6,7 +6,7 @@ module.exports = class SetMoney extends Command {
         this.alias = [ '돈설정', 'sm' ]
         this.args = [ { name: '아이디', required: true }, { name: '돈', required: true } ]
         this.permission = 0x16
-        this.category = 'point'
+        this.category = 'developer'
     }
 
     async execute({ client, message }){
