@@ -13,6 +13,7 @@ class Queue extends Map {
                 guildID: msg.guild.id,
                 voiceChannelID: msg.member.voice.channelID
             })
+
             console.log(player.constructor.name, `New connection @ guild "${msg.guild.id}"`)
             const dispatcher = new Dispatcher({
                 client: this.client,

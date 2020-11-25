@@ -14,18 +14,8 @@ class Dispatcher {
         this.current = null
 
         this.player.on('start', () =>
-        // this.text.send(await new Embed().trackPlay(this.current.info.title, this.current.info.length, this.current.info.uri, this.guild, this.client.knex)).catch(() => null)
-            
-            this.text.send(this.client.SE
-                .setAuthor('음악 재생')
-                .setTitle(`${this.current.info.title}`)
-                .setDescription(
-                    `길이: ${this._formatTime(this.current.info.length)}`
-                )
-                .setURL(this.current.info.uri)
-                .setThumbnail(youtubeThumbnail(this.current.info.uri).medium.url)
-                .setColor('RANDOM')
-            )
+            // this.text.send(await new Embed().trackPlay(this.current.info.title, this.current.info.length, this.current.info.uri, this.guild, this.client.knex)).catch(() => null)
+            console.log(`Queue started @ guild "${this.guild.id}"`)
         )
 
         this.player.on('end', () => {
@@ -54,6 +44,16 @@ class Dispatcher {
         if (!this.exists || !this.queue.length) return this.destroy()
         this.current = this.queue.shift()
         await this.player.playTrack(this.current.track)
+        this.text.send(this.client.SE
+            .setAuthor('음악 재생')
+            .setTitle(`${this.current.info.title}`)
+            .setDescription(
+                `길이: ${this._formatTime(this.current.info.length)}`
+            )
+            .setURL(this.current.info.uri)
+            .setThumbnail(youtubeThumbnail(this.current.info.uri).medium.url)
+            .setColor('RANDOM')
+        )
     }
 
     destroy(reason) {
@@ -63,10 +63,7 @@ class Dispatcher {
         this.player.disconnect()
         console.debug(this.player.constructor.name, `Destroyed the connection guild "${this.guild.id}"`)
         this.client.queue.delete(this.guild.id)
-        this.text.send(this.client.SE
-            .setTitle('신청한 모든 음악을 재생했습니다.')
-            .setDescription('그럼 난 이만 👋')
-        ).catch(() => null)
+        this.text.send('> 대기열에 있던 모든 음악을 다 재생했어. 그럼 난 이만 👋').catch(() => null)
     }
 
     _formatTime(ms) {
