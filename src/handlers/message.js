@@ -29,7 +29,6 @@ const uuid = require('uuid')
 module.exports = async (client, commands) => {
     client.on('message', async (message) => {
         if(message.author.bot) return
-        if(message.author.id !== '480240821623455746') return
 
         message.author.data = await utils.Database.getUserData(client, message)
         message.guild.data = await utils.Database.getGuildData(client, message)
