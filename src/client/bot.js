@@ -32,6 +32,7 @@ class ParkBot extends Client {
     _setupClientEvents() {
         this.on('ready', () => {
             var client = this
+            // eslint-disable-next-line node/no-extraneous-require
             const Dokdo = require('dokdo')
             const DokdoHandler = new Dokdo(
                 client, 

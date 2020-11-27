@@ -10,7 +10,7 @@ module.exports.getGuildData = async (client, message) => {
 module.exports.getUserData = async (client, message) => {
     var userdata = await client.knex('users').where({id: message.author.id}).then(a => a[0])
     if(!userdata) {
-        await client.knex('users').insert({id: message.author.id, premium: '0', blacklist: '0', point: '100', log: '{"log": []}', pointlog: '{"log": ["+100포인트: 신규 가입에 의한 포인트 추가"]}'})
+        await client.knex('users').insert({id: message.author.id, premium: '0', verified: '0', blacklist: '0', point: '100', log: '{"log": []}', pointlog: '{"log": ["+100포인트: 신규 가입에 의한 포인트 추가"]}'})
         userdata = await client.knex('users').where({id: message.author.id}).then(a => a[0])
     }
     return userdata
