@@ -37,6 +37,6 @@ module.exports = class A extends Command {
 ${parseInt(message.author.data.point) > 129 ? '스토어에서 포인트를 구매하신적이 있으신가요? premium@parkbot.ml 로 연락하시면 잃은 돈을 돌려드려요.' : '**도박 중독, 불행의 시작입니다.**'}
             `)
         }
-        await client.knex('users').update({pointlog: `{"log": ${JSON.stringify(pl)}}`})
+        await client.knex('users').update({pointlog: `{"log": ${JSON.stringify(pl)}}`}).where({id: message.author.id})
     }
 }
