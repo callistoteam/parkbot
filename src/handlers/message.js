@@ -26,9 +26,11 @@ const uuid = require('uuid')
         }) 
 */
 
-module.exports = async (client, commands) => {
+module.exports = async (client, commands, DokdoHandler) => {
     client.on('message', async (message) => {
         if(message.author.bot) return
+        DokdoHandler.run(message)
+        if(!message.content.startsWith(client.config.client.prefix)) return
 
         message.author.data = await utils.Database.getUserData(client, message)
         message.guild.data = await utils.Database.getGuildData(client, message)

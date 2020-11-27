@@ -32,6 +32,17 @@ class ParkBot extends Client {
     _setupClientEvents() {
         this.on('ready', () => {
             var client = this
+            const Dokdo = require('dokdo')
+            const DokdoHandler = new Dokdo(
+                client, 
+                { 
+                    aliases: ['dokdo', 'dok'], 
+                    owners: config.client.dev, 
+                    prefix: config.client.prefix, 
+                    noPerm: (message) => message.reply('No Permission')
+                }
+            )
+
             this.commands = new Collection()
             utils.loadCommands(this.commands, client, './commands')
 
@@ -50,8 +61,19 @@ class ParkBot extends Client {
                 // eslint-disable-next-line
                 if(handler.includes("music")) return
                 // eslint-disable-next-line security/detect-non-literal-require
-                require(`../handlers/${handler}`)(client, this.commands)
+                require(`../handlers/${handler}`)(client, this.commands, DokdoHandler)
             })
+
+            client.processMem = () => {
+                let keys = Object.keys(process.memoryUsage())
+                let a = process.memoryUsage()
+                let result = {}
+                
+                // eslint-disable-next-line
+                keys.map(key => result[key] = (a[key] / 1024 / 1024).toFixed(2) + 'MB')
+        
+                return result
+            }
             
             setInterval(() => {
                 const index = Math.floor(Math.random() * (client.config.client.statusList.length - 1) + 1)
