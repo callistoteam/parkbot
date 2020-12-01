@@ -1,6 +1,6 @@
 <p align="center"><img src="https://cuteyoru.cdn3.cafe24.com/dd9fac738915b06cfeca7e753bf2fab8.png" width="300"/></p>
 
-<h1 align="center">파크봇 : Shoukaku와 discord.js로 만들어진 뮤직봇</h1>
+<h1 align="center">파크봇 : Shoukaku와 discord.js로 만들어진 한국어 뮤직봇</h1>
 
 <p align='center'>
 <a href="https://github.com/callistoteam/parkbot/issues">
@@ -28,3 +28,9 @@
 ## 이용방법
 * #도움 커맨드를 통해 명령어 알아보기.
 <img src="https://cuteyoru.cdn3.cafe24.com/help.jpg" />
+
+## 직접 호스팅하기
+1. 라바링크를 호스팅하기
+2. config.js파일을 만든 후 적절하게 수정하기
+3. `npm i`로 패키지 설치하기
+4. `node .`으로 봇 시작하기
