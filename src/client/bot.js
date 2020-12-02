@@ -32,17 +32,6 @@ class ParkBot extends Client {
     _setupClientEvents() {
         this.on('ready', () => {
             var client = this
-            // eslint-disable-next-line node/no-extraneous-require
-            const Dokdo = require('dokdo')
-            const DokdoHandler = new Dokdo(
-                client, 
-                { 
-                    aliases: ['dokdo', 'dok'], 
-                    owners: config.client.dev, 
-                    prefix: config.client.prefix, 
-                    noPerm: (message) => message.reply('No Permission')
-                }
-            )
 
             this.commands = new Collection()
             utils.loadCommands(this.commands, client, './commands')
@@ -53,8 +42,8 @@ class ParkBot extends Client {
             client.config = config
             client.queue = new utils.Queue(this)
             client.SE = new MessageEmbed
-        
             client.music = this.shoukaku
+            
             // eslint-disable-next-line
             let y = fs.readdirSync(path.join(__dirname, '../handlers')).filter(el=> el.split('.').pop() === 'js')
         
@@ -62,7 +51,7 @@ class ParkBot extends Client {
                 // eslint-disable-next-line
                 if(handler.includes("music")) return
                 // eslint-disable-next-line security/detect-non-literal-require
-                require(`../handlers/${handler}`)(client, this.commands, DokdoHandler)
+                require(`../handlers/${handler}`)(client, this.commands)
             })
 
             client.processMem = () => {
