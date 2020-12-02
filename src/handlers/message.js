@@ -1,5 +1,6 @@
 const utils = require('../utils')
 const uuid = require('uuid')
+const Dokdo = require('dokdo')
 
 /*
         this.on('message', async (msg) => {
@@ -26,7 +27,18 @@ const uuid = require('uuid')
         }) 
 */
 
-module.exports = async (client, commands, DokdoHandler) => {
+module.exports = async (client, commands) => {
+    // eslint-disable-next-line node/no-extraneous-require
+    const DokdoHandler = new Dokdo(
+        client,
+        { 
+            aliases: ['dokdo', 'dok'],
+            owners: client.config.client.dev, 
+            prefix: '!!', 
+            noPerm: (message) => message.reply('No Permission')
+        }
+    )
+
     client.on('message', async (message) => {
         if(message.author.bot) return
         DokdoHandler.run(message)
