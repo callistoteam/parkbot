@@ -17,7 +17,7 @@ module.exports = class GetPoint extends Command {
             return message.reply(`${wt} 뒤에 해당 커맨드를 사용할 수 있어.`)
         }
 
-        let pointTime = new Date().setHours(new Date().getHours()+1)
+        let pointTime = new Date().setHours(new Date().getHours() + 1)
         let newPoint = parseInt(message.author.data.point) + 50
 
         let pl = JSON.parse(message.author.data.pointlog).log
