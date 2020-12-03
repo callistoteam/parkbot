@@ -38,8 +38,12 @@ module.exports = class Embed {
             .setColor('RANDOM')
     } */
 
-    lyrics(result){
+    lyrics(result) {
         return this.embed.setTitle(result.title).addField('가사', result.result.substr(0, 1011) + '`...1024자 이상`')
+    }
+
+    sample() {
+        return this.embed
     }
     
     viewQueue(player) {
