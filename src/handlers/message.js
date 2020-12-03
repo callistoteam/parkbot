@@ -34,7 +34,7 @@ module.exports = async (client, commands) => {
         { 
             aliases: ['dokdo', 'dok'],
             owners: client.config.client.dev, 
-            prefix: '!!', 
+            prefix: client.config.client.prefix, 
             noPerm: (message) => message.reply('No Permission')
         }
     )
