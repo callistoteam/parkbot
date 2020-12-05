@@ -29,9 +29,12 @@ module.exports = class Help extends Command {
 
             return message.reply(embed)
         }
+
+        var links = '[초대하기](https://parkbot.ml)\n[수집한 데이터들](https://mydata.parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://parkbot.ml/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)'
+
         const embed = new MessageEmbed()
             .setColor('RANDOM')
-            .addField('유용한 링크', '[초대하기](https://parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://parkbot.ml/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)')
+            .addField('유용한 링크', links)
             .setFooter('`#help [커맨드]`로 자세한 도움말을 확인할 수 있어!')
         
         let commands = (category) => {
