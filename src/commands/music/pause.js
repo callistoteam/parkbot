@@ -13,7 +13,7 @@ module.exports = class Pause extends Command {
         const dispatcher = client.queue.get(message.guild.id)
         if (!dispatcher) return await message.channel.send('이 길드에서 재생중인 음악이 없어 :(')
 
-        dispatcher.setPaused(true)
+        dispatcher.player.setPaused(true)
 
         message.reply('> 음악을 일시정지했어. `#resume`커맨드로 일시정지를 해제할 수 있어.')
     }

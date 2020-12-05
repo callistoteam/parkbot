@@ -13,7 +13,7 @@ module.exports = class Resume extends Command {
         const dispatcher = client.queue.get(message.guild.id)
         if (!dispatcher) return await message.channel.send('이 길드에서 재생중인 음악이 없어 :(')
 
-        dispatcher.setPaused(false)
+        dispatcher.player.setPaused(false)
 
         message.reply('> 음악을 다시 재생할게!')
     }
