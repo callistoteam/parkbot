@@ -19,7 +19,7 @@ module.exports = class A extends Command {
         let lucky = genRandomInt(0, 2) == 1
 
         if(lucky){
-            await client.knex('users').update({ point: message.author.data.point*2 }).where({id: message.author.id})
+            await client.knex('users').update({ point: message.author.data.point * 2 }).where({ id: message.author.id })
             pl.push(`+${message.author.data.point}포인트: 올인 성공에 의한 포인트 추가`)
             msg.edit(`
 🎊 축하해요! 올인에 성공해서 돈이 2배로 늘어났어요.
