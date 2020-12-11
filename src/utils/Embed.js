@@ -119,6 +119,13 @@ module.exports = class Embed {
             .addField('현재 온도', `실제 온도: ${res.main.temp}°C\n체감 온도: ${res.main.feels_like}`)
     }
 
+    hangang(data) {
+        return this.embed
+            .setTitle('한강')
+            .addField('현재 수온', data.temp)
+            .addField('측정시간', data.time)
+    }
+
     embedcolor(color) {
         return this.embed.
             setColor(color)
@@ -139,6 +146,7 @@ module.exports = class Embed {
             .addField('포인트 내역(최근 5건)', `\`\`\`diff\n${pl.length > 6 ? pl.slice(pl.length-5, pl.length + 1).join('\n') : pl.join('\n')}\n\`\`\``)
             .addField('프리미엄', message.author.data.premium > new Date() ? '이용중' : '`#buy`커맨드로 프리미엄을 구매해봐!')
     }
+
 
     async melonchart(){
         let date = moment(Date.now()).tz('Asia/Seoul')
