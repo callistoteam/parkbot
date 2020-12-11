@@ -15,6 +15,6 @@ module.exports = class Pause extends Command {
 
         dispatcher.player.setPaused(true)
 
-        message.channel.send(`> 음악을 일시정지했어. `#resume`커맨드로 일시정지를 해제할 수 있어. <@${message.author.id}>`)
+        message.channel.send(`> 음악을 일시정지했어. \`#resume\`커맨드로 일시정지를 해제할 수 있어. <@${message.author.id}>`)
     }
 }
