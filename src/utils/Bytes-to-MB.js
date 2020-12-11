@@ -1,4 +1,4 @@
-const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'Yoru', 'godyoru']
 module.exports = function (x) {
     let l = 0; let n = parseInt(x, 10) || 0
 
