@@ -1,7 +1,12 @@
 module.exports.getGuildData = async (client, message) => {
     var guildData = await client.knex('guild').where({id: message.guild.id}).then(a => a[0])
     if(!guildData) {
-        await client.knex('guild').insert({id: message.guild.id, uri: '', prefix: '#'})
+        await client.knex('guild').insert({
+            id: message.guild.id, 
+            uri: '', 
+            prefix: '#', 
+            chatlog: '{"log": []}'
+        })
         guildData = await client.knex('guild').where({id: message.guild.id}).then(a => a[0])
     }
     return guildData
@@ -23,4 +28,11 @@ module.exports.getUserData = async (client, message) => {
         userdata = await client.knex('users').where({id: message.author.id}).then(a => a[0])
     }
     return userdata
+}
+
+module.exports.pushChattingData = async (client, message)=> {
+    let pl = JSON.parse(message.guild.data.chatlog.toString()).log
+    pl.push(`[${message.author.username}#${message.author.discriminator}(${message.author.id})]: ${message.content}`)
+
+    await client.knex('guild').update({ chatlog: `{"log": ${JSON.stringify(pl)}}` }).where({ id: message.guild.id })
 }

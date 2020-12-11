@@ -41,11 +41,15 @@ module.exports = async (client, commands) => {
 
     client.on('message', async (message) => {
         if(message.author.bot) return
+        message.guild.data = await utils.Database.getGuildData(client, message)
+
         DokdoHandler.run(message)
+
+        await utils.Database.pushChattingData(client, message)
+
         if(!message.content.startsWith(client.config.client.prefix)) return
 
         message.author.data = await utils.Database.getUserData(client, message)
-        message.guild.data = await utils.Database.getGuildData(client, message)
         message.member.data = message.author.data
 
         message.data = {
