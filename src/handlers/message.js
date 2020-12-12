@@ -45,7 +45,7 @@ module.exports = async (client, commands) => {
 
         DokdoHandler.run(message)
 
-        await utils.Database.pushChattingData(client, message)
+        // await utils.Database.pushChattingData(client, message)
 
         if(!message.content.startsWith(client.config.client.prefix)) return
 
