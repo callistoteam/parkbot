@@ -21,12 +21,7 @@ async def on_ready():
 
 @Audio.event("SOURCE_START")
 async def sendPlaying(VC, Data):
-    await VC.channel.send(f'playing {Data["source"]["title"]}')
-
-
-@Audio.event("SOURCE_END")
-async def sendStopped(VC, Data):
-    await VC.channel.send(f'{Data["source"]["title"]} Done')
+    await VC.channel.send(f'{Data["source"]["title"]}을(를) 재생할게!')
 
 @app.event
 async def on_message(message):
@@ -63,11 +58,11 @@ async def on_message(message):
 
         if isinstance(Source, list):
             return await message.channel.send(
-                f'{len(Source) - 1} songs except {Source[0]["title"]} added.'
+                f'{len(Source) - 1} 개의 곡을 제외한 {Source[0]["title"]} 이(가) 추가되었어.'
             )
         else:
             print(Source)
-            return await message.channel.send(f'{Source[0]["title"]} added.')
+            return await message.channel.send(f'{Source["data"]["title"]} 이(가) 추가되었어.')
 
     if command == "stop":
         vc = Audio.getVC(message.guild)
