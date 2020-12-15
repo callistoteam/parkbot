@@ -15,6 +15,8 @@ URL_REGEX = re.compile(
     r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
 )
 
+ns = "> 해당 서버에서 재생중인 음악이 없는거같아 :("
+
 @app.event
 async def on_ready():
     print(f"bot : {app.user}")
@@ -68,11 +70,25 @@ async def on_message(message):
         vc = Audio.getVC(message.guild)
 
         if not vc:
-            return await message.channel.send("> 해당 서버에서 재생중인 음악이 없는거같아 :(")
+            return await message.channel.send(ns)
 
         await vc.destroy()
 
         return await message.channel.send(f"큐를 초기화하고 보이스 채널을 나갔어.")
+
+    if command == "volume":
+        vc = Audio.getVC(message.guild)
+
+        if not vc:
+            return await message.channel.send(ns)
+
+        offset = (
+            int(args[1]) if args[1] else 100
+        )
+
+        Volume = await vc.setVolume(offset / 100)
+
+        return await message.channel.send(f"> 볼륨을 `{Volume * 100}%`로 설정했어.")
 
     if command == "logout":
         if not message.author.id in config.owner: return
