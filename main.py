@@ -123,6 +123,25 @@ async def on_message(message):
             f'현재 재생중: {Data["current"]["title"]} `{Data["position"]}:{Data["duration"]}`'
         )
 
+    if command in commands.queue:
+        vc = Audio.getVC(message.guild)
+
+        if not vc:
+            return await message.channel.send(ns)
+
+        State = await vc.getState()
+        Queue = await vc.getQueue()
+        QueueText = "\n".join(
+            [str(Queue.index(Item) + 1) + ". " + Item["title"] for Item in Queue]
+        )
+
+        return await message.channel.send(
+            f"""
+현재 재생중: {State["current"]["title"]} `{State["position"]}:{State["duration"]}`
+{QueueText}
+"""
+        )
+
     if command == "logout":
         if not message.author.id in config.owner: return
         await app.logout()
