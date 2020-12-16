@@ -1,4 +1,4 @@
 discord.py
 mysql-connector-python
 discodo
-youtube_dl
+pypika
