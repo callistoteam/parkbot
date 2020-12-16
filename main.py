@@ -1,5 +1,7 @@
 import config
 import commands
+import embed
+
 import db
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +22,7 @@ async def on_ready():
 
 @Audio.event("SOURCE_START")
 async def sendPlaying(VC, Data):
-    await VC.channel.send(f'{Data["source"]["title"]}을(를) 재생할게!')
+    await embed.play(VC.channel, Data["source"])
 
 @app.event
 async def on_message(message):
