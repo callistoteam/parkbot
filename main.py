@@ -111,6 +111,18 @@ async def on_message(message):
             f'추천 영상 재생이 {"활" if autoplay else "비활"}성화 되었어.'
         )
 
+    if command in commands.nowplay:
+        vc = Audio.getVC(message.guild)
+
+        if not vc:
+            return await message.channel.send(ns)
+
+        Data = await vc.getState()
+
+        return await message.channel.send(
+            f'현재 재생중: {Data["current"]["title"]} `{Data["position"]}:{Data["duration"]}`'
+        )
+
     if command == "logout":
         if not message.author.id in config.owner: return
         await app.logout()
