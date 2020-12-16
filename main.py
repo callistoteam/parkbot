@@ -26,7 +26,7 @@ async def sendPlaying(VC, Data):
 
 @app.event
 async def on_message(message):
-    await app.wait_until_ready()
+    # await app.wait_until_ready()
     if message.author.bot: return
     if not message.content.startswith(config.prefix): return
 

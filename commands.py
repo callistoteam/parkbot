@@ -1,3 +1,4 @@
+# music
 play = ["재생", 'play', 'p']
 stop = ["정지", "stop", "st"]
 volume = ["볼륨", "음량", "volume", "v"]
@@ -8,3 +9,6 @@ skip = ["스킵", "skip"]
 crossfade = ["크로스페이드", "크페", "cf", "crossfade"]
 #pause = ["일시정지", "pause"]
 #resume = ["일시정지해제", "resume"]
+
+# parkbot
+hangang = ["한강", "h"]
