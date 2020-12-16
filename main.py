@@ -94,6 +94,16 @@ async def on_message(message):
 
         return await message.channel.send(f"> 볼륨을 `{Volume * 100}%`로 설정했어.")
 
+    if command in commands.skip: 
+        vc = Audio.getVC(message.guild)
+
+        if not vc:
+            return await message.channel.send(ns)
+
+        offset = int(args[1]) if args[1] else 1
+
+        return await message.channel.send(f"{offset}  개의 음악을 스킵했어.")
+
     if command in commands.autoplay:
         vc = Audio.getVC(message.guild)
 
