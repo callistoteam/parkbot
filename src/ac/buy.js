@@ -1,4 +1,4 @@
-const { Command } = require('../../utils')
+const { Command } = require('../utils')
 
 module.exports = class Buy extends Command {
     constructor(client){
