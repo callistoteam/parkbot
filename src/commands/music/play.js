@@ -6,6 +6,10 @@ var insertlog = async (client, message, track) => {
     let pl = JSON.parse(usrdata.log).log
     pl.push(`${track.info.title} : ${track.info.identifier}`)
     await client.knex('users').update({ log: `{"log": ${JSON.stringify(pl)}}`}).where({ id: message.author.id })
+    var stats = await client.knex('parkbot').where({ id: '1' }).then(b => b[0])
+    var tm = parseInt(stats.totalMusic.toString()) + 1
+    var ttl = parseInt(stats.totalTrackLength.toString()) + track.info.length //ms
+    await client.knex('parkbot').update({ totalMusic: tm, totalTrackLength: ttl }).where({ id: '1' })
 }
 
 module.exports = class Play extends Command {
