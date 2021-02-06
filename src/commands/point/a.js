@@ -29,7 +29,7 @@ module.exports = class A extends Command {
             `)
         } else {
             await client.knex('users').update({ point: 0 }).where({id: message.author.id})
-            pl.push(`-${message.author.data.point}포인트: 올인 실패에 의한 포인트 삭제`)
+            pl.push(`-${message.author.data.point}포인트: 올인 실패에 의한 포인트 삭감`)
             msg.edit(`
 🎊 박이 고꾸라져서 돈이 다 시공속으로 사라졌어요!
 현재 잔고: 0
