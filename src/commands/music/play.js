@@ -9,6 +9,7 @@ var insertlog = async (client, message, track) => {
     var stats = await client.knex('parkbot').where({ id: '1' }).then(b => b[0])
     var tm = parseInt(stats.totalMusic.toString()) + 1
     var ttl = parseInt(stats.totalTrackLength.toString()) + track.info.length //ms
+    console.log(track.info.length)
     await client.knex('parkbot').update({ totalMusic: tm, totalTrackLength: ttl }).where({ id: '1' })
 }
 

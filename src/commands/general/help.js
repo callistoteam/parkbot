@@ -30,7 +30,7 @@ module.exports = class Help extends Command {
             return message.reply(embed)
         }
 
-        var links = '[초대하기](https://parkbot.ml)\n[수집한 데이터들](https://mydata.parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://parkbot.ml/tos)\n[개인정보 처리방침](https://parkbot.ml/privacy)'
+        var links = '[초대하기](https://parkbot.xyz)\n[수집한 데이터들](https://mydata.parkbot.ml)\n[지원 서버](https://discord.gg/jE33mfD)\n[이용약관](https://parkbot.xyz/tos)\n[개인정보 처리방침](https://parkbot.xyz/privacy)'
 
         const embed = new MessageEmbed()
             .setColor('RANDOM')
